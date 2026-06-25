@@ -1,0 +1,1491 @@
+<!doctype html>
+
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ระบบคุมงานกลางด้วย AI - Production Ready</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f6f8fc;
+      --card:#ffffff;
+      --text:#102033;
+      --muted:#667085;
+      --line:#d9e2ef;
+      --blue:#1f6feb;
+      --cyan:#0891b2;
+      --green:#039855;
+      --orange:#dc6803;
+      --purple:#7c3aed;
+      --red:#d92d20;
+      --dark:#111827;
+      --soft-blue:#eef4ff;
+      --soft-green:#ecfdf3;
+      --soft-orange:#fff7ed;
+      --soft-purple:#f5f3ff;
+      --soft-red:#fff1f3;
+      --shadow:0 18px 45px rgba(16,24,40,.08);
+      --shadow2:0 8px 24px rgba(16,24,40,.06);
+      --radius:22px;
+      --max:1280px;
+    }
+
+    *{box-sizing:border-box}
+
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      font-family:"Noto Sans Thai",Tahoma,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 12% 0%,rgba(31,111,235,.12),transparent 30%),
+        radial-gradient(circle at 90% 8%,rgba(8,145,178,.10),transparent 28%),
+        var(--bg);
+      line-height:1.58;
+    }
+
+    a{text-decoration:none;color:inherit}
+
+    .top{
+      position:sticky;
+      top:0;
+      z-index:30;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+      max-width:var(--max);
+      margin:auto;
+      padding:14px 22px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+    }
+
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      font-weight:900;
+    }
+
+    .mark{
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-weight:900;
+      background:linear-gradient(135deg,var(--blue),var(--cyan));
+      box-shadow:0 12px 24px rgba(31,111,235,.22);
+    }
+
+    .links{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .links a{
+      padding:8px 12px;
+      border-radius:999px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:14px;
+    }
+
+    .links a:hover{
+      background:var(--soft-blue);
+      color:var(--blue);
+    }
+
+    .hero{
+      max-width:var(--max);
+      margin:auto;
+      padding:54px 22px 30px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:22px;
+      align-items:stretch;
+    }
+
+    h1{
+      font-size:clamp(34px,5vw,64px);
+      line-height:1.08;
+      margin:12px 0;
+      letter-spacing:-.045em;
+    }
+
+    h2{
+      font-size:clamp(26px,3vw,42px);
+      line-height:1.15;
+      margin:0;
+      letter-spacing:-.035em;
+    }
+
+    h3{
+      margin:0 0 8px;
+      font-size:22px;
+      letter-spacing:-.02em;
+    }
+
+    h4{
+      margin:0;
+      font-size:18px;
+      line-height:1.18;
+    }
+
+    p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    .lead{
+      font-size:18px;
+      max-width:840px;
+    }
+
+    .badge,.pill{
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .badge{
+      padding:7px 12px;
+      background:rgba(31,111,235,.09);
+      color:#175cd3;
+      border:1px solid rgba(31,111,235,.16);
+    }
+
+    .pill{
+      padding:5px 10px;
+      font-size:12px;
+      background:#eef2f7;
+      color:#475467;
+      border:1px solid rgba(71,84,103,.12);
+    }
+
+    .blue{background:rgba(31,111,235,.09);color:#175cd3}
+    .green{background:rgba(3,152,85,.10);color:var(--green)}
+    .orange{background:rgba(220,104,3,.10);color:var(--orange)}
+    .purple{background:rgba(124,58,237,.10);color:var(--purple)}
+    .red{background:rgba(217,45,32,.09);color:var(--red)}
+    .dark{background:#111827;color:#fff}
+
+    .card,.diagram{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow2);
+    }
+
+    .card{
+      padding:22px;
+    }
+
+    .score{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .score div{
+      background:#f1f6ff;
+      border-radius:18px;
+      padding:14px;
+      border:1px solid #e7eefb;
+    }
+
+    .score strong{
+      display:block;
+      font-size:26px;
+      line-height:1.1;
+    }
+
+    .score span{
+      font-size:13px;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .section{
+      max-width:var(--max);
+      margin:auto;
+      padding:36px 22px;
+    }
+
+    .desc{
+      font-size:17px;
+      margin-top:8px;
+      max-width:900px;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+
+    .summary .card{
+      min-height:150px;
+    }
+
+    .diagram{
+      padding:24px;
+      margin-top:18px;
+      overflow:hidden;
+      background:linear-gradient(180deg,#fff,#fbfdff);
+      box-shadow:var(--shadow);
+    }
+
+    .diagram-title{
+      text-align:center;
+      margin-bottom:18px;
+    }
+
+    .diagram-title h2{
+      font-size:clamp(28px,4vw,52px);
+    }
+
+    .subtitle{
+      font-size:17px;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .layer{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      margin-top:14px;
+      background:#fff;
+    }
+
+    .layer-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .layer-title{
+      font-size:22px;
+      font-weight:900;
+      line-height:1.15;
+    }
+
+    .dashboard-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+
+    .dash-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      background:#f8fafc;
+      min-height:142px;
+    }
+
+    .dash-card strong{
+      display:block;
+      font-size:24px;
+      margin:8px 0 4px;
+    }
+
+    .dash-card small{
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .queue-grid{
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:10px;
+    }
+
+    .queue-card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      background:#fff;
+      min-height:120px;
+    }
+
+    .queue-card b{
+      display:block;
+      margin-bottom:6px;
+    }
+
+    .queue-card span{
+      display:block;
+      font-size:28px;
+      font-weight:900;
+      line-height:1.1;
+    }
+
+    .flow-blocks{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+    }
+
+    .flow-block{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      background:white;
+      position:relative;
+      min-height:245px;
+    }
+
+    .flow-block:not(:last-child)::after{
+      content:"→";
+      position:absolute;
+      right:-14px;
+      top:42%;
+      font-weight:900;
+      color:#98a2b3;
+      font-size:22px;
+    }
+
+    .no{
+      width:42px;
+      height:42px;
+      border-radius:15px;
+      background:#eef4ff;
+      color:var(--blue);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .block-title{
+      font-size:21px;
+      font-weight:900;
+      line-height:1.15;
+      margin-bottom:8px;
+    }
+
+    ul{
+      margin:12px 0 0;
+      padding-left:20px;
+      color:var(--muted);
+    }
+
+    .bridge{
+      margin-top:14px;
+      padding:16px 18px;
+      border-radius:22px;
+      background:#111827;
+      color:white;
+    }
+
+    .bridge strong{
+      display:block;
+      margin-bottom:10px;
+    }
+
+    .tags{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .tags span{
+      border:1px solid rgba(255,255,255,.2);
+      background:rgba(255,255,255,.09);
+      color:#fff;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .light-tags span{
+      color:var(--text);
+      background:#fff;
+      border:1px solid var(--line);
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .box-orange{
+      border:1px solid rgba(220,104,3,.28);
+      background:rgba(255,247,237,.72);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .box-purple{
+      border:1px solid rgba(124,58,237,.22);
+      background:rgba(245,243,255,.72);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .box-green{
+      border:1px solid rgba(3,152,85,.22);
+      background:rgba(236,253,243,.72);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .box-blue{
+      border:1px solid rgba(31,111,235,.22);
+      background:rgba(239,246,255,.72);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .production-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+    }
+
+    .prod-item{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      background:#fff;
+      min-height:105px;
+    }
+
+    .prod-item b{
+      display:block;
+      margin-bottom:6px;
+    }
+
+    .modules{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+    }
+
+    .module{
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:15px;
+      background:white;
+      cursor:pointer;
+      min-height:292px;
+      position:relative;
+      transition:.16s ease;
+    }
+
+    .module:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 24px rgba(16,24,40,.08);
+    }
+
+    .module:nth-child(-n+3){
+      background:linear-gradient(180deg,#fff,#f8fbff);
+    }
+
+    .module:nth-child(n+4):nth-child(-n+5){
+      background:linear-gradient(180deg,#fff,#f8fffb);
+    }
+
+    .module:nth-child(6){
+      background:linear-gradient(180deg,#fff,#fffaf5);
+    }
+
+    .module:nth-child(n+7){
+      background:linear-gradient(180deg,#fff,#fbf8ff);
+    }
+
+    .module:not(:nth-child(4)):not(:nth-child(8))::after{
+      content:"→";
+      position:absolute;
+      right:-14px;
+      top:43%;
+      font-size:22px;
+      color:#98a2b3;
+      font-weight:900;
+    }
+
+    .module-head{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:10px;
+      gap:8px;
+    }
+
+    .module-no{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      background:var(--blue);
+      color:white;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      flex:0 0 auto;
+    }
+
+    .kv{
+      display:grid;
+      gap:7px;
+      margin-top:10px;
+    }
+
+    .kv div{
+      font-size:13px;
+      color:var(--muted);
+      border-top:1px solid #eef2f7;
+      padding-top:7px;
+    }
+
+    .kv b{
+      color:var(--text);
+    }
+
+    .detail{
+      display:none;
+      margin-top:18px;
+      background:white;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      box-shadow:0 8px 24px rgba(16,24,40,.06);
+    }
+
+    .detail.show{
+      display:block;
+    }
+
+    .detail-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .detail-box{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:13px;
+    }
+
+    .detail-box b{
+      display:block;
+      margin-bottom:6px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:white;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow2);
+    }
+
+    th,td{
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      vertical-align:top;
+      font-size:14px;
+    }
+
+    th{
+      background:#f1f6ff;
+      color:var(--text);
+    }
+
+    td{
+      color:var(--muted);
+    }
+
+    td:first-child{
+      font-weight:900;
+      color:var(--text);
+    }
+
+    tr:last-child td{
+      border-bottom:0;
+    }
+
+    .map{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .note{
+      margin-top:14px;
+      padding:14px;
+      border-radius:18px;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      padding:32px 22px 54px;
+      font-size:14px;
+    }
+
+    @media(max-width:1120px){
+      .hero,
+      .summary,
+      .dashboard-grid,
+      .queue-grid,
+      .flow-blocks,
+      .two-col,
+      .production-grid,
+      .map{
+        grid-template-columns:1fr;
+      }
+
+      .modules{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .flow-block::after,
+      .module::after{
+        display:none!important;
+      }
+    }
+
+    @media(max-width:680px){
+      .links{display:none}
+      .hero,
+      .modules,
+      .score,
+      .detail-grid{
+        grid-template-columns:1fr;
+      }
+
+      .section,.hero{
+        padding-left:16px;
+        padding-right:16px;
+      }
+
+      .diagram{
+        padding:16px;
+      }
+
+      .control,.layer-head{
+        display:block;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+<header class="top">
+  <nav class="nav">
+    <a class="brand" href="#top">
+      <span class="mark">AI</span>
+      <span>ระบบคุมงานกลาง</span>
+    </a>
+
+```
+<div class="links">
+  <a href="#production">ภาพ Production</a>
+  <a href="#dashboard">Dashboard</a>
+  <a href="#workflow">4 ก้อนหลัก</a>
+  <a href="#template">ตัวอย่างสรรหา</a>
+  <a href="#mapping">Mapping</a>
+</div>
+```
+
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div>
+      <span class="badge">Production Ready Version</span>
+      <h1>ระบบคุมงานกลางด้วย AI</h1>
+      <p class="lead">
+        ระบบนี้ใช้ Recruitment เป็นตัวอย่างแรก แต่ถูกออกแบบเป็นระบบกลางที่ใช้กับงานอื่นได้
+        จุดสำคัญคือไม่ใช่แค่ AI ทำงาน แต่ต้องมี Dashboard, คิวงาน, SLA, จุดอนุมัติ,
+        งานติดปัญหา, Monitoring, Security, Backup และแผนกู้ระบบครบ
+      </p>
+    </div>
+
+```
+<aside class="card">
+  <span class="pill blue">เป้าหมายระบบ</span>
+  <h3 style="margin-top:12px">ใช้จริงได้ คุมงานได้ ขยายได้ และไม่ผูกกับคนคนเดียว</h3>
+  <p>ถ้าระบบพังต้องรู้ทันที ไม่ลาม กู้ได้ มีคนรับผิดชอบ และมีทางสำรอง</p>
+
+  <div class="score">
+    <div><strong>6</strong><span>ชั้นระบบ Production</span></div>
+    <div><strong>4</strong><span>Dashboard หลัก</span></div>
+    <div><strong>8</strong><span>คิวงานควบคุม</span></div>
+    <div><strong>10</strong><span>ระบบป้องกันพัง</span></div>
+  </div>
+</aside>
+```
+
+  </section>
+
+  <section class="section">
+    <div class="summary">
+      <article class="card">
+        <span class="pill blue">1</span>
+        <h3 style="margin-top:10px">Dashboard</h3>
+        <p>เห็นงานทั้งหมด สถานะ SLA งานค้าง AI Fail และระบบเชื่อมต่อล้มเหลว</p>
+      </article>
+
+```
+  <article class="card">
+    <span class="pill green">2</span>
+    <h3 style="margin-top:10px">Work Queue</h3>
+    <p>รวมงานใหม่ งานรอทำ งานรออนุมัติ งานติดปัญหา และงานใกล้เกินเวลา</p>
+  </article>
+
+  <article class="card">
+    <span class="pill orange">3</span>
+    <h3 style="margin-top:10px">Control Layer</h3>
+    <p>มีสิทธิ์ผู้ใช้ ประวัติการทำงาน PDPA Backup Retry Version และ Runbook</p>
+  </article>
+
+  <article class="card">
+    <span class="pill purple">4</span>
+    <h3 style="margin-top:10px">Reusable Template</h3>
+    <p>เปลี่ยนขั้นตอน กติกา เอกสาร SLA และระบบปลายทาง เพื่อใช้กับงานอื่นได้</p>
+  </article>
+</div>
+```
+
+  </section>
+
+  <section class="section" id="production">
+    <h2>ภาพใหญ่: ระบบ Production Ready ที่สมบูรณ์</h2>
+    <p class="desc">
+      ภาพนี้คือภาพใหญ่ที่ควรใช้เป็นภาพหลักของระบบ เพราะรวมทั้ง Dashboard, Queue,
+      4 ก้อนงานหลัก, ข้อมูลกลาง, ระบบเชื่อมต่อ และชั้นควบคุม Production ไว้ครบ
+    </p>
+
+```
+<div class="diagram">
+  <div class="diagram-title">
+    <h2>ระบบคุมงานกลางด้วย AI แบบ Production Ready</h2>
+    <div class="subtitle">เห็นงานจริง | คุมความเสี่ยง | รู้ทันทีเมื่อพัง | กู้ได้ | ขยายใช้กับงานอื่นได้</div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-head">
+      <div>
+        <div class="layer-title">1. หน้าจอคุมงานรวม</div>
+        <p>ดูสถานะทั้งระบบแบบ Real-time สำหรับผู้บริหาร ทีม Operation ทีม AI และทีม IT</p>
+      </div>
+      <span class="pill blue">Dashboard Layer</span>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <span class="pill blue">ผู้บริหาร</span>
+        <strong>ภาพรวมธุรกิจ</strong>
+        <small>งานทั้งหมด, SLA, ต้นทุน, Productivity, Automation Rate</small>
+      </div>
+
+      <div class="dash-card">
+        <span class="pill green">Operation</span>
+        <strong>งานที่ต้องจัดการ</strong>
+        <small>งานใหม่, งานค้าง, รออนุมัติ, ติดปัญหา, ใกล้เกินเวลา</small>
+      </div>
+
+      <div class="dash-card">
+        <span class="pill purple">AI</span>
+        <strong>AI ทำงานเป็นอย่างไร</strong>
+        <small>AI สำเร็จ, AI Fail, Confidence ต่ำ, Cost, Version</small>
+      </div>
+
+      <div class="dash-card">
+        <span class="pill orange">Integration</span>
+        <strong>ระบบเชื่อมต่อล้มไหม</strong>
+        <small>ERP, iRecruit, LINE, Email, RPA, API สำเร็จ/ล้มเหลว</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-head">
+      <div>
+        <div class="layer-title">2. คิวงานกลาง</div>
+        <p>ทำให้คน 1 คนสามารถ Monitor งานจำนวนมากได้ เพราะทุกงานถูกรวมเป็นคิวเดียว</p>
+      </div>
+      <span class="pill green">Work Queue</span>
+    </div>
+
+    <div class="queue-grid">
+      <div class="queue-card">
+        <b>งานใหม่</b>
+        <span>128</span>
+        <p>รอเริ่มกระบวนการ</p>
+      </div>
+
+      <div class="queue-card">
+        <b>กำลังทำ</b>
+        <span>342</span>
+        <p>AI/ระบบกำลังดำเนินการ</p>
+      </div>
+
+      <div class="queue-card">
+        <b>รออนุมัติ</b>
+        <span>41</span>
+        <p>ต้องให้คนตัดสินใจ</p>
+      </div>
+
+      <div class="queue-card">
+        <b>ติดปัญหา</b>
+        <span>27</span>
+        <p>ระบบทำต่อไม่ได้</p>
+      </div>
+
+      <div class="queue-card">
+        <b>ใกล้เกินเวลา</b>
+        <span>18</span>
+        <p>ต้องเร่งก่อน SLA หลุด</p>
+      </div>
+
+      <div class="queue-card">
+        <b>ระบบล้มเหลว</b>
+        <span>6</span>
+        <p>ต้อง Retry หรือใช้ทางสำรอง</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="layer" id="workflow">
+    <div class="layer-head">
+      <div>
+        <div class="layer-title">3. 4 ก้อนงานหลัก</div>
+        <p>เป็นเครื่องทำงานหลักของระบบ ใช้ได้กับหลาย Process โดยเปลี่ยน Template และกติกา</p>
+      </div>
+      <span class="pill blue">Core Workflow</span>
+    </div>
+
+    <div class="flow-blocks">
+      <article class="flow-block">
+        <div class="no">1</div>
+        <div class="block-title">รับงานและทำสื่อ</div>
+        <p>รับข้อมูล ตรวจว่าครบไหม แล้วให้ AI ช่วยสร้างข้อความ รูป หรือเอกสารเริ่มต้น</p>
+        <ul>
+          <li>รับใบขอ / รับเรื่อง</li>
+          <li>ตรวจข้อมูลครบถ้วน</li>
+          <li>สร้างข้อความ / รูป / Template</li>
+          <li>ส่งออกช่องทางที่ต้องใช้</li>
+        </ul>
+      </article>
+
+      <article class="flow-block">
+        <div class="no">2</div>
+        <div class="block-title">เดินงานตามขั้นตอน</div>
+        <p>พางานวิ่งต่อ สร้างงานย่อย ติดตามเวลา และส่งต่อทีม/ระบบถัดไป</p>
+        <ul>
+          <li>สร้างงานย่อยอัตโนมัติ</li>
+          <li>กำหนดคนรับผิดชอบ</li>
+          <li>จับคู่ / จัดคิว / ส่งต่อ</li>
+          <li>แจ้งเตือนเมื่อใกล้หลุดเวลา</li>
+        </ul>
+      </article>
+
+      <article class="flow-block">
+        <div class="no">3</div>
+        <div class="block-title">ตรวจสอบและอนุมัติ</div>
+        <p>ตรวจข้อมูล เอกสาร ความถูกต้อง และให้คนอนุมัติในจุดที่มีความเสี่ยง</p>
+        <ul>
+          <li>ตรวจเอกสาร / ข้อมูล</li>
+          <li>ตรวจคุณภาพ</li>
+          <li>รอคนอนุมัติ</li>
+          <li>ส่งงานติดปัญหาให้คนแก้</li>
+        </ul>
+      </article>
+
+      <article class="flow-block">
+        <div class="no">4</div>
+        <div class="block-title">ปิดงานและส่งต่อ</div>
+        <p>ส่งผลลัพธ์ อัปเดตระบบปลายทาง ปิดงาน และติดตามหลังงานจบ</p>
+        <ul>
+          <li>ส่งลิงก์ / แจ้งผล</li>
+          <li>แจ้งเข้า ERP / HR / Payroll</li>
+          <li>ติดตามหลังจบงาน</li>
+          <li>ปิดงานและสรุปผล</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+
+  <div class="bridge">
+    <strong>4. สะพานกลางข้อมูลและประวัติการทำงาน</strong>
+    <div class="tags">
+      <span>เลขงาน</span>
+      <span>ประเภทงาน</span>
+      <span>ชุดข้อมูลงาน</span>
+      <span>สถานะงาน</span>
+      <span>งานย่อย</span>
+      <span>เจ้าของงาน</span>
+      <span>เวลาที่ต้องเสร็จ</span>
+      <span>จุดรออนุมัติ</span>
+      <span>งานติดปัญหา</span>
+      <span>ความเสี่ยง</span>
+      <span>ประวัติการทำงาน</span>
+      <span>Version ของ Flow / Rule / Prompt</span>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-head">
+      <div>
+        <div class="layer-title">5. ระบบเชื่อมต่อ</div>
+        <p>เชื่อมระบบเดิมและช่องทางต่าง ๆ โดยต้องมีสถานะสำเร็จ/ล้มเหลวให้ตรวจสอบได้</p>
+      </div>
+      <span class="pill orange">Integration Layer</span>
+    </div>
+
+    <div class="tags light-tags">
+      <span>ERP</span>
+      <span>iRecruit / HRIS</span>
+      <span>LINE OA</span>
+      <span>Email</span>
+      <span>Social Channel</span>
+      <span>RPA</span>
+      <span>API</span>
+      <span>Database</span>
+      <span>File Storage</span>
+      <span>Reporting Tool</span>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-head">
+      <div>
+        <div class="layer-title">6. ชั้นควบคุม Production</div>
+        <p>ทำให้ระบบใช้จริงได้ยาว ไม่พังเงียบ กู้ได้ ตรวจสอบย้อนหลังได้ และเปลี่ยน Flow ได้โดยไม่ล่ม</p>
+      </div>
+      <span class="pill red">Production Control</span>
+    </div>
+
+    <div class="production-grid">
+      <div class="prod-item">
+        <b>สิทธิ์ผู้ใช้</b>
+        <p>Admin, Monitor, Approver, Viewer, Customer</p>
+      </div>
+
+      <div class="prod-item">
+        <b>PDPA / Consent</b>
+        <p>คุมข้อมูลส่วนบุคคลและการเข้าถึง</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Audit Log</b>
+        <p>รู้ว่าใครหรือ AI ทำอะไร เมื่อไร</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Monitoring</b>
+        <p>รู้ทันทีเมื่อ AI/API/RPA ล้ม</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Retry / Fallback</b>
+        <p>ล้มแล้วลองใหม่ หรือส่งให้คนทำแทน</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Backup</b>
+        <p>สำรองข้อมูลและกู้คืนได้</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Disaster Recovery</b>
+        <p>มีแผนกู้ระบบเมื่อระบบหลักเสีย</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Version Control</b>
+        <p>แก้ Rule / Flow / Prompt แล้ว Rollback ได้</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Error Log</b>
+        <p>เก็บสาเหตุความผิดพลาดทุกจุด</p>
+      </div>
+
+      <div class="prod-item">
+        <b>Runbook / SOP</b>
+        <p>บอกทีมว่าต้องทำอย่างไรเมื่อระบบมีปัญหา</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    สรุปภาพใหญ่: ระบบนี้จะ Production ได้ก็ต่อเมื่อมีทั้ง Dashboard, Queue, SLA, Approval, Exception,
+    Monitoring, Integration, Security, Backup, Retry, Version และ Runbook ครบ ไม่ใช่มีแค่ AI ทำงานตาม Flow
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="section" id="dashboard">
+    <h2>Dashboard ที่ระบบต้องมี</h2>
+    <p class="desc">Dashboard ไม่ใช่ Report แต่เป็นหน้าจอคุมงานจริง คนใช้ดูงานทุกวันและตัดสินใจจากหน้านี้</p>
+
+```
+<div class="diagram">
+  <div class="two-col">
+    <div class="box-blue">
+      <span class="pill blue">Dashboard ผู้บริหาร</span>
+      <h3 style="margin-top:10px">ดูผลลัพธ์ธุรกิจ</h3>
+      <ul>
+        <li>จำนวนงานทั้งหมด</li>
+        <li>งานค้างและ SLA หลุด</li>
+        <li>Productivity ต่อคน</li>
+        <li>Automation Rate</li>
+        <li>Human Intervention Rate</li>
+        <li>Cost per Case</li>
+      </ul>
+    </div>
+
+    <div class="box-green">
+      <span class="pill green">Dashboard Operation</span>
+      <h3 style="margin-top:10px">ดูงานที่ต้องทำวันนี้</h3>
+      <ul>
+        <li>งานใหม่</li>
+        <li>งานรออนุมัติ</li>
+        <li>งานติดปัญหา</li>
+        <li>งานใกล้เกินเวลา</li>
+        <li>เจ้าของงาน</li>
+        <li>ขั้นตอนปัจจุบัน</li>
+      </ul>
+    </div>
+
+    <div class="box-purple">
+      <span class="pill purple">Dashboard AI</span>
+      <h3 style="margin-top:10px">ดูว่า AI ทำงานดีไหม</h3>
+      <ul>
+        <li>AI ทำสำเร็จกี่งาน</li>
+        <li>AI Fail กี่งาน</li>
+        <li>AI Confidence ต่ำ</li>
+        <li>AI Cost</li>
+        <li>Prompt / Model Version</li>
+        <li>งานที่ต้องส่งให้คนตรวจ</li>
+      </ul>
+    </div>
+
+    <div class="box-orange">
+      <span class="pill orange">Dashboard Integration</span>
+      <h3 style="margin-top:10px">ดูระบบเชื่อมต่อล้มไหม</h3>
+      <ul>
+        <li>ERP ส่งสำเร็จ/ล้มเหลว</li>
+        <li>iRecruit Sync สำเร็จ/ล้มเหลว</li>
+        <li>LINE ส่งสำเร็จ/ล้มเหลว</li>
+        <li>Email ส่งสำเร็จ/ล้มเหลว</li>
+        <li>RPA Fail Job</li>
+        <li>Retry Status</li>
+      </ul>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="section" id="template">
+    <h2>ภาพที่ 2: ตัวอย่างงานสรรหาบนระบบนี้</h2>
+    <p class="desc">ภาพนี้คือก้อนย่อยของภาพใหญ่ โดยเอางานจริงจาก Online, สรรหา, ปิดใบขอ และ SQ มาเรียงเป็น 8 ขั้นตอน</p>
+
+```
+<div class="diagram">
+  <div class="diagram-title">
+    <h2>ตัวอย่างระบบสำหรับงานสรรหา</h2>
+    <div class="subtitle">คลิกแต่ละกล่องเพื่อดูรายละเอียด</div>
+  </div>
+
+  <div class="tags light-tags" style="justify-content:center;margin-bottom:16px">
+    <span class="pill green">AI ทำ = ระบบทำหลัก คนคอยดู</span>
+    <span class="pill orange">คนอนุมัติ = ต้องให้คนตรวจ/ตัดสินใจ</span>
+    <span class="pill purple">ร่วมกัน = AI ช่วยทำ + คนตรวจบางจุด</span>
+    <span class="pill red">ติดปัญหา = ส่งให้คนแก้</span>
+  </div>
+
+  <div class="modules">
+    <article class="module" data-module="1">
+      <div class="module-head"><span class="module-no">1</span><span class="pill green">AI ทำ</span></div>
+      <h4>ตรวจใบขอ</h4>
+      <p>ดูว่าข้อมูลขอคนครบไหม</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> ใบขอคน / คำขอลูกค้า</div>
+        <div><b>ส่งออก:</b> งานพร้อมเริ่ม</div>
+        <div><b>ติดปัญหา:</b> ข้อมูลไม่ครบ</div>
+      </div>
+    </article>
+
+    <article class="module" data-module="2">
+      <div class="module-head"><span class="module-no">2</span><span class="pill purple">ร่วมกัน</span></div>
+      <h4>สร้างและโพสต์งาน</h4>
+      <p>AI สร้างข้อความ/รูป แล้วโพสต์</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> งานที่ตรวจแล้ว</div>
+        <div><b>ส่งออก:</b> โพสต์งานตามช่องทาง</div>
+        <div><b>ติดปัญหา:</b> งานด่วน / ข้อความเสี่ยงผิด</div>
+      </div>
+    </article>
+
+    <article class="module" data-module="3">
+      <div class="module-head"><span class="module-no">3</span><span class="pill green">AI ทำ</span></div>
+      <h4>รับรายชื่อผู้สมัคร</h4>
+      <p>ดึงรายชื่อจากทุกช่องทางเข้าในระบบ</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> ผู้สมัคร / Lead</div>
+        <div><b>ส่งออก:</b> โปรไฟล์ผู้สมัคร</div>
+        <div><b>ติดปัญหา:</b> รายชื่อซ้ำ / ข้อมูลไม่ครบ</div>
+      </div>
+    </article>
+
+    <article class="module" data-module="4">
+      <div class="module-head"><span class="module-no">4</span><span class="pill green">AI ทำ</span></div>
+      <h4>จับคู่คนกับงาน</h4>
+      <p>ดูว่าใครเหมาะกับงานไหน</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> โปรไฟล์ + เงื่อนไขงาน</div>
+        <div><b>ส่งออก:</b> รายชื่อที่เหมาะสม</div>
+        <div><b>ติดปัญหา:</b> คะแนนจับคู่ต่ำ</div>
+      </div>
+    </article>
+
+    <article class="module" data-module="5">
+      <div class="module-head"><span class="module-no">5</span><span class="pill purple">ร่วมกัน</span></div>
+      <h4>คัดกรองเบื้องต้น</h4>
+      <p>ถามข้อมูล ขอเอกสาร ตรวจความพร้อม</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> รายชื่อที่เหมาะสม</div>
+        <div><b>ส่งออก:</b> ผลคัดกรอง</div>
+        <div><b>ติดปัญหา:</b> ไม่ตอบ / คำตอบไม่ชัด</div>
+      </div>
+    </article>
+
+    <article class="module" data-module="6">
+      <div class="module-head"><span class="module-no">6</span><span class="pill orange">คนอนุมัติ</span></div>
+      <h4>ตรวจและอนุมัติส่งลูกค้า</h4>
+      <p>ตรวจเอกสาร คุณภาพ และส่งให้ลูกค้า</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> ผลคัดกรอง + เอกสาร</div>
+        <div><b>ส่งออก:</b> อนุมัติ / ไม่อนุมัติ</div>
+        <div><b>ติดปัญหา:</b> เอกสารไม่ครบ / ลูกค้าไม่รับ</div>
+      </div>
+    </article>
+
+    <article class="module" data-module="7">
+      <div class="module-head"><span class="module-no">7</span><span class="pill purple">ร่วมกัน</span></div>
+      <h4>เริ่มงานและแจ้งเข้า</h4>
+      <p>ส่งลิงก์ ปฐมนิเทศ ตรวจสุขภาพ แจ้งเข้า</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> ผู้สมัครที่ลูกค้ารับ</div>
+        <div><b>ส่งออก:</b> ยืนยันเริ่มงาน</div>
+        <div><b>ติดปัญหา:</b> ไม่มาเริ่มงาน / แจ้งเข้าผิด</div>
+      </div>
+    </article>
+
+    <article class="module" data-module="8">
+      <div class="module-head"><span class="module-no">8</span><span class="pill purple">ร่วมกัน</span></div>
+      <h4>ติดตามและหาคนแทน</h4>
+      <p>Follow-up, no-show, ลางาน, ใบลงเวลา</p>
+      <div class="kv">
+        <div><b>รับเข้า:</b> เหตุการณ์หลังเริ่มงาน</div>
+        <div><b>ส่งออก:</b> ปิดงาน / หาคนแทน</div>
+        <div><b>ติดปัญหา:</b> ไม่มีคนแทน / ใบลงเวลาไม่ตรง</div>
+      </div>
+    </article>
+  </div>
+
+  <div class="detail" id="detail">
+    <span class="pill blue" id="detailBlock">เลือกขั้นตอน</span>
+    <h3 id="detailTitle" style="margin-top:10px">คลิกกล่องด้านบนเพื่อดูรายละเอียด</h3>
+    <p id="detailSummary"></p>
+    <div class="detail-grid">
+      <div class="detail-box"><b>ระบบช่วยทำอะไร</b><p id="detailFunctions"></p></div>
+      <div class="detail-box"><b>คนเกี่ยวข้องอย่างไร</b><p id="detailLoop"></p></div>
+      <div class="detail-box"><b>ถ้าติดปัญหาไปไหน</b><p id="detailException"></p></div>
+    </div>
+  </div>
+
+  <div class="bridge">
+    <strong>ทุกขั้นตอนใช้สะพานกลางเดียวกัน</strong>
+    <div class="tags">
+      <span>เลขงาน</span>
+      <span>เลขผู้สมัคร</span>
+      <span>สถานะงาน</span>
+      <span>งานย่อย</span>
+      <span>เวลาที่ต้องเสร็จ</span>
+      <span>จุดรออนุมัติ</span>
+      <span>งานติดปัญหา</span>
+      <span>ประวัติการทำงาน</span>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="section" id="mapping">
+    <h2>Mapping จากงานจริง 4 ทีม</h2>
+    <p class="desc">เอา Flow เดิมมาใช้เป็นฐาน แล้วแปลงเป็นภาษากลางที่ใช้ซ้ำได้</p>
+
+```
+<div class="map">
+  <table>
+    <thead>
+      <tr>
+        <th>งานจริงจาก 4 ทีม</th>
+        <th>ก้อนใหญ่</th>
+        <th>ขั้นตอนในงานสรรหา</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>เช็คใบขอ / งานสั่งโพสต์</td>
+        <td>รับงานและทำสื่อ</td>
+        <td>ตรวจใบขอ</td>
+      </tr>
+      <tr>
+        <td>ทำ Content / Auto Post</td>
+        <td>รับงานและทำสื่อ</td>
+        <td>สร้างและโพสต์งาน</td>
+      </tr>
+      <tr>
+        <td>เก็บ Lead จาก Social / iRecruit / LINE</td>
+        <td>รับงานและทำสื่อ</td>
+        <td>รับรายชื่อผู้สมัคร</td>
+      </tr>
+      <tr>
+        <td>โทรคัดกรอง / จัดอันดับ / หาผู้สมัคร</td>
+        <td>เดินงานตามขั้นตอน</td>
+        <td>จับคู่คนกับงาน / คัดกรองเบื้องต้น</td>
+      </tr>
+      <tr>
+        <td>ตรวจเอกสาร / ส่งลูกค้า / Approve</td>
+        <td>ตรวจสอบและอนุมัติ</td>
+        <td>ตรวจและอนุมัติส่งลูกค้า</td>
+      </tr>
+      <tr>
+        <td>ส่ง Link / ตรวจสุขภาพ / แจ้งเข้า</td>
+        <td>ปิดงานและส่งต่อ</td>
+        <td>เริ่มงานและแจ้งเข้า</td>
+      </tr>
+      <tr>
+        <td>หาคนแทน / ใบลงเวลา / Follow-up</td>
+        <td>ปิดงานและส่งต่อ</td>
+        <td>ติดตามและหาคนแทน</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th>คำในงานสรรหา</th>
+        <th>คำกลางที่ใช้กับงานอื่น</th>
+        <th>ตัวอย่างงานอื่น</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ใบขอคน</td>
+        <td>คำขอเริ่มงาน</td>
+        <td>เคลม / งานช่าง / งานเอกสาร</td>
+      </tr>
+      <tr>
+        <td>ผู้สมัคร</td>
+        <td>คนหรือสิ่งที่อยู่ในงานนั้น</td>
+        <td>ลูกค้า / ผู้เอาประกัน / ช่าง / เอกสาร</td>
+      </tr>
+      <tr>
+        <td>โพสต์งาน</td>
+        <td>สื่อหรือข้อความที่ระบบสร้าง</td>
+        <td>แจ้งขอเอกสาร / ใบงาน / สรุป Ticket</td>
+      </tr>
+      <tr>
+        <td>คัดกรอง</td>
+        <td>ตรวจความพร้อม</td>
+        <td>ตรวจเอกสาร / ตรวจเคลม / ตรวจหน้างาน</td>
+      </tr>
+      <tr>
+        <td>ส่งลูกค้าอนุมัติ</td>
+        <td>ส่งผู้เกี่ยวข้องอนุมัติ</td>
+        <td>อนุมัติจ่าย / อนุมัติปิดงาน</td>
+      </tr>
+      <tr>
+        <td>หาคนแทน</td>
+        <td>แก้ปัญหาหรือทำงานซ้ำ</td>
+        <td>Reassign / Rework / Re-open</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+  </section>
+
+  <section class="section">
+    <h2>สรุปหลังเพิ่ม Production Layer ครบ</h2>
+    <p class="desc">
+      ระบบนี้จะไม่ใช่แค่ภาพ Flow งาน แต่เป็นภาพระบบปฏิบัติการจริงที่มีหน้าจอคุมงาน คิวงานกลาง
+      การเตือนความเสี่ยง การอนุมัติ การตรวจสอบย้อนหลัง การเชื่อมระบบ และแผนรับมือเมื่อระบบพัง
+    </p>
+
+```
+<div class="diagram">
+  <div class="two-col">
+    <div class="box-blue">
+      <h3>สิ่งที่ระบบจะทำได้</h3>
+      <ul>
+        <li>เห็นงานทุกเคสในที่เดียว</li>
+        <li>รู้ว่างานค้างที่ขั้นตอนไหน</li>
+        <li>รู้ก่อน SLA หลุด</li>
+        <li>แยกงานที่ AI ทำได้กับงานที่ต้องให้คนอนุมัติ</li>
+        <li>เห็นว่า AI หรือระบบเชื่อมต่อล้มตรงไหน</li>
+        <li>ตรวจย้อนหลังได้ว่าใครทำอะไร</li>
+      </ul>
+    </div>
+
+    <div class="box-green">
+      <h3>ผลลัพธ์ทางธุรกิจ</h3>
+      <ul>
+        <li>ลดงาน Manual และการตามงานซ้ำ</li>
+        <li>เพิ่ม Productivity ต่อคน</li>
+        <li>ลด SLA หลุดและงานตกหล่น</li>
+        <li>ทำให้คน 1 คน Monitor งานได้มากขึ้น</li>
+        <li>Scale ไป Process อื่นได้โดยเปลี่ยน Template</li>
+        <li>ลดความเสี่ยงจากระบบพังเงียบหรือคนลาออก</li>
+      </ul>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+</main>
+
+<footer>
+  ระบบคุมงานกลางด้วย AI — Production Ready Version สำหรับนำเสนอภาพใหญ่และต่อยอดเป็น Platform
+</footer>
+
+<script>
+const data = {
+  1:[
+    "รับงานและทำสื่อ",
+    "ตรวจใบขอ",
+    "ตรวจว่าข้อมูลขอคนครบและพร้อมให้ระบบเริ่มทำงานหรือไม่",
+    "ตรวจตำแหน่ง จำนวน พื้นที่ เงื่อนไข และเวลาที่ต้องเสร็จ",
+    "AI/System ตรวจเบื้องต้น คนดูเฉพาะงานข้อมูลไม่ครบหรือผิดปกติ",
+    "ข้อมูลไม่ครบ → กลับไปขอข้อมูลจากต้นทาง"
+  ],
+  2:[
+    "รับงานและทำสื่อ",
+    "สร้างและโพสต์งาน",
+    "AI ช่วยสร้างข้อความ รูป และโพสต์ไปยังช่องทางที่เหมาะสม",
+    "สร้างข้อความ สร้างรูป เลือก Template เลือกช่องทาง และ Auto Post",
+    "งานปกติให้ระบบทำ งานด่วนหรือกระทบภาพลักษณ์ให้คนอนุมัติ",
+    "โพสต์ผิดพลาด / งานด่วน → ส่งให้คนคุมงานรับข้อมูล"
+  ],
+  3:[
+    "รับงานและทำสื่อ",
+    "รับรายชื่อผู้สมัคร",
+    "รวมรายชื่อผู้สมัครจากทุกช่องทางเป็นข้อมูลกลาง",
+    "ดึง Lead จาก Social, LINE, iRecruit, Call แล้วรวมข้อมูลและตัดซ้ำ",
+    "ระบบเก็บ Lead คนดูเฉพาะ Lead ซ้ำหรือข้อมูลไม่ครบ",
+    "Lead ซ้ำ / ข้อมูลไม่ครบ → ส่งเข้า งานติดปัญหา"
+  ],
+  4:[
+    "เดินงานตามขั้นตอน",
+    "จับคู่คนกับงาน",
+    "ระบบช่วยหาใครเหมาะกับงานไหนก่อนถึงมือคน",
+    "เทียบพื้นที่ คุณสมบัติ ใบขับขี่ ความพร้อม และจัดลำดับรายชื่อ",
+    "AI ทำ Shortlist คนคอยดูคะแนนต่ำหรือไม่มีคนเหมาะ",
+    "จับคู่ไม่ได้ → กลับไปหา Lead เพิ่ม"
+  ],
+  5:[
+    "เดินงานตามขั้นตอน",
+    "คัดกรองเบื้องต้น",
+    "ถามข้อมูล ขอเอกสาร และดูความพร้อมก่อนส่งตรวจ",
+    "Line Pre-screen, ช่วยโทร, ขอเอกสาร, สรุปผลคัดกรอง",
+    "AI ช่วยงาน Routine ส่วนเคสซับซ้อนหรือสัมภาษณ์ยังใช้คน",
+    "ผู้สมัครไม่ตอบ / AI ไม่มั่นใจ → ให้คน Follow-up"
+  ],
+  6:[
+    "ตรวจสอบและอนุมัติ",
+    "ตรวจและอนุมัติส่งลูกค้า",
+    "จุดตรวจคุณภาพ เอกสาร และการส่งลูกค้า",
+    "OCR ตรวจเอกสาร ตรวจคุณสมบัติ จัดชุดข้อมูล และส่งลูกค้า",
+    "ต้องมีคนอนุมัติ เพราะกระทบลูกค้า คุณภาพ และ Compliance",
+    "เอกสารไม่ครบ → กลับไปคัดกรอง, ลูกค้าไม่รับ → กลับไปจับคู่"
+  ],
+  7:[
+    "ปิดงานและส่งต่อ",
+    "เริ่มงานและแจ้งเข้า",
+    "ส่งลิงก์ ยืนยันเริ่มงาน และส่งต่อข้อมูลไป ERP/ประกัน/HR",
+    "ส่งลิงก์ปฐมนิเทศ สัญญาจ้าง นัดตรวจสุขภาพ แจ้งเข้า ERP/ประกัน",
+    "ส่งลิงก์ให้ระบบทำ แต่แจ้งเข้า/ประกัน/ปิดงานต้องให้คนอนุมัติ",
+    "ไม่มาเริ่มงาน / แจ้งเข้า Fail → ไปขั้นตอนติดตามและหาคนแทน"
+  ],
+  8:[
+    "ปิดงานและส่งต่อ",
+    "ติดตามและหาคนแทน",
+    "ติดตามหลังเริ่มงาน จัดการ no-show ลา ขาด และใบลงเวลา",
+    "Follow-up 3-7 วัน รับเรื่องลางาน หาคนแทน OCR ใบลงเวลา และปิดงาน",
+    "งานตามปกติให้ระบบทำ แต่ Confirm คนแทนและแจ้งลูกค้ายังต้องใช้คน",
+    "ไม่มีคนแทน / ใบลงเวลาไม่ตรง → ส่งให้คนแก้"
+  ]
+};
+
+const detail = document.getElementById("detail");
+
+document.querySelectorAll(".module").forEach(card => {
+  card.addEventListener("click", () => {
+    const d = data[card.dataset.module];
+
+    document.getElementById("detailBlock").textContent = d[0];
+    document.getElementById("detailTitle").textContent = d[1];
+    document.getElementById("detailSummary").textContent = d[2];
+    document.getElementById("detailFunctions").textContent = d[3];
+    document.getElementById("detailLoop").textContent = d[4];
+    document.getElementById("detailException").textContent = d[5];
+
+    detail.classList.add("show");
+    detail.scrollIntoView({behavior:"smooth", block:"nearest"});
+  });
+});
+</script>
+
+</body>
+</html>
