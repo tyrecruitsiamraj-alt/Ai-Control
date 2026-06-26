@@ -350,6 +350,36 @@ h3{
 .legend span{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:300;color:var(--gray)}
 .legend .ld{width:11px;height:11px;border-radius:50%;box-sizing:border-box}
 
+/* ===== MAPPING (S-MAPPING) ===== */
+#smapping{background:radial-gradient(ellipse 100% 80% at 50% 30%,#0a0d16 0%,#000 70%)}
+.map-sub{text-align:center;max-width:780px;margin:8px auto 0;color:var(--gray);font-size:clamp(14px,1.7vw,18px);font-weight:300;line-height:1.5}
+.bdesc{font-size:12.5px;font-weight:300;color:var(--gray);line-height:1.4;margin:0}
+.map-section-title{text-align:center;font-size:14px;font-weight:600;color:#62b5ff;margin:24px 0 0;letter-spacing:.01em}
+.map-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;margin-top:14px}
+.map-card{
+  border:1px solid var(--line2);background:rgba(255,255,255,.025);
+  border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:7px;
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.map-card:hover{background:rgba(41,151,255,.07);border-color:rgba(41,151,255,.28);transform:translateY(-3px)}
+.map-card .mh{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.map-card .mname{font-size:15px;font-weight:600;color:var(--fg);line-height:1.2}
+.map-tag{font-size:10.5px;font-weight:600;color:#62b5ff;background:rgba(41,151,255,.1);border:1px solid rgba(41,151,255,.25);border-radius:980px;padding:3px 9px;white-space:nowrap;flex-shrink:0}
+.map-row{font-size:12px;font-weight:300;line-height:1.42}
+.map-row .lab{font-weight:500}
+.map-row.use{color:#d5d5da}
+.map-row.use .lab{color:var(--gray2)}
+.map-row.add{color:#9fc4ff}
+.map-row.add .lab{color:#62b5ff}
+.need-box{margin-top:26px;border:1px solid rgba(41,151,255,.2);background:linear-gradient(180deg,rgba(41,151,255,.06),rgba(41,151,255,.02));border-radius:18px;padding:18px 20px;text-align:center}
+.need-box h4{font-size:15px;font-weight:600;color:var(--fg);margin:0 0 12px}
+.need-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.need-chips span{font-size:13px;font-weight:500;color:#cde0ff;background:rgba(41,151,255,.12);border:1px solid rgba(41,151,255,.3);border-radius:980px;padding:8px 16px}
+.map-closing{margin:20px auto 0;text-align:center;max-width:880px;color:var(--gray);font-size:clamp(13px,1.6vw,16px);font-weight:300;line-height:1.6}
+.map-closing b{color:var(--fg);font-weight:500}
+@media(max-width:980px){.map-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.map-grid{grid-template-columns:1fr}.need-chips span{font-size:12px;padding:7px 13px}}
+
 /* ===== RESULTS (S6) ===== */
 #s6{background:radial-gradient(ellipse 90% 70% at 50% 50%,#031309 0%,#000 70%)}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:52px;width:100%}
@@ -833,6 +863,95 @@ section.scene::before{
         <button id="btnChgAfter">หลัง</button>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ S-MAPPING: existing tools -> 4 blocks ============ -->
+<section class="scene" id="smapping" data-name="Mapping ระบบ">
+  <div class="inner">
+    <div class="eyebrow accent-blue reveal" style="text-align:center">Mapping ระบบ</div>
+    <h2 class="reveal d1" style="text-align:center">ของที่มีอยู่ตอนนี้ อยู่ตรงไหนในระบบใหม่</h2>
+    <p class="map-sub reveal d2">Autopost, Chatbot, Matching และไฟล์ Excel เดิม ไม่ต้องทิ้ง แต่ต้องย้ายให้เข้า 4 ก้อนงานใหม่ และเติมแกนกลางให้ทำงานร่วมกัน</p>
+
+    <!-- 4 core blocks summary -->
+    <div class="blocks reveal d2" style="margin-top:24px">
+      <div class="block"><div class="block-card">
+        <div class="block-head"><span class="bnum">1</span><h4>รับงานและเตรียมข้อมูล</h4></div>
+        <p class="bdesc">ใช้รับใบขอ สร้างโพสต์ รับ Lead และเตรียมข้อมูลเข้าระบบ</p>
+      </div></div>
+      <div class="block"><div class="block-card">
+        <div class="block-head"><span class="bnum">2</span><h4>เดินงานตามขั้นตอน</h4></div>
+        <p class="bdesc">ใช้ส่งงานต่อ จับคู่คนกับงาน โทร/คัดกรอง และติดตามสถานะ</p>
+      </div></div>
+      <div class="block"><div class="block-card">
+        <div class="block-head"><span class="bnum">3</span><h4>ตรวจสอบและอนุมัติ</h4></div>
+        <p class="bdesc">ใช้ตรวจคุณภาพ อนุมัติโพสต์ ส่งลูกค้า และจัดการ Reject</p>
+      </div></div>
+      <div class="block"><div class="block-card">
+        <div class="block-head"><span class="bnum">4</span><h4>ปิดงานและส่งต่อ</h4></div>
+        <p class="bdesc">ใช้แจ้งเริ่มงาน ปิดใบขอ Follow-up และหาคนแทน</p>
+      </div></div>
+    </div>
+
+    <!-- mapping of existing tools -->
+    <div class="map-section-title reveal d3">Mapping ของที่มีอยู่</div>
+    <div class="map-grid reveal d3">
+      <div class="map-card">
+        <div class="mh"><span class="mname">Autopost</span><span class="map-tag">ก้อน 1</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> โพสต์งานตาม Facebook Group</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> Approval ก่อนโพสต์ · Post Tracking · รูป/วิดีโอ · Campaign ID</div>
+      </div>
+      <div class="map-card">
+        <div class="mh"><span class="mname">Chatbot</span><span class="map-tag">ก้อน 1·2</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> รับ Lead, ตอบแชท, พาคนไปสมัครงาน</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> Facebook/TikTok · Lead Queue · Lead ID · ส่ง Lead เข้า Matching</div>
+      </div>
+      <div class="map-card">
+        <div class="mh"><span class="mname">Matching</span><span class="map-tag">ก้อน 2</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> Match คนกับงาน, จัดลำดับผู้สมัคร, จัด WL, Job Page</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> Queue กลาง · Status กลาง · Match Reason · SLA</div>
+      </div>
+      <div class="map-card">
+        <div class="mh"><span class="mname">Matching</span><span class="map-tag">ก้อน 3</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> ช่วยเลือกคนที่เหมาะก่อนส่งลูกค้า</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> Approval Queue · Candidate Packet · Reject Reason</div>
+      </div>
+      <div class="map-card">
+        <div class="mh"><span class="mname">Matching</span><span class="map-tag">ก้อน 4</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> ยืนยันลงงาน, หาคนแทน, คาดการณ์ลาออก, Dashboard</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> Close Case · Replacement Queue · Follow-up Status</div>
+      </div>
+      <div class="map-card">
+        <div class="mh"><span class="mname">ใบงาน Excel</span><span class="map-tag">ก้อน 1</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> ดูรายละเอียดงาน / Tracking ใบขอ</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> เปลี่ยนเป็น Request Queue</div>
+      </div>
+      <div class="map-card">
+        <div class="mh"><span class="mname">งานของแต่ละคน Excel</span><span class="map-tag">ก้อน 2</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> ดูว่าแต่ละคนต้องทำอะไร</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> เปลี่ยนเป็น Task Queue</div>
+      </div>
+      <div class="map-card">
+        <div class="mh"><span class="mname">หาคนแทน Excel</span><span class="map-tag">ก้อน 4</span></div>
+        <div class="map-row use"><span class="lab">ใช้:</span> ดูคนว่างงาน / หาคนแทน</div>
+        <div class="map-row add"><span class="lab">ต้องเพิ่ม:</span> เปลี่ยนเป็น Replacement Queue</div>
+      </div>
+    </div>
+
+    <!-- core to add -->
+    <div class="need-box reveal d4">
+      <h4>ต้องเพิ่มหลัก ๆ แค่นี้ก่อน</h4>
+      <div class="need-chips">
+        <span>Case ID / Request ID กลาง</span>
+        <span>Queue กลาง</span>
+        <span>Status กลาง</span>
+        <span>Approval Queue</span>
+        <span>Exception Queue</span>
+        <span>Dashboard กลาง</span>
+      </div>
+    </div>
+
+    <p class="map-closing reveal d5"><b>Autopost, Chatbot และ Matching ไม่ใช่ระบบที่ต้องทิ้ง</b> แต่ต้องถูกจัดให้อยู่ใน 4 ก้อนงานใหม่ โดยมี Case ID, Queue, Status, Approval, Exception และ Dashboard เป็นแกนกลางเชื่อมทุกระบบเข้าด้วยกัน</p>
   </div>
 </section>
 
