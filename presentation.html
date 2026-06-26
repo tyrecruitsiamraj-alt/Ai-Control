@@ -108,9 +108,12 @@ h3{
 .accent-warm{color:var(--warm)}
 .accent-green{color:var(--green)}
 .gradient-text{
-  background:linear-gradient(180deg,#fff 0%,#a5a5ad 100%);
+  background:linear-gradient(100deg,#fff 0%,#fff 38%,#86c2ff 50%,#fff 62%,#fff 100%);
+  background-size:220% auto;
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 5.5s ease-in-out infinite;
 }
+@keyframes shimmer{0%{background-position:160% center}100%{background-position:-60% center}}
 
 /* ===== REVEAL ANIM ===== */
 .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
@@ -251,6 +254,27 @@ h3{
 .col-removed li .mk{background:rgba(255,107,107,.16);color:#ff8a8a}
 .col-added li .mk{background:rgba(48,209,88,.16);color:#5fe084}
 .col-same li .mk{background:rgba(255,255,255,.08);color:#bfbfc4}
+/* --- before/after animation (S-CHANGE) --- */
+.chg-state{display:flex;justify-content:center;align-items:center;margin-top:14px;min-height:30px;
+  font-size:clamp(13px,1.6vw,17px);font-weight:300;color:var(--warm);transition:color .55s}
+.chg-state b{font-weight:600;color:#fff}
+.chg-state .cdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warm);
+  margin-right:10px;box-shadow:0 0 12px var(--warm);transition:background .55s,box-shadow .55s}
+.chg-state.is-after{color:var(--green)}
+.chg-state.is-after .cdot{background:var(--green);box-shadow:0 0 12px var(--green)}
+.change-col{transition:opacity .6s cubic-bezier(.22,.61,.36,1),filter .6s,border-color .6s,transform .6s}
+.change-col li{transition:opacity .55s,transform .55s}
+.change-col li .ct{text-decoration:line-through rgba(255,138,138,0);transition:color .55s,text-decoration-color .55s}
+.change-col li .mk{transition:background .55s,color .55s,box-shadow .55s}
+.change-grid:not(.after) .col-added{opacity:.32;filter:saturate(.12) brightness(.92)}
+.change-grid:not(.after) .col-added li{opacity:.55;transform:translateY(8px)}
+.change-grid:not(.after) .col-added li .mk{background:rgba(255,255,255,.06);color:var(--gray2)}
+.change-grid.after .col-removed{opacity:.5}
+.change-grid.after .col-removed li .ct{color:var(--gray2);text-decoration-color:rgba(255,138,138,.75)}
+.change-grid.after .col-removed li .mk{background:rgba(255,107,107,.18);color:#ff8a8a}
+.change-grid.after .col-added{border-color:rgba(48,209,88,.28)}
+.change-grid.after .col-added li .mk{box-shadow:0 0 12px rgba(48,209,88,.45)}
+.chg-controls{margin-top:24px}
 
 /* ===== NEW SYSTEM 6 LAYERS (S4) — 3/3 GRID ===== */
 #s4{background:radial-gradient(ellipse 100% 80% at 50% 30%,#060d1c 0%,#000 70%)}
@@ -379,6 +403,150 @@ h3{
   display:grid;place-items:center;font-size:11px;font-weight:600;color:#fff;
 }
 
+/* ===== WOW: aurora bg · reveal polish · particles · count ===== */
+.inner{position:relative;z-index:1}
+section.scene::before{
+  content:"";position:absolute;inset:-25%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(38% 38% at 22% 26%, var(--aura1,rgba(41,151,255,.13)) 0%, transparent 70%),
+    radial-gradient(42% 42% at 80% 74%, var(--aura2,rgba(191,90,242,.11)) 0%, transparent 72%);
+  filter:blur(6px);
+  animation:auraDrift 24s ease-in-out infinite alternate;
+  will-change:transform;
+}
+@keyframes auraDrift{0%{transform:translate3d(-2%,1%,0) scale(1)}100%{transform:translate3d(3%,-4%,0) scale(1.16)}}
+#s2{--aura1:rgba(255,159,107,.10);--aura2:rgba(217,117,89,.07)}
+#s3{--aura1:rgba(41,151,255,.14);--aura2:rgba(191,90,242,.10)}
+#schange{--aura1:rgba(48,209,88,.09);--aura2:rgba(41,151,255,.10)}
+#s4{--aura1:rgba(41,151,255,.14);--aura2:rgba(98,181,255,.09)}
+#s6{--aura1:rgba(48,209,88,.13);--aura2:rgba(41,151,255,.09)}
+#s7{--aura1:rgba(41,151,255,.13);--aura2:rgba(191,90,242,.10)}
+
+/* reveal: soft blur-in layered on the existing fade/slide */
+.reveal{filter:blur(7px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1),filter .7s cubic-bezier(.22,.61,.36,1)}
+.in-view .reveal{filter:blur(0)}
+
+/* floating particles (hero / closing) */
+.particles{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.particles i{position:absolute;bottom:-12px;border-radius:50%;
+  background:rgba(125,180,255,.85);box-shadow:0 0 10px rgba(125,180,255,.7);
+  animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(.5);opacity:0}12%{opacity:.9}88%{opacity:.6}100%{transform:translateY(-112vh) scale(1.05);opacity:0}}
+
+/* role legend in S3 (appears with the AI pipeline) */
+.role-legend{display:flex;gap:24px;justify-content:center;margin-top:16px;flex-wrap:wrap;opacity:0;transition:opacity .6s .2s}
+.morph-live .role-legend{opacity:1}
+.role-legend span{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:300;color:var(--gray)}
+.role-legend .ld{width:11px;height:11px;border-radius:50%;box-sizing:border-box}
+
+/* metric count-up */
+.metric .count{font-variant-numeric:tabular-nums}
+
+/* ===== STORY: chaos -> AI manages -> transform ===== */
+#story{background:radial-gradient(ellipse 95% 75% at 50% 45%,#0b0710 0%,#000 72%);--aura1:rgba(255,120,90,.10);--aura2:rgba(41,151,255,.11)}
+.story-wrap{width:100%;max-width:780px;margin:8px auto 0}
+#storySVG{width:100%;height:auto;max-height:50vh;display:block;overflow:visible}
+.story-phases{display:inline-flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
+.story-phases .ph{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:300;color:var(--gray2);padding:5px 14px;border-radius:980px;border:1px solid var(--line2);transition:color .4s,border-color .4s,background .4s}
+.story-phases .ph b{font-weight:600;font-size:11px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);color:var(--gray)}
+.story-phases .ph.on{color:var(--fg);border-color:rgba(41,151,255,.5);background:rgba(41,151,255,.08)}
+.story-phases .ph.on b{background:var(--blue);color:#fff}
+@media(max-width:680px){#storySVG{max-height:46vh}.story-phases .ph{font-size:12px;padding:4px 11px}}
+
+/* ===== MEANING / GAP scene ===== */
+#gap{--aura1:rgba(41,151,255,.12);--aura2:rgba(255,159,107,.08)}
+.gap-hero{display:flex;align-items:center;justify-content:center;gap:clamp(16px,4vw,54px);margin:24px auto 4px;flex-wrap:wrap}
+.gh-stat{text-align:center}
+.gh-num{font-size:clamp(42px,7vw,78px);font-weight:300;line-height:1;letter-spacing:-.03em;background:linear-gradient(180deg,#fff,#8fb6ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.gh-num.gh-warn{background:linear-gradient(180deg,#ffd60a,#ff8a4c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.gh-num .gh-u{font-size:.3em;font-weight:400;letter-spacing:0;-webkit-text-fill-color:#86868b;color:#86868b}
+.gh-lab{font-size:13px;color:var(--gray);font-weight:300;margin-top:10px;max-width:210px;margin-left:auto;margin-right:auto;line-height:1.4}
+.gh-arrow{font-size:32px;color:var(--gray2);font-weight:300}
+.gap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;margin-top:24px}
+.gap-col{border-radius:20px;padding:22px;border:1px solid var(--line2);background:rgba(255,255,255,.025);text-align:left}
+.gap-h{display:flex;align-items:center;gap:11px;margin-bottom:3px}
+.gap-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:15px;font-weight:600;background:rgba(41,151,255,.14);color:#62b5ff;flex-shrink:0}
+.gap-col h3{font-size:19px;font-weight:600;color:var(--fg)}
+.gap-sub{font-size:13px;color:var(--gray);font-weight:300;margin:3px 0 0;line-height:1.5}
+.gap-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:11px}
+.gap-col li{font-size:14px;font-weight:300;color:#d5d5da;line-height:1.5;padding-left:15px;position:relative}
+.gap-col li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.gap-col li b{font-weight:600;color:var(--fg)}
+.gap-ifnot{margin-top:14px;padding:11px 13px;border-radius:12px;background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.2);font-size:13px;font-weight:300;color:#e7c6c2;line-height:1.5}
+.gap-ifnot b{color:#ff8a8a;font-weight:600;font-size:11.5px;letter-spacing:.02em;margin-right:7px}
+
+/* ===== DEMO: live dashboard mockup ===== */
+#demo{--aura1:rgba(41,151,255,.13);--aura2:rgba(48,209,88,.08)}
+.mock{width:100%;max-width:940px;margin:18px auto 0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:rgba(13,17,26,.92);box-shadow:0 30px 80px rgba(0,0,0,.5);text-align:left}
+.mock-bar{display:flex;align-items:center;gap:8px;padding:11px 16px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line2)}
+.mdot{width:11px;height:11px;border-radius:50%}
+.mdot.r{background:#ff5f57}.mdot.y{background:#febc2e}.mdot.g{background:#28c840}
+.mock-title{margin-left:10px;font-size:13px;color:var(--gray);font-weight:400}
+.mock-live{margin-left:auto;font-size:11.5px;color:#5fe084;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.mock-live i{width:7px;height:7px;border-radius:50%;background:#30d158;box-shadow:0 0 8px #30d158;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.mock-body{display:flex;min-height:300px}
+.mock-side{width:152px;flex-shrink:0;padding:14px 10px;border-right:1px solid var(--line2);display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.015)}
+.ms-item{font-size:13px;color:var(--gray);padding:9px 12px;border-radius:9px;font-weight:300}
+.ms-item.on{background:rgba(41,151,255,.14);color:#9fc4ff;font-weight:500}
+.mock-main{flex:1;padding:16px;min-width:0}
+.mock-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{border:1px solid var(--line2);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.025)}
+.kpi-n{font-size:clamp(20px,2.4vw,27px);font-weight:500;color:var(--fg);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi-n span{font-size:.5em;color:var(--gray);font-weight:400}
+.kpi-l{font-size:11.5px;color:var(--gray2);margin-top:7px;font-weight:300}
+.mock-cols{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin-top:12px}
+.mock-queue,.mock-chart{border:1px solid var(--line2);border-radius:12px;padding:13px 14px;background:rgba(255,255,255,.02)}
+.mq-head,.mc-head{font-size:12.5px;color:var(--gray);font-weight:500;margin-bottom:10px}
+.mq-list{display:flex;flex-direction:column;gap:8px}
+.mq-row{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:9px;background:rgba(255,255,255,.03);position:relative;overflow:hidden;animation:rowin .45s cubic-bezier(.22,.61,.36,1)}
+@keyframes rowin{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.mq-name{font-size:13px;color:#e3e3e8;font-weight:300;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mq-own{font-size:10.5px;padding:3px 9px;border-radius:980px;font-weight:500;flex-shrink:0}
+.mq-own.ai{background:rgba(41,151,255,.16);color:#62b5ff}
+.mq-own.human{background:rgba(255,214,10,.14);color:#ffd60a}
+.mq-own.mix{background:rgba(191,90,242,.16);color:#cf9bff}
+.mq-status{font-size:11px;font-weight:500;flex-shrink:0;min-width:58px;text-align:right}
+.mq-status.doing{color:#62b5ff}
+.mq-status.done{color:#5fe084}
+.mq-status.wait{color:#ffd60a}
+.mq-prog{position:absolute;left:0;bottom:0;height:2px;background:linear-gradient(90deg,#2997ff,#30d158);width:0}
+.mq-row.active .mq-prog{animation:mqfill 2.3s linear forwards}
+@keyframes mqfill{to{width:100%}}
+.mc-bars{display:flex;align-items:flex-end;gap:8px;height:132px;padding-top:6px}
+.mc-bars i{flex:1;background:linear-gradient(180deg,#2997ff,rgba(41,151,255,.22));border-radius:5px 5px 0 0;height:0;transition:height .9s cubic-bezier(.22,.61,.36,1)}
+.mc-bars i.last{background:linear-gradient(180deg,#30d158,rgba(48,209,88,.22))}
+/* kanban flow (demo v2) */
+.mock-kanban{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.kan{border:1px solid var(--line2);border-radius:12px;padding:12px 12px 14px;background:rgba(255,255,255,.02);min-height:238px}
+.kan-done{background:rgba(48,209,88,.035);border-color:rgba(48,209,88,.14)}
+.kan-head{font-size:12.5px;color:var(--gray);font-weight:500;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.kdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.kdot.doing{background:#62b5ff;box-shadow:0 0 8px rgba(41,151,255,.6);animation:blink 1.6s ease-in-out infinite}
+.kdot.done{background:#30d158;box-shadow:0 0 8px rgba(48,209,88,.5)}
+.kan-ct{margin-left:auto;font-size:11px;color:var(--gray2);background:rgba(255,255,255,.06);padding:2px 9px;border-radius:980px;font-variant-numeric:tabular-nums}
+.kan-list{display:flex;flex-direction:column;gap:8px}
+.task{border-radius:9px;padding:9px 11px;background:rgba(255,255,255,.04);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s}
+.task.enter{animation:taskin .46s cubic-bezier(.22,.61,.36,1)}
+@keyframes taskin{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+.task.leaving{transform:translateX(50px);opacity:0}
+.task-name{font-size:12.5px;color:#e3e3e8;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-meta{display:flex;align-items:center;gap:8px;margin-top:7px}
+.task-own{font-size:10px;padding:2px 8px;border-radius:980px;font-weight:500}
+.task-own.ai{background:rgba(41,151,255,.16);color:#62b5ff}
+.task-own.human{background:rgba(255,214,10,.14);color:#ffd60a}
+.task-own.mix{background:rgba(191,90,242,.16);color:#cf9bff}
+.task-stat{font-size:10.5px;color:#62b5ff;font-weight:500;margin-left:auto}
+.task-result{font-size:10.5px;color:#5fe084;font-weight:600;margin-left:auto}
+.task-prog{position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,#2997ff,#30d158)}
+.task.active .task-prog{animation:tprog 2.1s linear forwards}
+@keyframes tprog{to{width:100%}}
+.task.done{background:rgba(48,209,88,.06)}
+@media(max-width:820px){.mock-kanban{grid-template-columns:1fr}.kan{min-height:0}}
+
+@media(max-width:900px){.gap-grid{grid-template-columns:1fr;gap:12px}}
+@media(max-width:820px){.mock-side{display:none}.mock-kpis{grid-template-columns:1fr 1fr}.mock-cols{grid-template-columns:1fr}.mc-bars{height:96px}}
+
 /* ===== RESPONSIVE ===== */
 /* Tall slides on touch / small screens: scroll freely, snap only when near a boundary
    (prevents jumping to the next slide before finishing reading) */
@@ -480,7 +648,7 @@ h3{
 <section class="scene" id="s0" data-name="เริ่มต้น">
   <div class="orb"></div>
   <div class="inner" style="text-align:center;position:relative;z-index:2">
-    <div class="badge-ai reveal"><span class="dot"></span>Recruitment Operations · Reimagined</div>
+    <div class="badge-ai reveal"><span class="dot"></span>ออกแบบการทำงานใหม่ด้วย AI</div>
     <h1 class="reveal d1">จากงานที่ทำด้วยมือ<br><span class="gradient-text">สู่ระบบที่ขับเคลื่อนด้วย AI</span></h1>
     <p class="lead reveal d2" style="margin-top:26px;max-width:640px;margin-left:auto;margin-right:auto">
       เราออกแบบกระบวนการทำงานใหม่ทั้งหมด — ให้เห็นทุกอย่าง ควบคุมได้ และขยายต่อได้
@@ -489,21 +657,31 @@ h3{
   <div class="scroll-cue"><div class="mouse"><i></i></div>เลื่อนลง</div>
 </section>
 
-<!-- ============ S1 OLD PROCESS ============ -->
-<section class="scene" id="s1" data-name="กระบวนการเดิม">
-  <div class="inner" style="text-align:center">
-    <div class="eyebrow accent-warm reveal">กระบวนการเดิม</div>
-    <h2 class="reveal d1">ทุกอย่างทำด้วยมือ</h2>
-    <p class="lead reveal d2" style="margin-top:20px;max-width:600px;margin-left:auto;margin-right:auto">
-      งานสรรหาทั้งหมดกระจายอยู่ใน 4 ทีม ใช้คนรวม 24 คน และไม่มีระบบกลางที่มองเห็นภาพรวม
+<!-- ============ GAP / MEANING ============ -->
+<section class="scene" id="gap" data-name="ทำไมต้องทำแบบนี้">
+  <div class="inner">
+    <div class="eyebrow accent-blue reveal" style="text-align:center">ทำไมแค่ “มี AI” ไม่พอ</div>
+    <h2 class="reveal d1" style="text-align:center;max-width:940px;margin-left:auto;margin-right:auto">ถ้าแค่เอา AI ไปใส่ในกระบวนการเดิม ผลลัพธ์ก็<span class="gradient-text">ไม่ต่างจากเดิม</span></h2>
+    <p class="reveal d2" style="text-align:center;color:var(--gray);font-size:clamp(15px,1.9vw,20px);font-weight:300;margin-top:18px;max-width:740px;margin-left:auto;margin-right:auto">
+      ดังนั้นสิ่งที่ <b style="color:var(--fg);font-weight:600">SO</b> ทำ คือ <b style="color:var(--fg);font-weight:500">ออกแบบกระบวนการทำงานใหม่ทั้งหมด</b> — 3 สิ่งนี้คือหัวใจ (ถ้าไม่ทำ ก็ไม่เกิดผล)
     </p>
-    <div class="fragment-row reveal d3">
-      <div class="frag"><div class="n">2</div><div class="l">ทีม Online</div></div>
-      <div class="frag"><div class="n">8</div><div class="l">ทีมสรรหา</div></div>
-      <div class="frag"><div class="n">7</div><div class="l">ทีมปิดใบขอ</div></div>
-      <div class="frag"><div class="n">7</div><div class="l">ทีม SQ หาคนแทน</div></div>
+    <div class="gap-grid">
+      <div class="gap-col reveal d3">
+        <div class="gap-h"><span class="gap-ic">1</span><h3>รื้อกระบวนการใหม่</h3></div>
+        <div class="gap-sub">ออกแบบวิธีทำงานใหม่ให้เข้ากับ AI ไม่ใช่เอา AI ไปแปะขั้นตอนเดิม</div>
+        <div class="gap-ifnot"><b>ถ้าไม่ทำ</b>งานยังกระจาย 4 ทีม ทำมือเหมือนเดิม — AI ช่วยแค่จุดเดียว ภาพรวมไม่เปลี่ยน</div>
+      </div>
+      <div class="gap-col reveal d4">
+        <div class="gap-h"><span class="gap-ic">2</span><h3>รวมเป็นศูนย์กลางเดียว</h3></div>
+        <div class="gap-sub">มีหน้าจอคุมงานรวมและคิวงานกลาง เห็นทุกงานจากที่เดียว</div>
+        <div class="gap-ifnot"><b>ถ้าไม่ทำ</b>ตามงานไม่ทัน ไม่เห็นสถานะ ต้องโทรถามทุกครั้ง คุมทั้งระบบไม่ได้</div>
+      </div>
+      <div class="gap-col reveal d5">
+        <div class="gap-h"><span class="gap-ic">3</span><h3>ทำให้ใช้ซ้ำได้ ไม่ผูกกับคน</h3></div>
+        <div class="gap-sub">เปลี่ยนความเก่งของคนให้กลายเป็นระบบและแม่แบบขององค์กร</div>
+        <div class="gap-ifnot"><b>ถ้าไม่ทำ</b>คนเก่งลาออก ความรู้หายไปกับตัว งานสะดุด ขยายไปงานอื่นไม่ได้</div>
+      </div>
     </div>
-    <p class="tiny reveal d4" style="margin-top:30px">ข้อมูลกระจายใน Excel · LINE · iRecruit · ERP · Email</p>
   </div>
 </section>
 
@@ -513,10 +691,10 @@ h3{
     <div class="eyebrow accent-warm reveal" style="text-align:center">สิ่งที่ระบบเดิมแก้ไม่ได้</div>
     <h2 class="reveal d1" style="text-align:center;margin-bottom:30px">ปัญหาที่เกิดซ้ำทุกวัน</h2>
     <div class="pain-list">
-      <div class="pain-line reveal d2"><span class="idx">01</span><span class="txt">ไม่เห็นสถานะงานแบบ Real-time<span class="sub">ไม่รู้ว่างานอยู่ขั้นไหน ใครถือ ต้องโทรถามทุกครั้ง</span></span></div>
+      <div class="pain-line reveal d2"><span class="idx">01</span><span class="txt">ไม่เห็นสถานะงานทันที ว่าถึงไหนแล้ว<span class="sub">ไม่รู้ว่างานอยู่ขั้นไหน ใครถือ ต้องโทรถามทุกครั้ง</span></span></div>
       <div class="pain-line reveal d3"><span class="idx">02</span><span class="txt">ข้อมูลกระจายหลายที่ ไม่ตรงกัน<span class="sub">บันทึกซ้ำในหลายระบบ เสียเวลา เกิดความผิดพลาด</span></span></div>
       <div class="pain-line reveal d4"><span class="idx">03</span><span class="txt">งานขึ้นอยู่กับคนคนเดียว<span class="sub">ถ้าคนนั้นลาหรือลาออก งานหยุดทันที</span></span></div>
-      <div class="pain-line reveal d5"><span class="idx">04</span><span class="txt">ไม่มีการเตือนก่อน SLA หลุด<span class="sub">รู้ตอนสายเกินไป งานตกหล่น ลูกค้าไม่พอใจ</span></span></div>
+      <div class="pain-line reveal d5"><span class="idx">04</span><span class="txt">ไม่เตือนล่วงหน้า ก่อนงานเกินกำหนด<span class="sub">รู้ตอนสายเกินไป งานตกหล่น ลูกค้าไม่พอใจ</span></span></div>
     </div>
   </div>
 </section>
@@ -528,10 +706,13 @@ h3{
     <h2 class="reveal d1">จากกระจาย <span style="color:var(--gray2)">สู่</span> ศูนย์กลางเดียว</h2>
     <div class="morph-wrap reveal d2">
       <svg id="morphSVG" viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg">
-        <g id="gBefore"></g>
-        <g id="gAfter"></g>
-        <g id="gHub"></g>
-        <g id="gDots"></g>
+        <g id="mLinks"></g>
+        <g id="mArrows"></g>
+        <g id="mBlocks"></g>
+        <g id="mPanels"></g>
+        <g id="mNoise"></g>
+        <g id="mBar"></g>
+        <g id="mSteps"></g>
       </svg>
     </div>
     <div class="morph-cap" id="morphCap"></div>
@@ -539,51 +720,60 @@ h3{
       <button id="btnBefore">เดิม</button>
       <button id="btnAfter">ใหม่</button>
     </div>
+    <div class="role-legend" id="roleLegend">
+      <span><span class="ld r-ai"></span>AI ทำหลัก</span>
+      <span><span class="ld r-mix"></span>AI + คน</span>
+      <span><span class="ld r-human"></span>คนอนุมัติ (จุดสำคัญ)</span>
+    </div>
   </div>
 </section>
 
 <!-- ============ S-CHANGE: OLD vs NEW ============ -->
 <section class="scene" id="schange" data-name="อะไรเปลี่ยนไป">
   <div class="inner">
-    <div class="eyebrow accent-blue reveal" style="text-align:center">เก่า → ใหม่</div>
+    <div class="eyebrow accent-blue reveal" style="text-align:center">ก่อน → หลัง</div>
     <h2 class="reveal d1" style="text-align:center">อะไรเปลี่ยนไปบ้าง</h2>
-    <p class="reveal d2" style="text-align:center;color:var(--gray);font-size:clamp(14px,1.7vw,18px);font-weight:300;margin-top:8px">
-      เทียบให้เห็นชัด — อะไรหายไป อะไรเพิ่มขึ้น อะไรยังเหมือนเดิม
-    </p>
-    <div class="change-grid">
-      <div class="change-col col-removed reveal d3">
+    <div class="chg-state reveal d2" id="chgState"><span class="cdot"></span><b>ระบบเดิม</b> · ทำด้วยมือ กระจายหลายระบบ</div>
+    <div class="change-grid reveal d2" id="changeGrid">
+      <div class="change-col col-removed">
         <div class="chead"><span class="cbadge">−</span><h3>หายไป</h3></div>
         <div class="csub">งานที่ตัดทิ้ง ไม่ต้องทำอีก</div>
         <ul>
-          <li><span class="mk">✕</span>บันทึกข้อมูลซ้ำหลายระบบ</li>
-          <li><span class="mk">✕</span>โทรตามสถานะงานเอง</li>
-          <li><span class="mk">✕</span>Excel กระจายหลายไฟล์</li>
-          <li><span class="mk">✕</span>งานที่พึ่งคนคนเดียว</li>
-          <li><span class="mk">✕</span>งาน Routine ที่ทำด้วยมือ</li>
+          <li><span class="mk">✕</span><span class="ct">บันทึกข้อมูลซ้ำหลายระบบ</span></li>
+          <li><span class="mk">✕</span><span class="ct">โทรตามสถานะงานเอง</span></li>
+          <li><span class="mk">✕</span><span class="ct">Excel กระจายหลายไฟล์</span></li>
+          <li><span class="mk">✕</span><span class="ct">งานที่พึ่งคนคนเดียว</span></li>
+          <li><span class="mk">✕</span><span class="ct">งานซ้ำๆ ประจำที่ทำด้วยมือ</span></li>
         </ul>
       </div>
-      <div class="change-col col-added reveal d4">
+      <div class="change-col col-added">
         <div class="chead"><span class="cbadge">+</span><h3>เพิ่มขึ้น</h3></div>
         <div class="csub">ความสามารถใหม่ที่ไม่เคยมี</div>
         <ul>
-          <li><span class="mk">✓</span>AI ทำงานอัตโนมัติ 24/7</li>
-          <li><span class="mk">✓</span>Dashboard คุมงานรวม Real-time</li>
-          <li><span class="mk">✓</span>แจ้งเตือนก่อน SLA หลุด</li>
-          <li><span class="mk">✓</span>Audit Log ตรวจย้อนหลังได้</li>
-          <li><span class="mk">✓</span>Backup / Retry / Fallback</li>
-          <li><span class="mk">✓</span>Template ใช้ซ้ำกับงานอื่น</li>
+          <li><span class="mk">✓</span><span class="ct">AI ทำงานอัตโนมัติ 24/7</span></li>
+          <li><span class="mk">✓</span><span class="ct">เห็นภาพรวมงานทั้งหมดแบบทันที</span></li>
+          <li><span class="mk">✓</span><span class="ct">แจ้งเตือนก่อนงานจะเกินกำหนด</span></li>
+          <li><span class="mk">✓</span><span class="ct">ตรวจย้อนหลังได้ ว่าใครทำอะไรเมื่อไหร่</span></li>
+          <li><span class="mk">✓</span><span class="ct">มีระบบสำรอง กู้คืนได้ ไม่ล่มทั้งระบบ</span></li>
+          <li><span class="mk">✓</span><span class="ct">ทำเป็นแม่แบบ ใช้ซ้ำกับงานอื่นได้</span></li>
         </ul>
       </div>
-      <div class="change-col col-same reveal d5">
+      <div class="change-col col-same">
         <div class="chead"><span class="cbadge">=</span><h3>เหมือนเดิม</h3></div>
         <div class="csub">สิ่งที่คงไว้ ไม่เปลี่ยน</div>
         <ul>
-          <li><span class="mk">=</span>8 ขั้นตอนงานหลักยังครบ</li>
-          <li><span class="mk">=</span>ระบบ ERP / iRecruit / LINE</li>
-          <li><span class="mk">=</span>จุดที่คนต้องอนุมัติเคสสำคัญ</li>
-          <li><span class="mk">=</span>ทีมงานเดิม (ย้ายไปดู Exception)</li>
-          <li><span class="mk">=</span>มาตรฐานคุณภาพและ Compliance</li>
+          <li><span class="mk">=</span><span class="ct">8 ขั้นตอนงานหลักยังครบ</span></li>
+          <li><span class="mk">=</span><span class="ct">ระบบเดิมที่ใช้อยู่ (ERP · LINE)</span></li>
+          <li><span class="mk">=</span><span class="ct">จุดที่คนต้องอนุมัติเคสสำคัญ</span></li>
+          <li><span class="mk">=</span><span class="ct">ทีมงานเดิม (เปลี่ยนไปดูเฉพาะงานมีปัญหา)</span></li>
+          <li><span class="mk">=</span><span class="ct">มาตรฐานคุณภาพและกฎระเบียบ</span></li>
         </ul>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <div class="morph-controls chg-controls reveal d3">
+        <button id="btnChgBefore">ก่อน</button>
+        <button id="btnChgAfter">หลัง</button>
       </div>
     </div>
   </div>
@@ -592,101 +782,89 @@ h3{
 <!-- ============ S4 NEW SYSTEM ============ -->
 <section class="scene" id="s4" data-name="ระบบใหม่">
   <div class="inner">
-    <div class="eyebrow accent-blue reveal" style="text-align:center">สถาปัตยกรรมระบบใหม่</div>
-    <h2 class="reveal d1" style="text-align:center">หกชั้น ครบทุกมิติ</h2>
-    <p class="reveal d1" style="text-align:center;color:var(--gray2);font-size:13px;font-weight:300;margin-top:6px">เรียงเป็น 6 ชั้น จากหน้าจอที่เห็น ลงไปถึงรากฐานที่ทำให้ระบบไม่ล่ม</p>
+    <div class="eyebrow accent-blue reveal" style="text-align:center">ระบบใหม่ประกอบด้วยอะไร</div>
+    <h2 class="reveal d1" style="text-align:center">6 ส่วนหลัก ครบทั้งระบบ</h2>
+    <p class="reveal d1" style="text-align:center;color:var(--gray2);font-size:13px;font-weight:300;margin-top:6px">ตั้งแต่หน้าจอที่คุณเห็น ไปจนถึงเบื้องหลังที่ทำให้ระบบไม่ล่ม</p>
     <div class="layers">
       <div class="layer reveal d2">
-        <span class="lnum">01</span><span class="ltitle">Dashboard</span>
+        <span class="lnum">01</span><span class="ltitle">หน้าจอสรุปภาพรวม</span>
         <svg class="lic" viewBox="0 0 24 24" fill="none" stroke="#62b5ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="20" x2="21" y2="20"/><line x1="7" y1="20" x2="7" y2="13"/><line x1="12" y1="20" x2="12" y2="8"/><line x1="17" y1="20" x2="17" y2="11"/></svg>
-        <span class="ldesc">เห็นภาพรวมธุรกิจ งาน AI และระบบเชื่อมต่อแบบ Real-time</span>
+        <span class="ldesc">เห็นภาพรวมธุรกิจ งานที่ AI ทำ และการเชื่อมต่อ แบบทันที</span>
         <span class="ltag">4 มุมมอง</span>
       </div>
       <div class="layer reveal d3">
-        <span class="lnum">02</span><span class="ltitle">Work Queue</span>
+        <span class="lnum">02</span><span class="ltitle">คิวงานรวม</span>
         <svg class="lic" viewBox="0 0 24 24" fill="none" stroke="#62b5ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4.5" cy="6" r="1.3"/><circle cx="4.5" cy="12" r="1.3"/><circle cx="4.5" cy="18" r="1.3"/></svg>
-        <span class="ldesc">คิวงานกลาง — คน 1 คนมองเห็นงานทั้งระบบในที่เดียว</span>
-        <span class="ltag">6 สถานะ</span>
+        <span class="ldesc">งานทั้งระบบมารวมที่เดียว คนเดียวก็ดูได้ครบ</span>
+        <span class="ltag">6 สถานะงาน</span>
       </div>
       <div class="layer reveal d4">
-        <span class="lnum">03</span><span class="ltitle">Core Workflow</span>
+        <span class="lnum">03</span><span class="ltitle">ขั้นตอนงานหลัก</span>
         <svg class="lic" viewBox="0 0 24 24" fill="none" stroke="#62b5ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><path d="M8.3 6 H15.7 M7.2 7.8 L10.8 16.2 M16.8 7.8 L13.2 16.2"/></svg>
         <span class="ldesc">รับงาน → เดินงาน → ตรวจ+อนุมัติ → ปิดงาน</span>
         <span class="ltag">4 ก้อนหลัก</span>
       </div>
       <div class="layer reveal d5">
-        <span class="lnum">04</span><span class="ltitle">Data Bridge</span>
+        <span class="lnum">04</span><span class="ltitle">ศูนย์รวมข้อมูล</span>
         <svg class="lic" viewBox="0 0 24 24" fill="none" stroke="#62b5ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12 H15"/><path d="M10 7 H8 a5 5 0 0 0 0 10 h2"/><path d="M14 7 h2 a5 5 0 0 1 0 10 h-2"/></svg>
-        <span class="ldesc">สะพานข้อมูลกลาง รวมสถานะ ประวัติ และ Version ทุกงาน</span>
+        <span class="ldesc">รวมข้อมูล สถานะ และประวัติของทุกงานไว้ที่เดียว</span>
         <span class="ltag">รวมศูนย์</span>
       </div>
       <div class="layer reveal d6">
-        <span class="lnum">05</span><span class="ltitle">Integration</span>
+        <span class="lnum">05</span><span class="ltitle">เชื่อมต่อระบบอื่น</span>
         <svg class="lic" viewBox="0 0 24 24" fill="none" stroke="#62b5ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><circle cx="4.5" cy="4.5" r="1.7"/><circle cx="19.5" cy="4.5" r="1.7"/><circle cx="4.5" cy="19.5" r="1.7"/><circle cx="19.5" cy="19.5" r="1.7"/><path d="M6 6 L10.2 10.2 M18 6 L13.8 10.2 M6 18 L10.2 13.8 M18 18 L13.8 13.8"/></svg>
-        <span class="ldesc">เชื่อม ERP · iRecruit · LINE · Email · RPA · API</span>
+        <span class="ldesc">เชื่อมกับระบบที่ใช้อยู่ เช่น ERP · LINE · Email ให้คุยกันอัตโนมัติ</span>
         <span class="ltag">10 ระบบ</span>
       </div>
       <div class="layer reveal d7">
-        <span class="lnum">06</span><span class="ltitle">Production Control</span>
+        <span class="lnum">06</span><span class="ltitle">ความปลอดภัยและกันล่ม</span>
         <svg class="lic" viewBox="0 0 24 24" fill="none" stroke="#62b5ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z"/><path d="M9 12 l2 2 l4 -4"/></svg>
-        <span class="ldesc">สิทธิ์ · PDPA · Backup · Monitoring · Runbook · Recovery</span>
-        <span class="ltag">10 องค์ประกอบ</span>
+        <span class="ldesc">คุมสิทธิ์ · ปกป้องข้อมูลส่วนตัว · สำรองข้อมูล · เฝ้าระวัง · กู้คืน</span>
+        <span class="ltag">10 ด้าน</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ S5 WORKFLOW ============ -->
-<section class="scene" id="s5" data-name="ขั้นตอนงาน">
-  <div class="inner">
-    <div class="eyebrow accent-blue reveal" style="text-align:center">วิธีทำงานของระบบ</div>
-    <h2 class="reveal d1" style="text-align:center">4 ก้อนงานหลัก · 8 ขั้นตอน</h2>
-    <p class="reveal d2" style="text-align:center;color:var(--gray);font-size:clamp(14px,1.7vw,18px);font-weight:300;margin-top:8px">
-      ทุกงานไหลผ่าน 4 ก้อนนี้เสมอ — เปลี่ยน Template ก็ใช้กับงานอื่นได้
-    </p>
-    <div class="blocks">
-      <div class="block reveal d3">
-        <div class="block-card">
-          <div class="block-head"><span class="bnum">1</span><h4>รับงานและทำสื่อ</h4></div>
-          <div class="bsteps">
-            <div class="step"><span class="snum">1</span><span class="sname">ตรวจใบขอ</span><span class="rdot r-ai"></span></div>
-            <div class="step"><span class="snum">2</span><span class="sname">สร้างและโพสต์งาน</span><span class="rdot r-mix"></span></div>
-            <div class="step"><span class="snum">3</span><span class="sname">รับรายชื่อผู้สมัคร</span><span class="rdot r-ai"></span></div>
-          </div>
-        </div>
+<!-- ============ DEMO: live dashboard mockup ============ -->
+<section class="scene" id="demo" data-name="หน้าตาจริง">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-blue reveal">ตัวอย่างหน้าจอจริง</div>
+    <h2 class="reveal d1">ศูนย์คุมงานกลาง — เห็นทุกอย่างในที่เดียว</h2>
+    <div class="mock reveal d2" id="mock">
+      <div class="mock-bar">
+        <span class="mdot r"></span><span class="mdot y"></span><span class="mdot g"></span>
+        <span class="mock-title">ศูนย์คุมงานกลาง · ระบบคุมงานด้วย AI</span>
+        <span class="mock-live"><i></i> LIVE</span>
       </div>
-      <div class="block reveal d4">
-        <div class="block-card">
-          <div class="block-head"><span class="bnum">2</span><h4>เดินงานตามขั้นตอน</h4></div>
-          <div class="bsteps">
-            <div class="step"><span class="snum">4</span><span class="sname">จับคู่คนกับงาน</span><span class="rdot r-ai"></span></div>
-            <div class="step"><span class="snum">5</span><span class="sname">คัดกรองเบื้องต้น</span><span class="rdot r-mix"></span></div>
-          </div>
+      <div class="mock-body">
+        <div class="mock-side">
+          <div class="ms-item on">▦ ภาพรวม</div>
+          <div class="ms-item">▤ คิวงาน</div>
+          <div class="ms-item">✦ AI</div>
+          <div class="ms-item">⇄ การเชื่อมต่อ</div>
         </div>
-      </div>
-      <div class="block reveal d5">
-        <div class="block-card">
-          <div class="block-head"><span class="bnum">3</span><h4>ตรวจสอบและอนุมัติ</h4></div>
-          <div class="bsteps">
-            <div class="step"><span class="snum">6</span><span class="sname">ตรวจและอนุมัติส่งลูกค้า</span><span class="rdot r-human"></span></div>
+        <div class="mock-main">
+          <div class="mock-kpis">
+            <div class="kpi"><div class="kpi-n" id="kDone">142</div><div class="kpi-l">งานเสร็จวันนี้</div></div>
+            <div class="kpi"><div class="kpi-n" id="kHire">12</div><div class="kpi-l">จ้างสำเร็จ</div></div>
+            <div class="kpi"><div class="kpi-n"><span id="kAi">89</span><span>%</span></div><div class="kpi-l">AI ทำอัตโนมัติ</div></div>
+            <div class="kpi"><div class="kpi-n"><span id="kOn">98</span><span>%</span></div><div class="kpi-l">ส่งงานตรงเวลา</div></div>
           </div>
-        </div>
-      </div>
-      <div class="block reveal d6">
-        <div class="block-card">
-          <div class="block-head"><span class="bnum">4</span><h4>ปิดงานและส่งต่อ</h4></div>
-          <div class="bsteps">
-            <div class="step"><span class="snum">7</span><span class="sname">เริ่มงานและแจ้งเข้า</span><span class="rdot r-mix"></span></div>
-            <div class="step"><span class="snum">8</span><span class="sname">ติดตามและหาคนแทน</span><span class="rdot r-mix"></span></div>
+          <div class="mock-kanban">
+            <div class="kan kan-doing">
+              <div class="kan-head"><span class="kdot doing"></span>กำลังทำ<span class="kan-ct" id="ctDoing">3</span></div>
+              <div class="kan-list" id="kanDoing"></div>
+            </div>
+            <div class="kan kan-done">
+              <div class="kan-head"><span class="kdot done"></span>เสร็จแล้ว<span class="kan-ct" id="ctDone">142</span></div>
+              <div class="kan-list" id="kanDone"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="legend reveal d7">
-      <span><span class="ld r-ai"></span>AI ทำหลัก</span>
-      <span><span class="ld r-mix"></span>AI + คนร่วมกัน</span>
-      <span><span class="ld r-human"></span>คนอนุมัติ (จุดสำคัญ)</span>
-    </div>
+    <p class="tiny reveal d3" style="margin-top:14px">ภาพจำลองแนวคิดหน้าจอระบบ — งานไหลจาก “กำลังทำ” → “เสร็จแล้ว” พร้อมผลลัพธ์ แบบเรียลไทม์</p>
   </div>
 </section>
 
@@ -696,11 +874,32 @@ h3{
     <div class="eyebrow accent-green reveal">ผลลัพธ์</div>
     <h2 class="reveal d1">ตัวเลขที่เปลี่ยนไป</h2>
     <div class="metrics">
-      <div class="metric scale-in"><div class="big">70<span class="u">%+</span></div><div class="mlabel">งานอัตโนมัติ</div><div class="mdesc">Auto Post · Matching · OCR</div></div>
-      <div class="metric scale-in"><div class="big">1<span class="u"> คน</span></div><div class="mlabel">ดูแลทั้งระบบ</div><div class="mdesc">แทนหลายทีมเดิม</div></div>
-      <div class="metric scale-in"><div class="big">10</div><div class="mlabel">ระบบเชื่อมต่อ</div><div class="mdesc">ERP · LINE · API · RPA</div></div>
-      <div class="metric scale-in"><div class="big">∞</div><div class="mlabel">ขยายต่อได้</div><div class="mdesc">เปลี่ยน Template ใช้งานอื่น</div></div>
+      <div class="metric scale-in"><div class="big"><span class="count" data-to="70">0</span><span class="u">%+</span></div><div class="mlabel">งานอัตโนมัติ</div><div class="mdesc">โพสต์งาน · จับคู่ · อ่านเอกสาร</div></div>
+      <div class="metric scale-in"><div class="big"><span class="count" data-to="1">0</span><span class="u"> คน</span></div><div class="mlabel">ดูแลทั้งระบบ</div><div class="mdesc">แทนหลายทีมเดิม</div></div>
+      <div class="metric scale-in"><div class="big"><span class="count" data-to="10">0</span></div><div class="mlabel">ระบบเชื่อมต่อ</div><div class="mdesc">ERP · LINE · Email และอื่นๆ</div></div>
+      <div class="metric scale-in"><div class="big">∞</div><div class="mlabel">ขยายต่อได้</div><div class="mdesc">เปลี่ยนแม่แบบ ใช้กับงานอื่นได้</div></div>
     </div>
+  </div>
+</section>
+
+<!-- ============ STORY: chaos -> AI -> transform ============ -->
+<section class="scene" id="story" data-name="พลิกโฉม">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-blue reveal">AI ลงมือจัดการ</div>
+    <h2 class="reveal d1">จากความวุ่นวาย <span style="color:var(--gray2)">สู่</span> ระบบที่ไหลลื่น</h2>
+    <div class="story-wrap reveal d2">
+      <svg id="storySVG" viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+        <g id="stLinks"></g><g id="stBeams"></g><g id="stGrid"></g>
+        <g id="stHub"></g><g id="stLabels"></g><g id="stParticles"></g><g id="stHud"></g>
+      </svg>
+    </div>
+    <div class="morph-cap" id="storyCap"></div>
+    <div class="story-phases reveal d3" id="storyPhases">
+      <span class="ph"><b>1</b> วุ่นวาย</span>
+      <span class="ph"><b>2</b> AI จัดการ</span>
+      <span class="ph"><b>3</b> พลิกโฉม</span>
+    </div>
+    <div class="morph-controls reveal d3" style="margin-top:14px"><button id="btnStoryReplay">▶ เล่นอีกครั้ง</button></div>
   </div>
 </section>
 
@@ -712,7 +911,7 @@ h3{
     <p class="lead reveal d2" style="margin-top:26px;max-width:560px;margin-left:auto;margin-right:auto">
       เห็นทุกงาน · รู้ก่อนปัญหา · ตรวจย้อนหลังได้ · ขยายได้ไม่รู้จบ
     </p>
-    <p class="tiny reveal d4" style="margin-top:40px">ระบบคุมงานกลางด้วย AI — Production Ready</p>
+    <p class="tiny reveal d4" style="margin-top:40px">ระบบคุมงานกลางด้วย AI — พร้อมใช้งานจริง</p>
   </div>
 </section>
 
@@ -748,9 +947,17 @@ const io = new IntersectionObserver((entries)=>{
         prog.style.width = ((i+1)/scenes.length*100)+'%';
       }
       if(e.target.id==='s3' && window.__morphEnter) window.__morphEnter();
+      if(e.target.id==='schange' && window.__changeEnter) window.__changeEnter();
+      if(e.target.id==='s6' && window.__countEnter) window.__countEnter();
+      if(e.target.id==='story' && window.__storyEnter) window.__storyEnter();
+      if(e.target.id==='gap' && window.__gapEnter) window.__gapEnter();
+      if(e.target.id==='demo' && window.__demoEnter) window.__demoEnter();
     } else {
       e.target.classList.remove('in-view');
       if(e.target.id==='s3' && window.__morphLeave) window.__morphLeave();
+      if(e.target.id==='schange' && window.__changeLeave) window.__changeLeave();
+      if(e.target.id==='story' && window.__storyLeave) window.__storyLeave();
+      if(e.target.id==='demo' && window.__demoLeave) window.__demoLeave();
     }
   });
 },{threshold:0.5, root:deck});
@@ -773,245 +980,607 @@ scenes[0].classList.add('in-view');
 dots[0].classList.add('on');
 prog.style.width = (1/scenes.length*100)+'%';
 
-// ===== TRANSITION MORPH ENGINE (S3) =====
+// ===== TRANSITION MORPH ENGINE (S3) — manual 4-team flow -> AI pipeline =====
 (function(){
   const NS='http://www.w3.org/2000/svg';
   const svg=document.getElementById('morphSVG');
   if(!svg) return;
-  const gBefore=document.getElementById('gBefore');
-  const gAfter=document.getElementById('gAfter');
-  const gHub=document.getElementById('gHub');
-  const gDots=document.getElementById('gDots');
+  const G={
+    links:  document.getElementById('mLinks'),
+    arrows: document.getElementById('mArrows'),
+    blocks: document.getElementById('mBlocks'),
+    panels: document.getElementById('mPanels'),
+    noise:  document.getElementById('mNoise'),
+    bar:    document.getElementById('mBar'),
+    steps:  document.getElementById('mSteps')
+  };
   const cap=document.getElementById('morphCap');
   const btnB=document.getElementById('btnBefore');
   const btnA=document.getElementById('btnAfter');
 
-  const CX=380, CY=192, R=132, N=24;
+  // ---------- helpers ----------
+  function E(tag,attrs,parent){
+    const e=document.createElementNS(NS,tag);
+    for(const k in attrs) e.setAttribute(k,attrs[k]);
+    if(parent) parent.appendChild(e);
+    return e;
+  }
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const clamp=(v,a,b)=>{a=(a==null)?0:a;b=(b==null)?1:b;return v<a?a:(v>b?b:v);};
+  const mixc=(c1,c2,t)=>[Math.round(lerp(c1[0],c2[0],t)),Math.round(lerp(c1[1],c2[1],t)),Math.round(lerp(c1[2],c2[2],t))];
+  const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';
+  const rnd=i=>{const v=Math.sin(i*127.1+311.7)*43758.5453;return v-Math.floor(v);};
+
+  // ---------- palette ----------
   const WARM=[255,159,107], BLUE=[41,151,255];
-  // 4 teams = 24 people, scattered in loose clusters
-  const clusters=[
-    {x:128,y:96,n:2},   // Online
-    {x:150,y:300,n:8},  // สรรหา
-    {x:612,y:96,n:7},   // ปิดใบขอ
-    {x:628,y:308,n:7}   // SQ
+
+  // ---------- layout ----------
+  const VW=760;
+  const M=20, COLS=4, GAP=14;
+  const colW=(VW-2*M-(COLS-1)*GAP)/COLS;
+  const colX=i=>M+i*(colW+GAP);
+  const colCX=i=>colX(i)+colW/2;
+  // before: team panels
+  const panelY=54, panelH=286, toolY=362;
+  // after: AI bar + blocks
+  const barX=M, barW=VW-2*M, barY=58, barH=38;
+  const blkY=148, blkH=200, blkHead=30;
+  const areaTop=blkY+blkHead+8, areaBot=blkY+blkH-12;
+
+  // ---------- data ----------
+  const teams=['ทีม Online · 2','ทีมสรรหา · 8','ทีมปิดใบขอ · 7','ทีม SQ · 7'];
+  const blocks=['รับงาน + ทำสื่อ','เดินงาน','ตรวจ + อนุมัติ','ปิดงาน + ส่งต่อ'];
+  const tools=['iRecruit','ERP (To Do)','Email / LINE','Excel'];
+  const steps=[
+    {n:1,name:'ตรวจใบขอ',  blk:0,from:2},
+    {n:2,name:'โพสต์งาน',   blk:0,from:0},
+    {n:3,name:'รับผู้สมัคร', blk:0,from:0},
+    {n:4,name:'จับคู่งาน',   blk:1,from:1},
+    {n:5,name:'คัดกรอง',    blk:1,from:1},
+    {n:6,name:'อนุมัติ',     blk:2,from:2},
+    {n:7,name:'เริ่มงาน',    blk:3,from:3},
+    {n:8,name:'หาคนแทน',    blk:3,from:3}
   ];
-  // deterministic pseudo-random in [0,1)
-  function rnd(i){const v=Math.sin(i*127.1+311.7)*43758.5453;return v-Math.floor(v);}
 
-  const mDots=[];
-  let idx=0;
-  clusters.forEach(c=>{
-    for(let k=0;k<c.n;k++){
-      const a=rnd(idx)*Math.PI*2;
-      const rr=18+rnd(idx+50)*46;
-      const sx=c.x+Math.cos(a)*rr;
-      const sy=c.y+Math.sin(a)*rr*0.8;
-      const ang=idx*(Math.PI*2/N)-Math.PI/2;
-      const ox=CX+Math.cos(ang)*R;
-      const oy=CY+Math.sin(ang)*R;
-      mDots.push({sx,sy,ox,oy,x:sx,y:sy});
-      idx++;
+  // ---------- pipeline (end) slots ----------
+  for(let bi=0;bi<COLS;bi++){
+    const list=steps.filter(s=>s.blk===bi);
+    const n=list.length;
+    const pillH=Math.min(46,(areaBot-areaTop-(n-1)*8)/n);
+    const totH=n*pillH+(n-1)*8;
+    const sY=areaTop+((areaBot-areaTop)-totH)/2;
+    list.forEach((s,k)=>{
+      s.ew=colW-20; s.eh=pillH;
+      s.ex=colX(bi)+10; s.ey=sY+k*(pillH+8);
+      s.ecx=s.ex+s.ew/2; s.ecy=s.ey+s.eh/2;
+    });
+  }
+  // ---------- scattered (start) chips ----------
+  steps.forEach((s,i)=>{
+    s.sx=colCX(s.from)+(rnd(i*3+1)-0.5)*(colW-46);
+    s.sy=lerp(panelY+42,panelY+panelH-34,rnd(i*5+2));
+    s.sw=15; s.sh=15;
+  });
+  // noise chips (manual work that gets automated away)
+  const noise=[];
+  const counts=[4,5,5,4];
+  for(let p=0;p<COLS;p++){
+    for(let k=0;k<counts[p];k++){
+      const id=p*13+k+1;
+      noise.push({
+        x:colCX(p)+(rnd(id*7+3)-0.5)*(colW-34),
+        y:lerp(panelY+42,panelY+panelH-30,rnd(id*11+4)),
+        r:4.5+rnd(id)*3
+      });
     }
-  });
+  }
+  // tangled links among scattered points
+  const pts=steps.map(s=>({x:s.sx,y:s.sy})).concat(noise);
+  const linkPairs=[];
+  for(let i=0;i<pts.length;i++){
+    linkPairs.push([i,(i*7+5)%pts.length]);
+    if(i%3===0) linkPairs.push([i,(i*5+11)%pts.length]);
+  }
 
-  // tangled "before" links (chaos)
-  const beforePairs=[];
-  for(let i=0;i<N;i++){ beforePairs.push([i,(i*7+5)%N]); }
-  for(let i=0;i<N;i+=3){ beforePairs.push([i,(i*5+11)%N]); }
-
-  const bLines=beforePairs.map(()=>{
-    const l=document.createElementNS(NS,'line');
-    l.setAttribute('stroke','rgba(255,159,107,.22)');
-    l.setAttribute('stroke-width','1');
-    gBefore.appendChild(l); return l;
-  });
-  // clean "after" radial spokes
-  const aLines=mDots.map(()=>{
-    const l=document.createElementNS(NS,'line');
-    l.setAttribute('stroke','rgba(41,151,255,.40)');
-    l.setAttribute('stroke-width','1.2');
-    l.setAttribute('x1',CX); l.setAttribute('y1',CY);
-    gAfter.appendChild(l); return l;
-  });
-
-  // hub
-  const ring=document.createElementNS(NS,'circle');
-  ring.setAttribute('cx',CX);ring.setAttribute('cy',CY);ring.setAttribute('r',R);
-  ring.setAttribute('fill','none');ring.setAttribute('stroke','rgba(41,151,255,.18)');ring.setAttribute('stroke-width','1');
-  gHub.appendChild(ring);
-  const pulse=document.createElementNS(NS,'circle');
-  pulse.setAttribute('id','hubPulse');
-  pulse.setAttribute('cx',CX);pulse.setAttribute('cy',CY);pulse.setAttribute('r',34);
-  pulse.setAttribute('fill','none');pulse.setAttribute('stroke','rgba(41,151,255,.5)');pulse.setAttribute('stroke-width','1.5');
-  gHub.appendChild(pulse);
-  const glow=document.createElementNS(NS,'circle');
-  glow.setAttribute('cx',CX);glow.setAttribute('cy',CY);glow.setAttribute('r',58);
-  glow.setAttribute('fill','rgba(41,151,255,.12)');
-  gHub.appendChild(glow);
-  const core=document.createElementNS(NS,'circle');
-  core.setAttribute('cx',CX);core.setAttribute('cy',CY);
-  core.setAttribute('fill','url(#hubGrad)');
-  gHub.appendChild(core);
-  // gradient def
-  const defs=document.createElementNS(NS,'defs');
-  defs.innerHTML='<linearGradient id="hubGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2997ff"/><stop offset="1" stop-color="#bf5af2"/></linearGradient>';
+  // ---------- defs ----------
+  const defs=E('defs',{});
+  defs.innerHTML='<linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2997ff"/><stop offset="1" stop-color="#bf5af2"/></linearGradient>';
   svg.insertBefore(defs,svg.firstChild);
-  const hubText=document.createElementNS(NS,'text');
-  hubText.setAttribute('x',CX);hubText.setAttribute('y',CY);
-  hubText.setAttribute('text-anchor','middle');hubText.setAttribute('dominant-baseline','central');
-  hubText.setAttribute('font-family','Kanit,sans-serif');hubText.setAttribute('font-weight','600');
-  hubText.setAttribute('font-size','22');hubText.setAttribute('fill','#fff');
-  hubText.textContent='AI';
-  gHub.appendChild(hubText);
-  // hub sublabel "ศูนย์คุมงานกลาง"
-  const subBg=document.createElementNS(NS,'rect');
-  subBg.setAttribute('x',CX-72);subBg.setAttribute('y',CY+30);subBg.setAttribute('width',144);subBg.setAttribute('height',22);
-  subBg.setAttribute('rx',11);subBg.setAttribute('fill','rgba(2,10,24,.9)');subBg.setAttribute('stroke','rgba(41,151,255,.35)');subBg.setAttribute('stroke-width','1');
-  gHub.appendChild(subBg);
-  const subT=document.createElementNS(NS,'text');
-  subT.setAttribute('x',CX);subT.setAttribute('y',CY+41);subT.setAttribute('text-anchor','middle');subT.setAttribute('dominant-baseline','central');
-  subT.setAttribute('font-family','Kanit,sans-serif');subT.setAttribute('font-weight','500');subT.setAttribute('font-size','13');subT.setAttribute('fill','#9fc4ff');
-  subT.textContent='ศูนย์คุมงานกลาง';
-  gHub.appendChild(subT);
 
-  // ===== LABELS / ICONS =====
-  const gLabBefore=document.createElementNS(NS,'g');
-  const gLabAfter=document.createElementNS(NS,'g');
-  svg.appendChild(gLabBefore); svg.appendChild(gLabAfter);
+  // ---------- build: tangled links ----------
+  linkPairs.forEach(([a,b])=>E('line',{
+    x1:pts[a].x,y1:pts[a].y,x2:pts[b].x,y2:pts[b].y,
+    stroke:rgba(WARM,0.22),'stroke-width':1
+  },G.links));
 
-  // before: team name tags on each cluster + "no center" hint
-  function mkTeam(x,y,label){
-    const t=document.createElementNS(NS,'text');
-    t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','central');
-    t.setAttribute('font-family','Kanit,sans-serif');t.setAttribute('font-weight','500');t.setAttribute('font-size','13.5');t.setAttribute('fill','#ffb98c');
-    t.textContent=label; gLabBefore.appendChild(t);
+  // ---------- build: pipeline arrows + droplines ----------
+  for(let i=0;i<COLS;i++){
+    E('line',{x1:colCX(i),y1:barY+barH,x2:colCX(i),y2:blkY,
+      stroke:rgba(BLUE,0.32),'stroke-width':1.2,'stroke-dasharray':'2 4'},G.arrows);
   }
-  mkTeam(128,44,'ทีม Online · 2');
-  mkTeam(150,364,'ทีมสรรหา · 8');
-  mkTeam(612,44,'ทีมปิดใบขอ · 7');
-  mkTeam(628,366,'ทีม SQ · 7');
-  const noCenter=document.createElementNS(NS,'text');
-  noCenter.setAttribute('x',CX);noCenter.setAttribute('y',CY);noCenter.setAttribute('text-anchor','middle');noCenter.setAttribute('dominant-baseline','central');
-  noCenter.setAttribute('font-family','Kanit,sans-serif');noCenter.setAttribute('font-weight','400');noCenter.setAttribute('font-size','13');noCenter.setAttribute('fill','rgba(255,255,255,.32)');
-  noCenter.textContent='ไม่มีศูนย์กลาง'; gLabBefore.appendChild(noCenter);
-
-  // after: benefit callouts with line icons + connector to hub
-  function mkIcon(paths,pupil){
-    const g=document.createElementNS(NS,'g');
-    paths.forEach(d=>{const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill','none');p.setAttribute('stroke','#2997ff');p.setAttribute('stroke-width','1.4');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');g.appendChild(p);});
-    if(pupil){const c=document.createElementNS(NS,'circle');c.setAttribute('cx',8);c.setAttribute('cy',8);c.setAttribute('r',1.7);c.setAttribute('fill','#2997ff');g.appendChild(c);}
-    return g;
+  for(let i=0;i<COLS-1;i++){
+    const x0=colX(i)+colW+1, x1=colX(i+1)-1, y=(areaTop+areaBot)/2;
+    E('line',{x1:x0,y1:y,x2:x1-3,y2:y,stroke:rgba(BLUE,0.55),'stroke-width':1.4},G.arrows);
+    E('path',{d:'M'+(x1-4)+' '+(y-3)+' L'+(x1+1)+' '+y+' L'+(x1-4)+' '+(y+3)+' Z',fill:rgba(BLUE,0.7)},G.arrows);
   }
-  function mkCallout(x,y,paths,label,toX,toY,pupil){
-    const grp=document.createElementNS(NS,'g');
-    const ln=document.createElementNS(NS,'line');
-    ln.setAttribute('x1',x+8);ln.setAttribute('y1',y+8);ln.setAttribute('x2',toX);ln.setAttribute('y2',toY);
-    ln.setAttribute('stroke','rgba(41,151,255,.3)');ln.setAttribute('stroke-width','1');ln.setAttribute('stroke-dasharray','3 3');
-    grp.appendChild(ln);
-    const ic=mkIcon(paths,pupil);ic.setAttribute('transform','translate('+x+','+y+')');grp.appendChild(ic);
-    const t=document.createElementNS(NS,'text');
-    t.setAttribute('x',x+24);t.setAttribute('y',y+8);t.setAttribute('dominant-baseline','central');
-    t.setAttribute('font-family','Kanit,sans-serif');t.setAttribute('font-size','14');t.setAttribute('font-weight','400');t.setAttribute('fill','#d3dcec');
-    t.textContent=label; grp.appendChild(t);
-    gLabAfter.appendChild(grp);
-  }
-  const I_EYE=['M2 8 C5 3.5 11 3.5 14 8 C11 12.5 5 12.5 2 8 Z'];
-  const I_BELL=['M4.5 11 C4.5 11 5.5 9.8 5.5 7 C5.5 4.2 6.5 3 8 3 C9.5 3 10.5 4.2 10.5 7 C10.5 9.8 11.5 11 11.5 11 Z','M6.7 13 H9.3'];
-  const I_DB=['M8 3 C11 3 13 3.8 13 5 C13 6.2 11 7 8 7 C5 7 3 6.2 3 5 C3 3.8 5 3 8 3 Z','M3 5 V11 C3 12.2 5 13 8 13 C11 13 13 12.2 13 11 V5'];
-  const I_EXPAND=['M3 6 V3 H6','M13 10 V13 H10','M3 3 L7 7','M13 13 L9 9'];
-  mkCallout(60,66,I_EYE,'เห็นทุกงาน Real-time',286,118,true);
-  mkCallout(60,318,I_DB,'ข้อมูลรวมที่เดียว',286,266,false);
-  mkCallout(560,66,I_BELL,'แจ้งเตือนก่อน SLA',474,118,false);
-  mkCallout(560,318,I_EXPAND,'ขยายงานอื่นได้',474,266,false);
 
-  // dot circles
-  const circles=mDots.map(d=>{
-    const c=document.createElementNS(NS,'circle');
-    c.setAttribute('r','6');c.setAttribute('cx',d.sx);c.setAttribute('cy',d.sy);
-    gDots.appendChild(c); return c;
+  // ---------- build: block frames + headers ----------
+  for(let bi=0;bi<COLS;bi++){
+    E('rect',{x:colX(bi),y:blkY,width:colW,height:blkH,rx:16,
+      fill:'rgba(41,151,255,.05)',stroke:rgba(BLUE,0.30),'stroke-width':1.2},G.blocks);
+    E('circle',{cx:colX(bi)+20,cy:blkY+18,r:10,fill:rgba(BLUE,0.92)},G.blocks);
+    const bn=E('text',{x:colX(bi)+20,y:blkY+18,'text-anchor':'middle','dominant-baseline':'central',
+      'font-family':'Kanit,sans-serif','font-weight':600,'font-size':12,fill:'#fff'},G.blocks);
+    bn.textContent=(bi+1);
+    const bt=E('text',{x:colX(bi)+36,y:blkY+18,'dominant-baseline':'central',
+      'font-family':'Kanit,sans-serif','font-weight':500,'font-size':12.5,fill:'#cfe0ff'},G.blocks);
+    bt.textContent=blocks[bi];
+  }
+
+  // ---------- build: team panels + headers + tools ----------
+  for(let p=0;p<COLS;p++){
+    E('rect',{x:colX(p),y:panelY,width:colW,height:panelH,rx:16,
+      fill:'rgba(255,159,107,.05)',stroke:rgba(WARM,0.26),'stroke-width':1.2},G.panels);
+    const ht=E('text',{x:colCX(p),y:panelY+18,'text-anchor':'middle','dominant-baseline':'central',
+      'font-family':'Kanit,sans-serif','font-weight':500,'font-size':12.5,fill:'#ffb98c'},G.panels);
+    ht.textContent=teams[p];
+    const tw=Math.min(colW-14,98), tx=colCX(p)-tw/2;
+    E('rect',{x:tx,y:toolY-11,width:tw,height:22,rx:11,
+      fill:'rgba(255,159,107,.06)',stroke:rgba(WARM,0.30),'stroke-width':1},G.panels);
+    const tt=E('text',{x:colCX(p),y:toolY,'text-anchor':'middle','dominant-baseline':'central',
+      'font-family':'Kanit,sans-serif','font-weight':400,'font-size':11,fill:'#d9a98c'},G.panels);
+    tt.textContent=tools[p];
+  }
+  const noHub=E('text',{x:VW/2,y:panelY-2,'text-anchor':'middle','dominant-baseline':'central',
+    'font-family':'Kanit,sans-serif','font-weight':400,'font-size':12,fill:'rgba(255,255,255,.34)'},G.panels);
+  noHub.textContent='ทำด้วยมือ · กระจาย · ไม่มีศูนย์กลาง';
+
+  // ---------- build: noise chips ----------
+  const noiseEls=noise.map(nd=>E('circle',{cx:nd.x,cy:nd.y,r:nd.r,fill:rgba(WARM,0.5)},G.noise));
+
+  // ---------- build: AI bar ----------
+  E('rect',{x:barX,y:barY,width:barW,height:barH,rx:12,
+    fill:'rgba(41,151,255,.10)',stroke:'url(#barGrad)','stroke-width':1.4},G.bar);
+  E('circle',{id:'hubPulse',cx:barX+24,cy:barY+barH/2,r:7,fill:'none',stroke:rgba(BLUE,0.6),'stroke-width':1.5},G.bar);
+  E('circle',{cx:barX+24,cy:barY+barH/2,r:4.5,fill:rgba(BLUE,0.95)},G.bar);
+  const barT=E('text',{x:barX+42,y:barY+barH/2,'dominant-baseline':'central',
+    'font-family':'Kanit,sans-serif','font-weight':600,'font-size':14,fill:'#fff'},G.bar);
+  barT.textContent='ศูนย์ AI คุมงานกลาง';
+  const barS=E('text',{x:barX+barW-14,y:barY+barH/2,'text-anchor':'end','dominant-baseline':'central',
+    'font-family':'Kanit,sans-serif','font-weight':300,'font-size':11.5,fill:'#9fc4ff'},G.bar);
+  barS.textContent='เห็นภาพรวม · คิวงานรวม · ตรวจย้อนหลังได้';
+
+  // ---------- build: morphing step pills (with AI/human role dot) ----------
+  const ROLEOF={1:'ai',2:'mix',3:'ai',4:'ai',5:'mix',6:'human',7:'mix',8:'mix'};
+  steps.forEach(s=>{
+    const g=E('g',{},G.steps);
+    s.rect=E('rect',{},g);
+    s.badge=E('circle',{r:9,fill:rgba(BLUE,0.92)},g);
+    s.bnum=E('text',{'text-anchor':'middle','dominant-baseline':'central',
+      'font-family':'Kanit,sans-serif','font-weight':600,'font-size':11,fill:'#fff'},g);
+    s.bnum.textContent=s.n;
+    s.lbl=E('text',{'dominant-baseline':'central',
+      'font-family':'Kanit,sans-serif','font-weight':500,'font-size':12.5,fill:'#eaf2ff'},g);
+    s.lbl.textContent=s.name;
+    const role=ROLEOF[s.n];
+    if(role==='ai') s.dot=E('circle',{r:5,fill:'rgba(41,151,255,.95)'},g);
+    else if(role==='mix') s.dot=E('circle',{r:5,fill:'none',stroke:'rgba(41,151,255,.95)','stroke-width':1.8},g);
+    else s.dot=E('circle',{r:5,fill:'#ffd60a'},g);
   });
 
-  function lerp(a,b,t){return a+(b-a)*t;}
-  function mix(c1,c2,t){return 'rgb('+Math.round(lerp(c1[0],c2[0],t))+','+Math.round(lerp(c1[1],c2[1],t))+','+Math.round(lerp(c1[2],c2[2],t))+')';}
-  function clamp(v){return v<0?0:v>1?1:v;}
-
-  const capBefore='<b style="color:#ff9f6b">เดิม</b> &nbsp;·&nbsp; 24 คน · 4 ทีม ทำงานแยกกัน ข้อมูลกระจาย ไม่มีศูนย์กลาง';
-  const capAfter='<b style="color:#2997ff">ใหม่</b> &nbsp;·&nbsp; ทุกคน-ทุกงาน เชื่อมเข้าศูนย์ AI เดียว เห็นและคุมได้จากที่เดียว';
+  // ---------- captions ----------
+  const capBefore='<b style="color:#ff9f6b">กระบวนการเดิม</b> &nbsp;·&nbsp; 4 ทีม 24 คน ทำมือหลายสิบขั้น ข้อมูลกระจายใน iRecruit · ERP · Email · Excel';
+  const capAfter ='<b style="color:#2997ff">กระบวนการใหม่</b> &nbsp;·&nbsp; งานทั้งหมดไหลผ่านสายงานเดียว 4 ก้อน · 8 ขั้น คุมจากศูนย์ AI กลาง';
   let lastHalf=null;
 
+  // ---------- render ----------
   function render(t){
-    for(let i=0;i<N;i++){
-      const d=mDots[i];
-      d.x=lerp(d.sx,d.ox,t); d.y=lerp(d.sy,d.oy,t);
-      circles[i].setAttribute('cx',d.x);
-      circles[i].setAttribute('cy',d.y);
-      circles[i].setAttribute('fill',mix(WARM,BLUE,t));
-    }
-    const bO=clamp(1-t*1.7);
-    bLines.forEach((l,i)=>{
-      const [a,b]=beforePairs[i];
-      l.setAttribute('x1',mDots[a].x);l.setAttribute('y1',mDots[a].y);
-      l.setAttribute('x2',mDots[b].x);l.setAttribute('y2',mDots[b].y);
-      l.style.opacity=bO;
+    G.panels.style.opacity=clamp(1-t*2.2);
+    G.links.style.opacity=clamp(1-t*2.7);
+    const nO=clamp(1-t*2.4);
+    noiseEls.forEach((c,i)=>{
+      c.style.opacity=nO;
+      c.setAttribute('r',noise[i].r*Math.max(0.15,1-t*1.4));
     });
-    const aO=clamp((t-0.25)*1.7);
-    aLines.forEach((l,i)=>{
-      l.setAttribute('x2',mDots[i].x);l.setAttribute('y2',mDots[i].y);
-      l.style.opacity=aO;
+    const aO=clamp((t-0.4)/0.5);
+    const rise=lerp(14,0,clamp((t-0.4)/0.55));
+    G.blocks.style.opacity=aO;
+    G.arrows.style.opacity=aO;
+    G.blocks.setAttribute('transform','translate(0,'+rise+')');
+    G.arrows.setAttribute('transform','translate(0,'+rise+')');
+    G.bar.style.opacity=clamp((t-0.28)/0.5);
+    G.bar.setAttribute('transform','translate(0,'+lerp(-10,0,clamp((t-0.28)/0.5))+')');
+    const txO=clamp((t-0.6)/0.4);
+    steps.forEach(s=>{
+      const x=lerp(s.sx,s.ecx,t), y=lerp(s.sy,s.ecy,t);
+      const w=lerp(s.sw,s.ew,t),  h=lerp(s.sh,s.eh,t);
+      const left=x-w/2, top=y-h/2;
+      const col=mixc(WARM,BLUE,t);
+      s.rect.setAttribute('x',left); s.rect.setAttribute('y',top);
+      s.rect.setAttribute('width',w); s.rect.setAttribute('height',h);
+      s.rect.setAttribute('rx',Math.min(10,h/2));
+      s.rect.setAttribute('fill',rgba(col,lerp(0.9,0.13,t)));
+      s.rect.setAttribute('stroke',rgba(col,lerp(0.95,0.55,t)));
+      s.rect.setAttribute('stroke-width',clamp(t*2,0,1.2));
+      const bx=left+16;
+      s.badge.setAttribute('cx',bx); s.badge.setAttribute('cy',y); s.badge.style.opacity=txO;
+      s.bnum.setAttribute('x',bx);   s.bnum.setAttribute('y',y);   s.bnum.style.opacity=txO;
+      s.lbl.setAttribute('x',bx+15); s.lbl.setAttribute('y',y);    s.lbl.style.opacity=txO;
+      s.dot.setAttribute('cx',left+w-13); s.dot.setAttribute('cy',y); s.dot.style.opacity=txO;
     });
-    const hubT=clamp((t-0.15)/0.85);
-    core.setAttribute('r',36*hubT);
-    glow.style.opacity=hubT;
-    hubText.style.opacity=clamp((t-0.45)/0.55);
-    ring.style.opacity=t*0.9;
-    // labels: before fade out early, after fade in late
-    const afterLab=clamp((t-0.55)*2.3);
-    gLabBefore.style.opacity=clamp(1-t*2);
-    gLabAfter.style.opacity=afterLab;
-    subBg.style.opacity=afterLab; subT.style.opacity=afterLab;
-    // caption swap at midpoint
     const half=t>0.5;
     if(half!==lastHalf){
       lastHalf=half;
       cap.style.opacity=0;
-      setTimeout(()=>{cap.innerHTML=half?capAfter:capBefore;cap.style.opacity=1;},180);
+      setTimeout(()=>{cap.innerHTML=half?capAfter:capBefore;cap.style.opacity=1;},170);
       btnA.classList.toggle('on',half);
       btnB.classList.toggle('on',!half);
       svg.parentElement.parentElement.classList.toggle('morph-live',half);
     }
   }
 
+  // ---------- tween + lifecycle ----------
   let raf,cur=0;
   function tweenTo(target,dur){
     cancelAnimationFrame(raf);
     const from=cur,start=performance.now();
     (function step(now){
-      let p=Math.min(1,(now-start)/dur);
+      const p=Math.min(1,(now-start)/dur);
       const e=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
       cur=from+(target-from)*e;
       render(cur);
       if(p<1) raf=requestAnimationFrame(step);
     })(start);
   }
+  function reset(){
+    cancelAnimationFrame(raf);cur=0;lastHalf=null;render(0);
+    cap.innerHTML=capBefore;cap.style.opacity=1;
+    btnB.classList.add('on');btnA.classList.remove('on');
+    svg.parentElement.parentElement.classList.remove('morph-live');
+  }
 
-  render(0);
-  cap.innerHTML=capBefore; cap.style.opacity=1; btnB.classList.add('on');
-
+  reset();
   btnB.onclick=()=>tweenTo(0,900);
-  btnA.onclick=()=>tweenTo(1,1400);
+  btnA.onclick=()=>tweenTo(1,1600);
 
-  let entered=false,timer=null;
-  window.__morphEnter=function(){
-    clearTimeout(timer);
-    // reset to before, then auto-play to after
-    cancelAnimationFrame(raf);cur=0;lastHalf=null;render(0);
-    cap.innerHTML=capBefore;btnB.classList.add('on');btnA.classList.remove('on');
-    timer=setTimeout(()=>tweenTo(1,1500),750);
+  let timer=null;
+  window.__morphEnter=function(){ clearTimeout(timer); reset(); timer=setTimeout(()=>tweenTo(1,1700),750); };
+  window.__morphLeave=function(){ clearTimeout(timer); reset(); };
+})();
+
+// ===== CHANGE BEFORE/AFTER ENGINE (S-CHANGE) =====
+(function(){
+  const grid=document.getElementById('changeGrid');
+  if(!grid) return;
+  const state=document.getElementById('chgState');
+  const bB=document.getElementById('btnChgBefore');
+  const bA=document.getElementById('btnChgAfter');
+  const TXT_B='<span class="cdot"></span><b>ระบบเดิม</b> · ทำด้วยมือ กระจายหลายระบบ';
+  const TXT_A='<span class="cdot"></span><b>ระบบใหม่ด้วย AI</b> · ตัดทิ้ง 5 · เพิ่มใหม่ 6 · คงไว้ 5';
+  function setState(after){
+    grid.classList.toggle('after',after);
+    state.classList.toggle('is-after',after);
+    state.innerHTML=after?TXT_A:TXT_B;
+    bA.classList.toggle('on',after);
+    bB.classList.toggle('on',!after);
+  }
+  setState(false);
+  bB.onclick=()=>setState(false);
+  bA.onclick=()=>setState(true);
+  let timer=null;
+  window.__changeEnter=function(){ clearTimeout(timer); setState(false); timer=setTimeout(()=>setState(true),900); };
+  window.__changeLeave=function(){ clearTimeout(timer); setState(false); };
+})();
+
+// ===== COUNT-UP (S6) =====
+(function(){
+  const els=[...document.querySelectorAll('#s6 .count')];
+  if(!els.length) return;
+  function run(){
+    els.forEach(el=>{
+      const to=parseFloat(el.dataset.to)||0, dur=1400, start=performance.now();
+      (function step(now){
+        const p=Math.min(1,(now-start)/dur);
+        const e=1-Math.pow(1-p,3);
+        el.textContent=Math.round(to*e);
+        if(p<1) requestAnimationFrame(step);
+      })(start);
+    });
+  }
+  window.__countEnter=run;
+})();
+
+// ===== FLOATING PARTICLES (hero / closing) =====
+(function(){
+  ['s0','s7'].forEach(id=>{
+    const sec=document.getElementById(id);
+    if(!sec) return;
+    const wrap=document.createElement('div');
+    wrap.className='particles';
+    for(let i=0;i<16;i++){
+      const p=document.createElement('i');
+      const sz=2+Math.random()*3;
+      p.style.left=(Math.random()*100)+'%';
+      p.style.width=sz+'px';
+      p.style.height=sz+'px';
+      p.style.animationDuration=(11+Math.random()*12)+'s';
+      p.style.animationDelay=(-Math.random()*18)+'s';
+      p.style.opacity=(0.3+Math.random()*0.5);
+      wrap.appendChild(p);
+    }
+    sec.insertBefore(wrap,sec.firstChild);
+  });
+})();
+
+// ===== STORY ENGINE: chaos -> AI manages -> transform (3 acts) =====
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('storySVG');
+  if(!svg) return;
+  const G={
+    links:document.getElementById('stLinks'), beams:document.getElementById('stBeams'),
+    grid:document.getElementById('stGrid'),   hub:document.getElementById('stHub'),
+    labels:document.getElementById('stLabels'),parts:document.getElementById('stParticles'),
+    hud:document.getElementById('stHud')
   };
-  window.__morphLeave=function(){
-    clearTimeout(timer);
-    cancelAnimationFrame(raf);cur=0;lastHalf=null;render(0);
+  const cap=document.getElementById('storyCap');
+  const phases=[...document.querySelectorAll('#storyPhases .ph')];
+  const btn=document.getElementById('btnStoryReplay');
+
+  function E(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const clamp=(v,a,b)=>{a=(a==null)?0:a;b=(b==null)?1:b;return v<a?a:(v>b?b:v);};
+  const smooth=(e0,e1,x)=>{const t=clamp((x-e0)/(e1-e0));return t*t*(3-2*t);};
+  const rnd=i=>{const v=Math.sin(i*127.1+311.7)*43758.5453;return v-Math.floor(v);};
+  const mix=(c1,c2,t)=>'rgb('+Math.round(lerp(c1[0],c2[0],t))+','+Math.round(lerp(c1[1],c2[1],t))+','+Math.round(lerp(c1[2],c2[2],t))+')';
+  const rgba=(c,a)=>c.replace('rgb(','rgba(').replace(')',','+a+')');
+
+  const N=24, CX=380, CYc=150, R=95;
+  const WARM=[255,120,90], BLUE=[41,151,255], GREEN=[48,209,88];
+  const COLS=8;
+  const gx=c=>130+c*(500/(COLS-1));
+  const gy=r=>258+r*60;
+
+  const P=[];
+  for(let i=0;i<N;i++) P.push({
+    cx0:60+rnd(i*2+1)*640, cy0:62+rnd(i*3+2)*326,
+    ang:i/N*Math.PI*2, gxv:gx(i%COLS), gyv:gy(Math.floor(i/COLS)),
+    ph:rnd(i*5+7)*Math.PI*2, tilt:(rnd(i*9+4)-0.5)*70
+  });
+
+  // chaos links
+  const linkPairs=[];
+  for(let i=0;i<N;i++){ linkPairs.push([i,(i*7+3)%N]); if(i%4===0) linkPairs.push([i,(i*5+13)%N]); }
+  const linkEls=linkPairs.map(()=>E('line',{stroke:'rgba(255,120,90,.22)','stroke-width':1},G.links));
+
+  // grid frames (act3)
+  const gridEls=P.map(p=>E('rect',{x:p.gxv-13,y:p.gyv-9,width:26,height:18,rx:5,fill:'none',stroke:'rgba(48,209,88,.20)','stroke-width':1},G.grid));
+  // beams core->grid (act3)
+  const beamEls=[];
+  for(let c=0;c<COLS;c++) beamEls.push(E('line',{stroke:'rgba(41,151,255,.18)','stroke-width':1,'stroke-dasharray':'2 4'},G.beams));
+
+  // AI hub
+  const defs=E('defs',{}); defs.innerHTML='<radialGradient id="stHubG"><stop offset="0" stop-color="#8fc8ff"/><stop offset="1" stop-color="#2671e0"/></radialGradient>';
+  svg.insertBefore(defs,svg.firstChild);
+  const hubRing=E('circle',{cx:CX,cy:CYc,r:R,fill:'none',stroke:'rgba(41,151,255,.16)','stroke-width':1},G.hub);
+  const hubPulse=E('circle',{cx:CX,cy:CYc,r:30,fill:'none',stroke:'rgba(41,151,255,.5)','stroke-width':1.5},G.hub);
+  const hubGlow=E('circle',{cx:CX,cy:CYc,r:46,fill:'rgba(41,151,255,.14)'},G.hub);
+  const hubCore=E('circle',{cx:CX,cy:CYc,r:30,fill:'url(#stHubG)'},G.hub);
+  const hubTx=E('text',{x:CX,y:CYc,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-weight':700,'font-size':19,fill:'#fff'},G.hub);
+  hubTx.textContent='AI';
+
+  // HOW labels (act2)
+  const HOW=[
+    {t:'อ่าน–คัดแยกเอกสาร', x:152,y:92, w:130},
+    {t:'จัดลำดับความสำคัญ', x:608,y:92, w:130},
+    {t:'จับคู่งานอัตโนมัติ', x:122,y:196, w:122},
+    {t:'แจ้งเตือนเชิงรุก',   x:638,y:196, w:110},
+    {t:'ทำงานซ้ำๆ แทนคน',  x:380,y:250, w:122}
+  ];
+  const howEls=HOW.map(h=>{
+    const g=E('g',{},G.labels);
+    E('line',{x1:h.x,y1:h.y,x2:CX,y2:CYc,stroke:'rgba(41,151,255,.18)','stroke-width':1},g);
+    E('rect',{x:h.x-h.w/2,y:h.y-12,width:h.w,height:24,rx:12,fill:'rgba(10,20,35,.85)',stroke:'rgba(41,151,255,.45)','stroke-width':1},g);
+    const tx=E('text',{x:h.x,y:h.y,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-weight':400,'font-size':12.5,fill:'#bfe0ff'},g);
+    tx.textContent=h.t;
+    return g;
+  });
+
+  // particles (task cards)
+  const cards=P.map(()=>{
+    const g=E('g',{},G.parts);
+    const r=E('rect',{x:-9,y:-6.5,width:18,height:13,rx:3.5},g);
+    E('line',{x1:-5,y1:-1.5,x2:5,y2:-1.5,stroke:'rgba(255,255,255,.5)','stroke-width':1},g);
+    E('line',{x1:-5,y1:2,x2:2,y2:2,stroke:'rgba(255,255,255,.32)','stroke-width':1},g);
+    return {g,r};
+  });
+
+  // HUD pill
+  const hudG=E('g',{},G.hud);
+  const hudRect=E('rect',{x:CX-92,y:16,width:184,height:30,rx:15,fill:'rgba(255,107,107,.12)',stroke:'rgba(255,107,107,.5)','stroke-width':1},hudG);
+  const hudTx=E('text',{x:CX,y:31,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-weight':500,'font-size':14,fill:'#ff9b9b'},hudG);
+  hudTx.textContent='⚠ งานค้าง 8 รายการ';
+
+  const CAP=[
+    '<b style="color:#ff6b6b">ระบบเดิม</b> &nbsp;·&nbsp; งานท่วม ข้อมูลกระจาย ตกหล่น ตามไม่ทัน',
+    '<b style="color:#2997ff">AI เข้ามาจัดการ</b> &nbsp;·&nbsp; อ่านเอกสาร จัดลำดับ จับคู่งาน แจ้งเตือน ทำงานซ้ำแทนคน',
+    '<b style="color:#30d158">พลิกโฉม</b> &nbsp;·&nbsp; งานเป็นระบบ ไหลลื่น ตรวจย้อนหลังได้ ขยายต่อได้'
+  ];
+  let lastAct=-1;
+
+  function render(T){
+    const now=performance.now();
+    const capture=smooth(0.28,0.52,T);
+    const settle =smooth(0.64,0.90,T);
+    const spin=T*Math.PI*3;
+    const act=T<0.30?0:(T<0.66?1:2);
+
+    for(let i=0;i<N;i++){
+      const p=P[i], c=cards[i];
+      const wob=1-capture;
+      const wx=p.cx0+Math.sin(now/360+p.ph)*11*wob;
+      const wy=p.cy0+Math.cos(now/430+p.ph)*11*wob;
+      const ox=CX+Math.cos(p.ang+spin)*R, oy=CYc+Math.sin(p.ang+spin)*R;
+      const ax=lerp(wx,ox,capture), ay=lerp(wy,oy,capture);
+      const x=lerp(ax,p.gxv,settle), y=lerp(ay,p.gyv,settle);
+      const rot=lerp(p.tilt,0,Math.max(capture,settle));
+      c.g.setAttribute('transform','translate('+x.toFixed(1)+','+y.toFixed(1)+') rotate('+rot.toFixed(1)+')');
+      const col = capture<1 ? mix(WARM,BLUE,capture) : mix(BLUE,GREEN,settle*0.7);
+      c.r.setAttribute('fill',rgba(col,0.92));
+      c.r.setAttribute('stroke',rgba(col,1)); c.r.setAttribute('stroke-width',0.8);
+    }
+
+    const lo=clamp(1-capture*1.6);
+    linkEls.forEach((l,i)=>{const[a,b]=linkPairs[i];
+      l.setAttribute('x1',P[a].cx0);l.setAttribute('y1',P[a].cy0);
+      l.setAttribute('x2',P[b].cx0);l.setAttribute('y2',P[b].cy0);l.style.opacity=lo;});
+
+    const hubO=smooth(0.24,0.42,T);
+    [hubGlow,hubCore,hubTx].forEach(e=>e.style.opacity=hubO);
+    hubRing.style.opacity=hubO*(1-settle);
+    hubPulse.style.opacity=hubO*(1-settle*0.7);
+    hubPulse.setAttribute('r',30+(Math.sin(now/520)*0.5+0.5)*22);
+    const hr=lerp(30,20,settle);
+    hubCore.setAttribute('r',hr); hubGlow.setAttribute('r',hr+16);
+    hubTx.setAttribute('font-size',lerp(19,13,settle));
+
+    const howO=smooth(0.40,0.56,T)*(1-smooth(0.66,0.82,T));
+    howEls.forEach(g=>g.style.opacity=howO);
+
+    const gO=smooth(0.70,0.92,T);
+    gridEls.forEach(e=>e.style.opacity=gO*0.9);
+    beamEls.forEach((b,c)=>{b.setAttribute('x1',CX);b.setAttribute('y1',CYc);b.setAttribute('x2',gx(c));b.setAttribute('y2',gy(0)-12);b.style.opacity=gO*0.7;});
+
+    if(act!==lastAct){
+      lastAct=act;
+      cap.style.opacity=0;
+      setTimeout(()=>{cap.innerHTML=CAP[act];cap.style.opacity=1;},160);
+      phases.forEach((ph,pi)=>ph.classList.toggle('on',pi===act));
+    }
+    if(act===0){
+      const n=Math.round(lerp(8,52,clamp(T/0.30)));
+      hudRect.setAttribute('fill','rgba(255,107,107,.12)');hudRect.setAttribute('stroke','rgba(255,107,107,.5)');
+      hudTx.setAttribute('fill','#ff9b9b'); hudTx.textContent='⚠ งานค้าง '+n+' รายการ';
+    }else if(act===1){
+      hudRect.setAttribute('fill','rgba(41,151,255,.12)');hudRect.setAttribute('stroke','rgba(41,151,255,.5)');
+      hudTx.setAttribute('fill','#bfe0ff'); hudTx.textContent='AI กำลังจัดการ…';
+    }else{
+      hudRect.setAttribute('fill','rgba(48,209,88,.14)');hudRect.setAttribute('stroke','rgba(48,209,88,.55)');
+      hudTx.setAttribute('fill','#7ef0a5'); hudTx.textContent='✓ เคลียร์แล้ว · ค้าง 0 · ทันเวลา';
+    }
+  }
+
+  let raf, startT=null;
+  const DUR=7200;
+  function play(){
+    cancelAnimationFrame(raf); lastAct=-1; startT=null;
+    (function step(now){
+      if(startT==null) startT=now;
+      const p=clamp((now-startT)/DUR);
+      render(p);
+      if(p<1) raf=requestAnimationFrame(step);
+    })(performance.now());
+  }
+  function reset(){ cancelAnimationFrame(raf); lastAct=-1; render(0); cap.innerHTML=CAP[0]; cap.style.opacity=1; }
+
+  reset();
+  btn.onclick=play;
+  window.__storyRender=render;
+  let timer=null;
+  window.__storyEnter=function(){ clearTimeout(timer); reset(); timer=setTimeout(play,500); };
+  window.__storyLeave=function(){ clearTimeout(timer); reset(); };
+})();
+
+// ===== GAP scene count-up =====
+(function(){
+  const els=[...document.querySelectorAll('#gap .count')];
+  if(!els.length) return;
+  window.__gapEnter=function(){
+    els.forEach(el=>{
+      const to=parseFloat(el.dataset.to)||0, dur=1500, st=performance.now();
+      (function s(now){
+        const p=Math.min(1,(now-st)/dur), e=1-Math.pow(1-p,3);
+        el.textContent=Math.round(to*e);
+        if(p<1) requestAnimationFrame(s);
+      })(performance.now());
+    });
   };
+})();
+
+// ===== DEMO: live dashboard (kanban flow + results) =====
+(function(){
+  const mock=document.getElementById('mock'); if(!mock) return;
+  const doing=document.getElementById('kanDoing');
+  const done=document.getElementById('kanDone');
+  const kDone=document.getElementById('kDone'), kHire=document.getElementById('kHire'),
+        kAi=document.getElementById('kAi'), kOn=document.getElementById('kOn'),
+        ctDoing=document.getElementById('ctDoing'), ctDone=document.getElementById('ctDone');
+  const LAB={ai:'AI',mix:'AI + คน',human:'คน'};
+  const TASKS=[
+    ['ตรวจใบสมัคร','ai','ผ่านเกณฑ์ 9/12'],
+    ['โพสต์งานสาขาใหม่','mix','ลง 5 ช่องทาง'],
+    ['จับคู่ผู้สมัคร','ai','จับคู่ 8 ราย'],
+    ['คัดกรองเบื้องต้น','mix','คัดเหลือ 14'],
+    ['นัดสัมภาษณ์','ai','นัด 6 ราย'],
+    ['ส่งให้ลูกค้าอนุมัติ','human','อนุมัติ 3'],
+    ['ทำสัญญาจ้างงาน','mix','จ้าง 2 คน'],
+    ['อ่านเรซูเม่อัตโนมัติ','ai','อ่าน 23 ใบ'],
+    ['แจ้งเตือนตามงาน','ai','ส่ง 11 แจ้ง']
+  ];
+  let ti=0, doneCount=142, hire=12, running=false, timer=null;
+  const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+
+  function doingCard(t){
+    const d=document.createElement('div');
+    d.className='task enter';
+    d.dataset.n=t[0]; d.dataset.o=t[1]; d.dataset.r=t[2];
+    d.innerHTML='<div class="task-name">'+t[0]+'</div><div class="task-meta"><span class="task-own '+t[1]+'">'+LAB[t[1]]+'</span><span class="task-stat">กำลังทำ</span></div><div class="task-prog"></div>';
+    setTimeout(()=>d.classList.remove('enter'),470);
+    return d;
+  }
+  function doneCard(n,o,r){
+    const d=document.createElement('div');
+    d.className='task done enter';
+    d.innerHTML='<div class="task-name">'+n+'</div><div class="task-meta"><span class="task-own '+o+'">'+LAB[o]+'</span><span class="task-result">✓ '+r+'</span></div>';
+    setTimeout(()=>d.classList.remove('enter'),470);
+    return d;
+  }
+  function activate(){ const f=doing.firstElementChild; if(f) f.classList.add('active'); }
+  function nextTask(){ const t=TASKS[ti%TASKS.length]; ti++; return t; }
+
+  function tick(){
+    const top=doing.firstElementChild;
+    if(top){
+      top.classList.add('leaving');
+      const n=top.dataset.n,o=top.dataset.o,r=top.dataset.r;
+      setTimeout(()=>{
+        if(top.parentNode) top.remove();
+        done.insertBefore(doneCard(n,o,r), done.firstElementChild);
+        while(done.children.length>4) done.removeChild(done.lastElementChild);
+        activate();
+      },400);
+    }
+    doing.appendChild(doingCard(nextTask()));
+    doneCount++; if(kDone) kDone.textContent=doneCount; if(ctDone) ctDone.textContent=doneCount;
+    if(Math.random()<0.4){ hire++; if(kHire) kHire.textContent=hire; }
+    if(kAi) kAi.textContent=rnd(87,92);
+    if(kOn) kOn.textContent=rnd(97,99);
+  }
+
+  function seed(){
+    doing.innerHTML=''; done.innerHTML=''; ti=0; doneCount=142;
+    for(let i=0;i<3;i++) doing.appendChild(doingCard(nextTask()));
+    activate();
+    [['ตรวจใบสมัคร','ai','ผ่านเกณฑ์ 10/12'],['โพสต์งานขายหน้าร้าน','mix','ลง 4 ช่องทาง'],['อ่านเรซูเม่','ai','อ่าน 31 ใบ']]
+      .forEach(p=>done.appendChild(doneCard(p[0],p[1],p[2])));
+    if(ctDoing) ctDoing.textContent='3';
+    if(ctDone) ctDone.textContent=doneCount;
+  }
+
+  function start(){ if(running) return; running=true; seed(); clearInterval(timer); timer=setInterval(tick,2400); }
+  function stop(){ running=false; clearInterval(timer); }
+  window.__demoEnter=start;
+  window.__demoLeave=stop;
 })();
 </script>
 </body>
