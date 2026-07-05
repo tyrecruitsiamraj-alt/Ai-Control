@@ -414,7 +414,7 @@ section.scene::before{content:"";position:absolute;inset:-25%;z-index:0;pointer-
     <p class="lead reveal d2" style="margin:12px auto 0;max-width:760px">บริษัท สยามราชธานี จำกัด (มหาชน) — SO · จดทะเบียนในตลาดหลักทรัพย์ (SET) · ให้บริการมากว่า 43 ปี</p>
     <div class="so-stats">
       <div class="so-stat reveal d2"><div class="so-num"><span class="count" data-to="43">0</span><span class="u">+ ปี</span></div><div class="so-slabel">ประสบการณ์ให้บริการ</div></div>
-      <div class="so-stat reveal d3"><div class="so-num"><span class="count" data-to="200">0</span><span class="u">,000+</span></div><div class="so-slabel">พนักงานในระบบที่ดูแล</div></div>
+      <div class="so-stat reveal d3"><div class="so-num"><span class="count" data-to="200000">0</span><span class="u">+</span></div><div class="so-slabel">พนักงานในระบบที่ดูแล</div></div>
       <div class="so-stat reveal d4"><div class="so-num"><span class="count" data-to="450">0</span><span class="u">+</span></div><div class="so-slabel">องค์กรลูกค้า</div></div>
       <div class="so-stat reveal d5"><div class="so-num"><span class="count" data-to="90">0</span><span class="u">%+</span></div><div class="so-slabel">อัตราต่อสัญญา</div></div>
     </div>
@@ -800,7 +800,7 @@ scenes[0].classList.add('in-view');dots[0].classList.add('on');prog.style.width=
       const to=parseFloat(el.dataset.to)||0, dur=1400, st=performance.now();
       (function s(now){
         const p=Math.min(1,(now-st)/dur), e=1-Math.pow(1-p,3);
-        el.textContent=Math.round(to*e);
+        el.textContent=Math.round(to*e).toLocaleString('en-US');
         if(p<1) requestAnimationFrame(s);
       })(performance.now());
     });
