@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SO · AI Recruitment Transformation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000;--fg:#f5f5f7;--gray:#86868b;--gray2:#6e6e73;
+  --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);
+  --blue:#2997ff;--warm:#ff9f6b;--green:#30d158;--purple:#bf5af2;--amber:#ffd60a;
+  --maxw:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:"Kanit",-apple-system,sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-weight:300}
+
+/* deck */
+.deck{height:100vh;height:100dvh;overflow-y:scroll;-webkit-overflow-scrolling:touch;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.deck::-webkit-scrollbar{display:none}.deck{-ms-overflow-style:none;scrollbar-width:none}
+section.scene{min-height:100vh;min-height:100dvh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:84px 44px;position:relative;overflow:hidden}
+.inner{width:100%;max-width:var(--maxw);margin:0 auto;position:relative;z-index:1}
+
+/* type */
+.eyebrow{font-size:clamp(13px,1.5vw,18px);font-weight:500;margin-bottom:14px}
+h1{font-size:clamp(38px,7vw,84px);font-weight:600;line-height:1.05;letter-spacing:-.025em}
+h2{font-size:clamp(30px,5vw,60px);font-weight:600;line-height:1.08;letter-spacing:-.02em}
+h3{font-size:clamp(19px,2.4vw,26px);font-weight:600;letter-spacing:-.01em}
+.lead{font-size:clamp(17px,2vw,25px);font-weight:300;color:var(--gray);line-height:1.42;letter-spacing:-.01em}
+.tiny{font-size:clamp(12px,1.3vw,15px);color:var(--gray2);font-weight:300}
+.accent-blue{color:var(--blue)}.accent-warm{color:var(--warm)}.accent-green{color:var(--green)}.accent-purple{color:var(--purple)}
+.gt{background:linear-gradient(100deg,#fff 0%,#fff 38%,#86c2ff 50%,#fff 62%,#fff 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 5.5s ease-in-out infinite}
+@keyframes shimmer{0%{background-position:160% center}100%{background-position:-60% center}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(30px);filter:blur(7px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1),filter .7s cubic-bezier(.22,.61,.36,1)}
+.in-view .reveal{opacity:1;transform:none;filter:blur(0)}
+.in-view .reveal.d1{transition-delay:.08s}.in-view .reveal.d2{transition-delay:.16s}.in-view .reveal.d3{transition-delay:.24s}
+.in-view .reveal.d4{transition-delay:.32s}.in-view .reveal.d5{transition-delay:.40s}.in-view .reveal.d6{transition-delay:.48s}
+.in-view .reveal.d7{transition-delay:.56s}.in-view .reveal.d8{transition-delay:.64s}
+.scale-in{opacity:0;transform:scale(.92);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+.in-view .scale-in{opacity:1;transform:none}
+
+/* aurora bg */
+section.scene::before{content:"";position:absolute;inset:-25%;z-index:0;pointer-events:none;
+  background:radial-gradient(38% 38% at 22% 26%,var(--aura1,rgba(41,151,255,.13)) 0%,transparent 70%),radial-gradient(42% 42% at 80% 74%,var(--aura2,rgba(191,90,242,.11)) 0%,transparent 72%);
+  filter:blur(6px);animation:aura 24s ease-in-out infinite alternate;will-change:transform}
+@keyframes aura{0%{transform:translate3d(-2%,1%,0) scale(1)}100%{transform:translate3d(3%,-4%,0) scale(1.16)}}
+
+/* particles */
+.particles{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.particles i{position:absolute;bottom:-12px;border-radius:50%;background:rgba(125,180,255,.8);box-shadow:0 0 10px rgba(125,180,255,.7);animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(.5);opacity:0}12%{opacity:.9}88%{opacity:.6}100%{transform:translateY(-112vh) scale(1.05);opacity:0}}
+
+/* hero */
+#s1{--aura1:rgba(41,151,255,.16);--aura2:rgba(191,90,242,.11)}
+#s10{--aura1:rgba(48,209,88,.12);--aura2:rgba(41,151,255,.12)}
+.orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(80vw,780px);height:min(80vw,780px);border-radius:50%;background:radial-gradient(circle,rgba(41,151,255,.16) 0%,rgba(41,151,255,0) 62%);pointer-events:none;z-index:0}
+.badge{display:inline-flex;align-items:center;gap:9px;padding:8px 18px;border-radius:980px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:14px;font-weight:400;color:var(--gray);margin-bottom:30px}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.brandline{display:inline-flex;align-items:center;gap:11px;margin-top:34px;font-size:15px;color:var(--gray);font-weight:300}
+.brandline .lg{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff}
+.scroll-cue{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gray2);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+.mouse{width:22px;height:34px;border:1.5px solid var(--gray2);border-radius:12px;display:flex;justify-content:center;padding-top:6px}
+.mouse i{width:3px;height:6px;border-radius:2px;background:var(--gray2);animation:wheel 2s ease-in-out infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(0)}40%{opacity:1}80%{opacity:0;transform:translateY(8px)}}
+@keyframes bob{0%,100%{transform:translateX(-50%)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* generic card grid */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;margin-top:30px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%;margin-top:28px}
+.card{border:1px solid var(--line2);background:rgba(255,255,255,.025);border-radius:20px;padding:24px 22px;text-align:left;position:relative;overflow:hidden}
+.card .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;margin-bottom:15px;background:rgba(41,151,255,.12);border:1px solid rgba(41,151,255,.2)}
+.card h3{margin-bottom:8px}
+.card p{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.5}
+
+/* key success (s2) */
+#s2{--aura1:rgba(41,151,255,.12);--aura2:rgba(48,209,88,.08)}
+.ks .ic{font-size:24px}
+.ks-tag{display:inline-block;margin-top:14px;font-size:11.5px;color:var(--blue);padding:4px 12px;border-radius:980px;border:1px solid rgba(41,151,255,.22);background:rgba(41,151,255,.06)}
+
+/* old flow (s3) */
+#s3{--aura1:rgba(255,159,107,.11);--aura2:rgba(217,117,89,.07)}
+.flow{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:stretch;margin-top:30px;width:100%}
+.fstep{flex:1 1 0;min-width:118px;border:1px solid rgba(255,159,107,.2);background:rgba(255,159,107,.04);border-radius:14px;padding:15px 12px;text-align:center;position:relative;animation:fpulse 5.6s ease-in-out infinite}
+.fstep .fn{font-size:12px;font-weight:700;color:var(--warm)}
+.fstep .fl{font-size:12.5px;color:#e5e5ea;font-weight:400;margin-top:6px;line-height:1.3}
+.fstep .fperson{display:inline-block;margin-top:9px;font-size:10px;color:#ffb98c;background:rgba(255,159,107,.12);padding:2px 8px;border-radius:980px}
+.fstep::after{content:"›";position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:rgba(255,159,107,.5);font-size:18px;font-weight:700;z-index:2}
+.fstep:last-child::after{display:none}
+@keyframes fpulse{0%,88%,100%{border-color:rgba(255,159,107,.2);background:rgba(255,159,107,.04)}44%{border-color:rgba(255,159,107,.55);background:rgba(255,159,107,.12)}}
+.flow-note{margin-top:26px;font-size:clamp(14px,1.7vw,18px);color:var(--warm);font-weight:400}
+
+/* problems (s4) */
+#s4{--aura1:rgba(255,107,107,.10);--aura2:rgba(255,159,107,.08)}
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;margin-top:28px}
+.prob{border:1px solid var(--line2);background:rgba(255,255,255,.025);border-radius:14px;padding:16px 16px;display:flex;gap:12px;align-items:flex-start}
+.prob .x{width:26px;height:26px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;background:rgba(255,107,107,.14);color:#ff8a8a;font-size:13px;font-weight:700}
+.prob b{font-size:14.5px;font-weight:500;color:var(--fg);display:block}
+.prob span{font-size:12.5px;color:var(--gray);font-weight:300;line-height:1.4}
+.impact-strip{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.impact-strip .ip{font-size:13.5px;font-weight:400;color:#ffb0a8;border:1px solid rgba(255,107,107,.28);background:rgba(255,107,107,.06);padding:9px 16px;border-radius:980px}
+
+/* logic 3 hearts (s5) */
+#s5{--aura1:rgba(41,151,255,.12);--aura2:rgba(255,159,107,.07)}
+.q{margin-top:18px;font-size:clamp(15px,2vw,22px);font-weight:400;color:var(--fg);line-height:1.4}
+.q .hl{color:var(--blue)}
+.hearts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;margin-top:26px}
+.heart{border:1px solid var(--line2);background:rgba(255,255,255,.025);border-radius:20px;padding:22px;text-align:left}
+.heart .hh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+.heart .hi{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:15px;font-weight:600;background:rgba(41,151,255,.14);color:#62b5ff}
+.heart p{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.5}
+.ifnot{margin-top:14px;padding:11px 13px;border-radius:12px;background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.2);font-size:12.5px;font-weight:300;color:#e7c6c2;line-height:1.5}
+.ifnot b{color:#ff8a8a;font-weight:600;margin-right:6px}
+
+/* new process loop (s6) */
+#s6{--aura1:rgba(41,151,255,.14);--aura2:rgba(48,209,88,.09)}
+.loop-wrap{width:100%;max-width:1120px;margin:26px auto 0}
+#loopSVG{width:100%;height:auto;max-height:56vh;display:block;overflow:visible}
+.loop-legend{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-top:16px;font-size:13px;color:var(--gray);font-weight:300}
+.loop-legend span{display:inline-flex;align-items:center;gap:8px}
+.loop-legend i{width:11px;height:11px;border-radius:50%}
+.ll-ai{background:#2997ff}.ll-human{background:#ffd60a}.ll-done{background:#30d158}
+#lbPath{animation:loopdash .9s linear infinite}
+@keyframes loopdash{to{stroke-dashoffset:-20}}
+#loDone{transform-box:fill-box;transform-origin:center;animation:loDonePulse 2s ease-in-out infinite}
+@keyframes loDonePulse{0%,100%{opacity:.18}50%{opacity:.4}}
+#loCallout{animation:loCalloutGlow 3.4s ease-in-out infinite}
+@keyframes loCalloutGlow{0%,100%{opacity:.85}50%{opacity:1}}
+
+/* changed / before-after (s7) */
+#s7{--aura1:rgba(48,209,88,.08);--aura2:rgba(41,151,255,.11)}
+.ba2{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;margin-top:26px}
+.bacol{border-radius:18px;padding:20px;text-align:left}
+.bacol.b-old{border:1px solid rgba(255,159,107,.22);background:rgba(255,159,107,.04)}
+.bacol.b-new{border:1px solid rgba(48,209,88,.22);background:rgba(48,209,88,.05)}
+.bacol h4{font-size:14px;font-weight:600;margin-bottom:13px}
+.b-old h4{color:#ffb98c}.b-new h4{color:#6ee79a}
+.bacol ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.bacol li{font-size:13.5px;font-weight:300;color:#d5d5da;line-height:1.45;padding-left:19px;position:relative}
+.b-old li::before{content:"✕";position:absolute;left:0;color:#ff8a8a;font-size:11px;top:3px}
+.b-new li::before{content:"✓";position:absolute;left:0;color:#5fe084;font-size:11px;top:3px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:22px}
+.chips .cp{font-size:12.5px;font-weight:400;color:#bfe0ff;border:1px solid rgba(41,151,255,.28);background:rgba(41,151,255,.07);padding:8px 15px;border-radius:980px}
+
+/* result (s8) */
+#s8{--aura1:rgba(48,209,88,.12);--aura2:rgba(41,151,255,.09)}
+/* s8 Result — bento: one hero outcome + supporting cards + summary ribbon */
+.r8-bento{display:grid;grid-template-columns:1fr;gap:12px;width:100%;margin-top:22px}
+.r8-hero{position:relative;overflow:hidden;text-align:left;border:1px solid rgba(48,209,88,.4);border-radius:22px;padding:24px 22px;background:linear-gradient(155deg,rgba(48,209,88,.16),rgba(48,209,88,.03));animation:r8glow 4.5s ease-in-out infinite}
+.r8-htag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#7ef0a5;border:1px solid rgba(48,209,88,.45);border-radius:980px;padding:4px 13px}
+.r8-hicon{font-size:46px;line-height:1;margin-top:12px;animation:r8bob 2.2s ease-in-out infinite}
+.r8-hbig{font-size:30px;font-weight:600;color:#fff;line-height:1.08;margin-top:8px}
+.r8-hmetric{font-size:19px;font-weight:600;color:#7ef0a5;margin-top:8px}
+.r8-hmetric .r8-dn{display:inline-block;animation:r8bob 1.8s ease-in-out infinite}
+.r8-hsub{font-size:13px;color:var(--gray);font-weight:300;line-height:1.5;margin-top:12px}
+.r8-side{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px}
+.r8-card{text-align:left;border:1px solid var(--line2);background:rgba(255,255,255,.025);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.r8-ci{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:20px;font-weight:800}
+.r8-card.down .r8-ci{background:rgba(41,151,255,.15);color:#62b5ff}
+.r8-card.up .r8-ci{background:rgba(48,209,88,.15);color:#5fe084}
+.r8-ct{font-size:15.5px;font-weight:600;color:var(--fg)}
+.r8-cd{font-size:12px;color:var(--gray);font-weight:300;line-height:1.4}
+.r8-sum{margin-top:14px;border-radius:16px;padding:15px 18px;font-size:14px;font-weight:600;color:#d6ffe4;line-height:1.55;border:1px solid rgba(48,209,88,.32);background:linear-gradient(90deg,rgba(48,209,88,.16),rgba(48,209,88,.05))}
+.r8-sum b{color:#8affb2;font-weight:700}
+@keyframes r8bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@keyframes r8glow{0%,100%{box-shadow:0 0 0 rgba(48,209,88,0)}50%{box-shadow:0 0 44px rgba(48,209,88,.18)}}
+
+/* impact (s9) */
+#s9{--aura1:rgba(191,90,242,.10);--aura2:rgba(48,209,88,.10)}
+/* s9 Impact — escalating chain: Cost → Revenue → Opportunity(hero) + summary banner */
+.im-chain{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:22px;align-items:stretch}
+.im-card{position:relative;overflow:hidden;text-align:left;border:1px solid var(--line2);border-radius:20px;padding:22px 20px;background:rgba(255,255,255,.02);display:flex;flex-direction:column}
+.im-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.im-cost::before{background:linear-gradient(90deg,#62b5ff,#2997ff)}
+.im-rev::before{background:linear-gradient(90deg,#30d158,#7ef0a5)}
+.im-opp::before{background:linear-gradient(90deg,#bf5af2,#ff9f6b)}
+.im-head{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+.im-ic{font-size:26px;line-height:1}
+.im-tt{font-size:20px;font-weight:700}
+.im-sub{font-size:12.5px;color:var(--gray2);font-weight:400;margin-bottom:12px}
+.im-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.im-card li{font-size:13.5px;font-weight:300;line-height:1.45;padding-left:16px;position:relative}
+.im-card li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.6}
+.im-cost li{color:#a9d4ff}.im-rev li{color:#a7ecc2}.im-opp li{color:#eccdff}
+.im-arrow{align-self:center;font-size:22px;color:var(--gray2);transform:rotate(90deg);animation:imblink 1.8s ease-in-out infinite}
+.im-opp{border-color:rgba(191,90,242,.5);background:linear-gradient(160deg,rgba(191,90,242,.16),rgba(255,159,107,.05));animation:imglow 4.5s ease-in-out infinite}
+.im-badge{display:inline-block;width:max-content;font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:#e6b8ff;border:1px solid rgba(191,90,242,.5);border-radius:980px;padding:3px 11px;margin-bottom:10px}
+.im-banner{margin-top:14px;border-radius:16px;padding:15px 18px;text-align:center;border:1px solid rgba(191,90,242,.3);background:linear-gradient(90deg,rgba(41,151,255,.1),rgba(48,209,88,.1),rgba(191,90,242,.15));font-size:14px;font-weight:600;line-height:1.5;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:center}
+.im-banner .ar{color:var(--gray2)}
+@keyframes imblink{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes imslide{0%,100%{transform:translateX(0);opacity:.4}50%{transform:translateX(6px);opacity:1}}
+@keyframes imglow{0%,100%{box-shadow:0 0 0 rgba(191,90,242,0)}50%{box-shadow:0 0 42px rgba(191,90,242,.2)}}
+
+/* nav + prog + topbar */
+.sidenav{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:50}
+.sidenav button{width:9px;height:9px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,.22);padding:0;transition:all .35s}
+.sidenav button.on{background:var(--fg);height:24px;border-radius:5px}
+.sidenav button:hover{background:rgba(255,255,255,.6)}
+.prog{position:fixed;top:0;left:0;height:2px;background:var(--blue);z-index:60;transition:width .3s;width:0}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:55;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--gray);font-weight:300;background:linear-gradient(180deg,rgba(0,0,0,.6),transparent);pointer-events:none}
+.topbar .brand{display:flex;align-items:center;gap:10px;color:var(--fg);font-weight:400}
+.topbar .brand .logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.so-logo{display:inline-block;width:auto;vertical-align:middle;flex-shrink:0}
+
+/* about SO (s2) */
+.so-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%;margin-top:24px}
+.so-stat{border:1px solid var(--line2);background:rgba(255,255,255,.025);border-radius:18px;padding:20px 14px;text-align:center;position:relative;overflow:hidden}
+.so-stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2997ff,#bf5af2)}
+.so-num{font-size:clamp(30px,4.4vw,50px);font-weight:300;line-height:1;letter-spacing:-.03em;background:linear-gradient(180deg,#fff,#8fb6ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.so-num .u{font-size:.36em;font-weight:400;color:var(--gray);-webkit-text-fill-color:var(--gray)}
+.so-slabel{font-size:12.5px;color:var(--gray);font-weight:300;margin-top:11px;line-height:1.35}
+.so-services{margin-top:22px;display:flex;flex-wrap:wrap;gap:9px;justify-content:center;align-items:center}
+.so-services .lbl{font-size:13px;color:var(--gray2);font-weight:300;margin-right:2px}
+.so-services .cp{font-size:12.5px;font-weight:400;color:#cfd6e2;border:1px solid var(--line);background:rgba(255,255,255,.03);padding:7px 14px;border-radius:980px}
+.so-services .cp.on{color:#bfe0ff;border-color:rgba(41,151,255,.4);background:rgba(41,151,255,.1);font-weight:500}
+.so-focus{margin-top:22px;border:1px solid rgba(41,151,255,.25);background:rgba(41,151,255,.06);border-radius:16px;padding:15px 22px;font-size:clamp(13.5px,1.65vw,17px);font-weight:300;color:#d7e4f7;line-height:1.5;max-width:900px;margin-left:auto;margin-right:auto}
+.so-focus b{color:#fff;font-weight:600}
+@media(max-width:980px){.so-stats{grid-template-columns:1fr 1fr}}
+
+/* old process problem diagram (s3) */
+.s3-wrap{width:100%;max-width:1400px;margin:12px auto 0}
+#s3SVG{width:100%;height:auto;display:block;overflow:visible}
+.s3-focus{margin-top:20px;font-size:clamp(15px,1.9vw,22px);font-weight:400;color:#ffcfc9;border:1px solid rgba(255,77,77,.4);background:rgba(255,77,77,.09);border-radius:16px;padding:16px 32px;display:inline-block;line-height:1.5}
+.s3-focus b{color:#ff5a4d;font-weight:700}
+.s3-rework{animation:s3march 1.1s linear infinite}
+@keyframes s3march{to{stroke-dashoffset:-22}}
+.s3drop-bx,.s3drop-ln,.s3drop-hd{animation:s3pulse 1.7s ease-in-out infinite}
+@keyframes s3pulse{0%,100%{opacity:.55}50%{opacity:1}}
+
+/* problems: root -> symptoms -> business impact (s4) */
+#s4{--aura1:rgba(255,77,77,.13);--aura2:rgba(255,159,107,.08)}
+.s4-root{margin:28px auto 0;max-width:1040px;padding:18px 32px;border-radius:16px;border:1px solid rgba(255,159,107,.4);background:rgba(255,159,107,.08);font-size:clamp(17px,2.1vw,25px);font-weight:400;color:#ffe0d2;line-height:1.45}
+.s4-root b{color:#ffa574;font-weight:700}
+.s4-sym{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;width:100%;margin-top:24px}
+.s4-symcard{border:1px solid rgba(255,159,107,.2);background:rgba(255,255,255,.035);border-radius:18px;padding:26px 20px;text-align:center}
+.s4-symcard .si{font-size:34px;margin-bottom:14px;line-height:1}
+.s4-symcard b{display:block;font-size:clamp(18px,2vw,23px);font-weight:600;color:#fff;margin-bottom:8px}
+.s4-symcard span{font-size:clamp(13.5px,1.5vw,16px);color:var(--gray);font-weight:300;line-height:1.45}
+.s4-arrow{margin:22px 0 16px;font-size:clamp(15px,1.7vw,19px);color:#ff8a8a;font-weight:600;letter-spacing:.02em}
+.s4-impact{border-radius:20px;border:2px solid rgba(255,77,77,.6);background:linear-gradient(180deg,rgba(255,77,77,.16),rgba(255,77,77,.06));overflow:hidden;box-shadow:0 0 40px rgba(255,77,77,.12)}
+.s4-imp-head{font-size:clamp(13px,1.5vw,16px);font-weight:600;color:#ff9b9b;padding:14px 0 0;letter-spacing:.04em}
+.s4-imp-row{display:flex;flex-wrap:wrap;margin-top:12px;border-top:1px solid rgba(255,77,77,.25)}
+.s4-imp-row span{flex:1;min-width:170px;padding:24px 16px;font-size:clamp(18px,2.2vw,27px);font-weight:700;color:#ff7a72;border-right:1px solid rgba(255,77,77,.22)}
+.s4-imp-row span:last-child{border-right:none}
+@media(max-width:900px){.s4-sym{grid-template-columns:1fr 1fr}.s4-imp-row span{min-width:48%;border-bottom:1px solid rgba(255,77,77,.18)}}
+
+/* logic: division of labor (s5) */
+#s5{--aura1:rgba(41,151,255,.12);--aura2:rgba(255,214,10,.07)}
+.s5-principle{margin:14px auto 0;max-width:900px;font-size:clamp(17px,2.1vw,25px);font-weight:300;color:#d5d5da;line-height:1.45}
+.s5-principle .hb{color:#7cc4ff;font-weight:700}
+.s5-principle .hh{color:#ffd60a;font-weight:700}
+.s5-split{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;width:100%;margin-top:30px}
+.s5-panel{border-radius:20px;padding:26px 30px;text-align:left}
+.s5-ai{border:1.5px solid rgba(41,151,255,.42);background:linear-gradient(180deg,rgba(41,151,255,.13),rgba(41,151,255,.04))}
+.s5-human{border:1.5px solid rgba(255,214,10,.42);background:linear-gradient(180deg,rgba(255,214,10,.11),rgba(255,214,10,.03))}
+.s5-phead{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.s5-pic{font-size:32px;line-height:1}
+.s5-ptitle{font-size:clamp(19px,2.2vw,24px);font-weight:700}
+.s5-ai .s5-ptitle{color:#8fc8ff}
+.s5-human .s5-ptitle{color:#ffe14d}
+.s5-ptag{font-size:14px;color:var(--gray);font-weight:300;margin-bottom:18px}
+.s5-panel ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+.s5-panel li{font-size:clamp(15px,1.7vw,17.5px);font-weight:300;color:#e8e8ed;padding-left:28px;position:relative;line-height:1.4}
+.s5-ai li::before{content:"⚙";position:absolute;left:0;color:#62b5ff;font-size:15px}
+.s5-human li::before{content:"✔";position:absolute;left:0;color:#ffd60a;font-size:14px}
+.s5-plus{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 26px}
+.s5-plus .pp{font-size:46px;font-weight:200;color:#9a9aa0;line-height:1}
+.s5-plus .pl{font-size:12.5px;color:var(--gray2);text-align:center;margin-top:10px;max-width:96px;line-height:1.35}
+.s5-hearts{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin-top:28px}
+.s5-hearts .hc{display:inline-flex;align-items:center;gap:9px;font-size:15px;color:#dfe7f2;border:1px solid var(--line);background:rgba(255,255,255,.035);padding:11px 20px;border-radius:980px;font-weight:400}
+.s5-hearts .hc b{width:22px;height:22px;border-radius:50%;background:rgba(41,151,255,.9);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center}
+@media(max-width:900px){.s5-split{grid-template-columns:1fr;gap:14px}.s5-plus{padding:6px 0}.s5-plus .pp{transform:rotate(90deg)}}
+
+/* responsive */
+@media(max-width:980px),(pointer:coarse){.deck{scroll-snap-type:y proximity}}
+@media(max-width:980px){
+  section.scene{padding:84px 26px}
+  .grid3,.grid4,.hearts,.prob-grid,.res-grid,.pillars,.ba2{grid-template-columns:1fr 1fr}
+  .grid4{grid-template-columns:1fr 1fr}
+  .sidenav{right:12px}
+}
+@media(max-width:680px){
+  body{font-weight:300}
+  section.scene{padding:74px 18px 56px;justify-content:flex-start}
+  h1{font-size:clamp(30px,8.5vw,42px)}h2{font-size:clamp(25px,7vw,34px)}
+  .grid3,.grid4,.hearts,.prob-grid,.res-grid,.pillars,.ba2{grid-template-columns:1fr;gap:12px}
+  .flow{gap:8px}.fstep{flex:1 1 44%;min-width:0}.fstep::after{display:none}
+  .topbar{padding:14px 18px}.topbar .tiny{display:none}
+  .loop-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:18px}
+  #loopSVG{max-height:none;min-width:720px}
+  .sidenav{right:8px;gap:9px}.sidenav button{width:7px;height:7px}.sidenav button.on{height:18px}
+}
+
+/* ===== DESKTOP SPACE + READABILITY UPGRADE ===== */
+@media(min-width:981px){
+  :root{--maxw:1440px}
+  section.scene{padding:58px 68px}
+  h2{font-size:clamp(38px,5.4vw,70px)}
+  .lead{font-size:clamp(19px,2.1vw,28px);line-height:1.5}
+  h3{font-size:clamp(22px,2.7vw,30px)}
+  .eyebrow{font-size:clamp(15px,1.6vw,20px);margin-bottom:16px}
+
+  .grid3{gap:26px;margin-top:52px}
+  .grid4{gap:22px;margin-top:46px}
+  .card{padding:38px 34px}
+  .card .ic{width:58px;height:58px;font-size:28px;border-radius:16px;margin-bottom:22px}
+  .card h3{margin-bottom:12px}
+  .card p{font-size:16.5px;line-height:1.6}
+
+  .so-stats{gap:22px;margin-top:50px}
+  .so-stat{padding:34px 22px}
+  .so-slabel{font-size:15px;margin-top:15px}
+  .so-services{margin-top:42px;gap:12px}
+  .so-services .cp{font-size:14.5px;padding:11px 19px}
+  .so-services .lbl{font-size:15px}
+  .so-focus{margin-top:38px;padding:24px 32px;font-size:19px;max-width:1040px}
+
+  .flow{margin-top:56px;gap:16px}
+  .fstep{min-width:158px;padding:28px 18px;border-radius:18px}
+  .fstep .fl{font-size:16px;margin-top:11px}
+  .fstep .fn{font-size:15px}
+  .fstep .fperson{font-size:11.5px;margin-top:13px;padding:3px 12px}
+  .flow-note{margin-top:46px}
+
+  .prob-grid{gap:20px;margin-top:52px}
+  .prob{padding:26px 24px;gap:16px}
+  .prob .x{width:32px;height:32px;font-size:15px}
+  .prob b{font-size:17.5px;margin-bottom:2px}
+  .prob span{font-size:14.5px}
+  .impact-strip{margin-top:42px;gap:13px}
+  .impact-strip .ip{font-size:16px;padding:12px 24px}
+
+  .q{margin-top:28px;font-size:clamp(17px,2vw,25px)}
+  .hearts{gap:26px;margin-top:50px}
+  .heart{padding:34px 32px}
+  .heart p{font-size:16px}
+  .heart .hi{width:42px;height:42px;font-size:18px}
+  .heart .hh{margin-bottom:12px}
+  .ifnot{margin-top:20px;padding:16px 18px;font-size:15px}
+
+  .loop-wrap{max-width:1320px;margin-top:18px}
+  #loopSVG{max-height:50vh}
+  .loop-legend{margin-top:24px;font-size:15.5px;gap:32px}
+
+  .ba2{gap:26px;margin-top:50px}
+  .bacol{padding:34px 32px}
+  .bacol h4{font-size:17px;margin-bottom:18px}
+  .bacol ul{gap:14px}
+  .bacol li{font-size:16px}
+  .chips{margin-top:40px;gap:13px}
+  .chips .cp{font-size:14.5px;padding:11px 19px}
+
+  .r8-bento{grid-template-columns:1.02fr 1.55fr;gap:24px;margin-top:34px;align-items:stretch}
+  .r8-hero{padding:36px 40px;border-radius:28px;display:flex;flex-direction:column;justify-content:center}
+  .r8-htag{font-size:13px;padding:6px 17px}
+  .r8-hicon{font-size:76px;margin-top:18px}
+  .r8-hbig{font-size:48px;margin-top:14px}
+  .r8-hmetric{font-size:30px;margin-top:12px}
+  .r8-hsub{font-size:16.5px;margin-top:18px}
+  .r8-side{gap:24px}
+  .r8-card{padding:22px 26px;border-radius:22px;gap:10px}
+  .r8-ci{width:52px;height:52px;border-radius:14px;font-size:26px}
+  .r8-ct{font-size:23px}
+  .r8-cd{font-size:15px}
+  .r8-sum{margin-top:20px;padding:20px 30px;font-size:21px;border-radius:22px}
+
+  .im-chain{flex-direction:row;align-items:stretch;gap:0;margin-top:40px}
+  .im-card{flex:1;padding:36px 32px;border-radius:24px}
+  .im-opp{flex:1.4}
+  .im-head{gap:14px;margin-bottom:6px}
+  .im-ic{font-size:40px}
+  .im-tt{font-size:28px}
+  .im-sub{font-size:15.5px;margin-bottom:24px}
+  .im-card ul{gap:14px}
+  .im-card li{font-size:16.5px;padding-left:20px}
+  .im-card li::before{top:10px;width:6px;height:6px}
+  .im-arrow{transform:none;font-size:34px;margin:0 8px;animation:imslide 1.8s ease-in-out infinite}
+  .im-badge{font-size:12px;padding:4px 14px;margin-bottom:16px}
+  .im-banner{margin-top:30px;padding:22px 30px;font-size:22px;border-radius:20px;gap:10px 22px}
+}
+</style>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+<div class="topbar">
+  <div class="brand"><svg class="so-logo" style="height:22px" viewBox="0 0 62 34" xmlns="http://www.w3.org/2000/svg" fill="none" aria-label="SO"><defs><linearGradient id="soRtb" x1="0" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#f0332f"/><stop offset="1" stop-color="#af111a"/></linearGradient></defs><path d="M21 9 C21 3.5 5 3 5 11 C5 17 21 16 21 23 C21 31 5 30.5 5 25" stroke="url(#soRtb)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="45" cy="17" r="12.35" fill="none" stroke="url(#soRtb)" stroke-width="6.3"/><circle cx="45" cy="17" r="4.6" fill="url(#soRtb)"/></svg><span style="margin-left:2px">สยามราชธานี</span></div>
+  <div class="tiny" style="pointer-events:none">AI Recruitment Transformation</div>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- ===== 1 OPENING ===== -->
+<section class="scene" id="s1" data-name="เปิดตัว">
+  <div class="orb"></div>
+  <div class="inner" style="text-align:center;z-index:2">
+    <div class="badge reveal"><span class="dot"></span>AI Recruitment Transformation</div>
+    <h1 class="reveal d1">เปลี่ยนงานสรรหา<br><span class="gt">ให้ขับเคลื่อนด้วย AI</span></h1>
+    <p class="lead reveal d2" style="margin:26px auto 0;max-width:660px">นำ AI เข้ามาปรับปรุงกระบวนการสรรหาและคัดสรรคน เพื่อส่งมอบบริการ Outsource ที่ <b style="color:#fff;font-weight:500">เร็วขึ้น คุมได้ และขยายได้</b></p>
+    <div class="brandline reveal d4"><svg class="so-logo" style="height:30px" viewBox="0 0 62 34" xmlns="http://www.w3.org/2000/svg" fill="none" aria-label="SO"><defs><linearGradient id="soRhr" x1="0" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#f0332f"/><stop offset="1" stop-color="#af111a"/></linearGradient></defs><path d="M21 9 C21 3.5 5 3 5 11 C5 17 21 16 21 23 C21 31 5 30.5 5 25" stroke="url(#soRhr)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="45" cy="17" r="12.35" fill="none" stroke="url(#soRhr)" stroke-width="6.3"/><circle cx="45" cy="17" r="4.6" fill="url(#soRhr)"/></svg>บริษัท สยามราชธานี จำกัด (มหาชน)</div>
+  </div>
+  <div class="scroll-cue"><div class="mouse"><i></i></div>เลื่อนลง</div>
+</section>
+
+<!-- ===== 2 ABOUT SO ===== -->
+<section class="scene" id="s2" data-name="เกี่ยวกับ SO">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-blue reveal">เกี่ยวกับเรา</div>
+    <h2 class="reveal d1">ผู้นำบริการ <span class="gt">Outsourcing</span> ของไทย</h2>
+    <p class="lead reveal d2" style="margin:12px auto 0;max-width:760px">บริษัท สยามราชธานี จำกัด (มหาชน) — SO · จดทะเบียนในตลาดหลักทรัพย์ (SET) · ให้บริการมากว่า 43 ปี</p>
+    <div class="so-stats">
+      <div class="so-stat reveal d2"><div class="so-num"><span class="count" data-to="43">0</span><span class="u">+ ปี</span></div><div class="so-slabel">ประสบการณ์ให้บริการ</div></div>
+      <div class="so-stat reveal d3"><div class="so-num"><span class="count" data-to="200">0</span><span class="u">,000+</span></div><div class="so-slabel">พนักงานในระบบที่ดูแล</div></div>
+      <div class="so-stat reveal d4"><div class="so-num"><span class="count" data-to="450">0</span><span class="u">+</span></div><div class="so-slabel">องค์กรลูกค้า</div></div>
+      <div class="so-stat reveal d5"><div class="so-num"><span class="count" data-to="90">0</span><span class="u">%+</span></div><div class="so-slabel">อัตราต่อสัญญา</div></div>
+    </div>
+    <div class="so-services reveal d5">
+      <span class="lbl">บริการหลายสาย:</span>
+      <span class="cp on">SO PEOPLE · คน</span><span class="cp">SO WHEEL · รถ</span><span class="cp">SO GREEN · ภูมิทัศน์</span><span class="cp">En-tech · กำจัดกาก</span><span class="cp">SO NEXT · ดาต้า</span><span class="cp">Digital / IT</span>
+    </div>
+    <div class="so-focus reveal d6">โปรเจกต์นี้อยู่ในสาย <b>SO PEOPLE</b> — บริการสรรหาและจัดหาคนครบวงจร · หัวใจของงานคือ <b>หาคนได้ · ส่งคนเร็ว · ส่งคนคุณภาพ</b></div>
+    <p class="tiny reveal d6" style="margin-top:16px">ข้อมูลบริษัท: siamrajathanee.com · sopeople.asia</p>
+  </div>
+</section>
+
+<!-- ===== 3 OLD PROCESS ===== -->
+<!-- ============ 3 OLD PROCESS (problem-forward) ============ -->
+<section class="scene" id="s3" data-name="กระบวนการเดิม">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-warm reveal" style="color:#ff8a5c">กระบวนการเดิม</div>
+    <h2 class="reveal d1">ทุกขั้นตอน<span style="color:#ff7a45"> พึ่งคน</span> — และงาน<span style="color:#ff5147"> รั่วได้ทุกจุด</span></h2>
+    <div class="s3-wrap reveal d2">
+      <svg id="s3SVG" viewBox="0 0 1200 375" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <g id="s3edges"></g><g id="s3rework"></g><g id="s3drop"></g><g id="s3chips"></g><g id="s3data"></g>
+      </svg>
+    </div>
+    <div class="s3-focus reveal d3"><b>พึ่งคนทั้ง 6 ขั้นตอน</b> · ข้อมูลกระจาย ERP·Web·Excel·LINE·Email · หลุดได้หลายจุด → <b>ทุกครั้งที่หลุดต้องวนกลับมาเริ่มใหม่</b></div>
+  </div>
+</section>
+
+<!-- ===== 4 PROBLEMS ===== -->
+<!-- ============ 4 PROBLEMS (cause -> effect -> impact) ============ -->
+<section class="scene" id="s4" data-name="ปัญหา">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow reveal" style="color:#ff8a8a">ปัญหาของกระบวนการเดิม</div>
+    <h2 class="reveal d1">ทำไมทำแบบเดิม ถึง<span style="color:#ff5147">ไม่พอ</span></h2>
+
+    <div class="s4-root reveal d2">ต้นตอเดียว — <b>ทุกขั้นตอน “พึ่งคน”</b> ระบบเป็นแค่ที่เก็บข้อมูล ไม่ได้ดันงานเอง</div>
+
+    <div class="s4-sym">
+      <div class="s4-symcard reveal d3"><div class="si">⏳</div><b>งานช้า</b><span>ทุกขั้นต้องรอคนทำทีละราย</span></div>
+      <div class="s4-symcard reveal d4"><div class="si">🔻</div><b>งานตกหล่น</b><span>โทร-ตามด้วยมือ ผู้สมัครหลุด</span></div>
+      <div class="s4-symcard reveal d5"><div class="si">🗂️</div><b>ข้อมูลกระจาย</b><span>ไม่ Real-time · ไม่มี SLA · คุมยาก</span></div>
+      <div class="s4-symcard reveal d6"><div class="si">🧱</div><b>Scale ไม่ได้</b><span>งานเพิ่ม = ต้องเพิ่มคนตาม</span></div>
+    </div>
+
+    <div class="s4-arrow reveal d6">▼ &nbsp;กระทบธุรกิจโดยตรง</div>
+
+    <div class="s4-impact reveal d7">
+      <div class="s4-imp-head">ผลกระทบต่อธุรกิจ</div>
+      <div class="s4-imp-row">
+        <span>ปิดตำแหน่งช้า</span><span>ต้นทุนสรรหาสูง</span><span>ผู้สมัคร &amp; ลูกค้าหลุด</span><span>รายได้เข้าช้า</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5 LOGIC ===== -->
+<!-- ============ 5 LOGIC (division of labor) ============ -->
+<section class="scene" id="s5" data-name="วิธีคิดการเปลี่ยน">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-blue reveal">Logic — วิธีคิดการเปลี่ยน</div>
+    <h2 class="reveal d1">ไม่ใช่เอา AI ไปแปะของเดิม</h2>
+    <div class="s5-principle reveal d2">ออกแบบงานใหม่ — ให้ <b class="hb">ระบบขับเคลื่อน</b> และ <b class="hh">คนคุมคุณภาพ</b></div>
+    <div class="s5-split">
+      <div class="s5-panel s5-ai reveal d3">
+        <div class="s5-phead"><span class="s5-pic">🤖</span><span class="s5-ptitle">AI + ระบบ · ดันงานหลัก</span></div>
+        <div class="s5-ptag">งานซ้ำ · ปริมาณมาก · ทำได้ 24/7</div>
+        <ul>
+          <li>จับคู่ (Matching) &amp; จัดอันดับผู้สมัคร</li>
+          <li>ติดต่อ–ติดตามผู้สมัครอัตโนมัติ</li>
+          <li>คัดกรองเบื้องต้น &amp; ตรวจข้อมูล</li>
+          <li>แจ้งเตือนก่อนเริ่มงาน — ลด No-show</li>
+          <li>หาคนใหม่อัตโนมัติเมื่อหลุด (Re-matching)</li>
+        </ul>
+      </div>
+      <div class="s5-plus reveal d4"><span class="pp">+</span><span class="pl">ทำงานร่วมกัน เป็นกระบวนการเดียว</span></div>
+      <div class="s5-panel s5-human reveal d5">
+        <div class="s5-phead"><span class="s5-pic">👤</span><span class="s5-ptitle">คน · ตัดสินใจจุดสำคัญ</span></div>
+        <div class="s5-ptag">คุณภาพ · ความเสี่ยง · ความสัมพันธ์</div>
+        <ul>
+          <li>ตรวจคุณภาพก่อนส่งลูกค้า</li>
+          <li>เคสซับซ้อน · ต้องใช้ดุลยพินิจ</li>
+          <li>ดูแลลูกค้า Key Account</li>
+          <li>อนุมัติในจุดที่กระทบความเสี่ยง</li>
+        </ul>
+      </div>
+    </div>
+    <div class="s5-hearts reveal d6">
+      <span class="hc"><b>1</b> รื้อกระบวนการใหม่</span>
+      <span class="hc"><b>2</b> รวมเป็นศูนย์กลางเดียว</span>
+      <span class="hc"><b>3</b> ทำให้ใช้ซ้ำได้ ไม่ผูกกับคน</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6 NEW PROCESS (LOOP) ===== -->
+<section class="scene" id="s6" data-name="กระบวนการใหม่">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-blue reveal">Process ที่เปลี่ยนใหม่</div>
+    <h2 class="reveal d1">AI-powered <span class="gt">Closed Loop</span> Recruitment</h2>
+    <p class="lead reveal d2" style="margin:10px auto 0;max-width:720px">ระบบดันงานหลัก · คนคุมคุณภาพ · <b style="color:#8fb6ff;font-weight:500">วนหาคนใหม่อัตโนมัติจนปิดตำแหน่ง</b></p>
+    <div class="loop-wrap reveal d2">
+      <svg id="loopSVG" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg">
+        <g id="loEdges"></g><g id="loLoop"></g><g id="loNodes"></g><g id="loToken"></g>
+      </svg>
+    </div>
+    <div class="loop-legend reveal d3">
+      <span><i class="ll-ai"></i>AI ทำงานซ้ำ (ปริมาณมาก)</span>
+      <span><i class="ll-human"></i>คนตัดสินใจ (คุณภาพ)</span>
+      <span><i class="ll-done"></i>ปิดตำแหน่งสำเร็จ</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7 WHAT CHANGED ===== -->
+<section class="scene" id="s7" data-name="เปลี่ยนอะไร">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-green reveal">เปลี่ยนอะไร แล้วเป็นรูปแบบไหน</div>
+    <h2 class="reveal d1">จาก <span style="color:var(--warm)">คนดันงาน</span> → <span style="color:var(--green)">ระบบดันงาน</span></h2>
+    <div class="ba2">
+      <div class="bacol b-old reveal d2">
+        <h4>เดิม — คนดันงาน</h4>
+        <ul>
+          <li>คนโทร ตาม บันทึก แจ้งต่อเอง</li>
+          <li>ข้อมูลกระจายหลายระบบ</li>
+          <li>Recruiter คัดผู้สมัครเองจำนวนมาก</li>
+          <li>ไม่ผ่านแล้วต้องเริ่มหาใหม่ด้วยมือ</li>
+          <li>สถานะงานไม่ Real-time</li>
+        </ul>
+      </div>
+      <div class="bacol b-new reveal d3">
+        <h4>ใหม่ — ระบบดันงาน</h4>
+        <ul>
+          <li>ระบบติดต่อ ติดตาม อัปเดตอัตโนมัติ</li>
+          <li>รวมข้อมูลไว้ศูนย์กลางเดียว</li>
+          <li>AI ช่วย Matching + จัดอันดับผู้สมัคร</li>
+          <li>AI Re-matching หาคนใหม่อัตโนมัติ</li>
+          <li>Dashboard เห็นสถานะ + KPI ชัดเจน</li>
+        </ul>
+      </div>
+    </div>
+    <div class="chips reveal d5">
+      <span class="cp">System-driven</span><span class="cp">Centralized Command Center</span><span class="cp">AI + Automation</span><span class="cp">Closed Loop</span><span class="cp">Data-driven Dashboard</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8 RESULT ===== -->
+<section class="scene" id="s8" data-name="ผลลัพธ์">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-green reveal">Result</div>
+    <h2 class="reveal d1">ผลลัพธ์เมื่อเปลี่ยนเป็น <span class="gt">ระบบดันงาน</span></h2>
+    <div class="r8-bento">
+      <div class="r8-hero reveal d2">
+        <div class="r8-htag">ผลลัพธ์หลัก</div>
+        <div class="r8-hicon">⚡</div>
+        <div class="r8-hbig">ปิดตำแหน่งเร็วขึ้น</div>
+        <div class="r8-hmetric">Time to Fill <span class="r8-dn">▼</span></div>
+        <div class="r8-hsub">AI ช่วยหา · ติดต่อ · ติดตามผู้สมัคร อัตโนมัติ — และส่ง Candidate Profile มาตรฐานให้ลูกค้าได้เร็วขึ้น</div>
+      </div>
+      <div class="r8-side">
+        <div class="r8-card down reveal d3">
+          <div class="r8-ci">↓</div>
+          <div class="r8-ct">ต้นทุนลดลง</div>
+          <div class="r8-cd">ลดงานซ้ำของ Recruiter · RM · HR</div>
+        </div>
+        <div class="r8-card down reveal d4">
+          <div class="r8-ci">↓</div>
+          <div class="r8-ct">งานตกหล่นน้อยลง</div>
+          <div class="r8-cd">Auto Follow-up + เตือน No-show ก่อนเริ่มงาน 1–3 วัน</div>
+        </div>
+        <div class="r8-card up reveal d5">
+          <div class="r8-ci">↑</div>
+          <div class="r8-ct">คุมสถานะได้ชัดขึ้น</div>
+          <div class="r8-cd">Match Score · Human Review · Dashboard Real-time</div>
+        </div>
+        <div class="r8-card up reveal d6">
+          <div class="r8-ci">↑</div>
+          <div class="r8-ct">ขยายงานได้มากขึ้น</div>
+          <div class="r8-cd">เพิ่มจำนวนงาน ไม่ต้องเพิ่มคนตามสัดส่วน · ยิ่งใช้ยิ่งแม่น</div>
+        </div>
+      </div>
+    </div>
+    <div class="r8-sum reveal d7"><b>เร็วขึ้น · ต้นทุนลดลง · งานตกหล่นน้อยลง · คุมสถานะได้ชัด</b> และ <b>ขยายงานสรรหาได้โดยไม่ต้องเพิ่มคนเท่าเดิม</b></div>
+  </div>
+</section>
+
+<!-- ===== 9 IMPACT ===== -->
+<section class="scene" id="s9" data-name="Impact ธุรกิจ">
+  <div class="inner" style="text-align:center">
+    <div class="eyebrow accent-purple reveal">Impact ต่อธุรกิจ</div>
+    <h2 class="reveal d1">Cost · Revenue · Opportunity</h2>
+    <div class="im-chain">
+      <div class="im-card im-cost reveal d2">
+        <div class="im-head"><span class="im-ic">💰</span><span class="im-tt" style="color:#8fc4ff">Cost ↓</span></div>
+        <div class="im-sub">ต้นทุนลดลง</div>
+        <ul><li>ลดต้นทุนคน / งานซ้ำ</li><li>ลดงานทำใหม่จาก No-show / Reject</li><li>ไม่ต้องไล่ถามสถานะจากคน</li></ul>
+      </div>
+      <span class="im-arrow">→</span>
+      <div class="im-card im-rev reveal d3">
+        <div class="im-head"><span class="im-ic">📈</span><span class="im-tt" style="color:#7ef0a5">Revenue ↑</span></div>
+        <div class="im-sub">รายได้เข้าเร็วขึ้น</div>
+        <ul><li>ปิดตำแหน่งเร็ว → เริ่มบริการเร็ว</li><li>รักษา SLA · ลดเสี่ยงลูกค้าไม่ต่อสัญญา</li><li>Recruiter 1 คน ดูแล Job ได้มากขึ้น</li></ul>
+      </div>
+      <span class="im-arrow">→</span>
+      <div class="im-card im-opp reveal d4">
+        <div class="im-badge">ผลลัพธ์สูงสุด · Differentiator</div>
+        <div class="im-head"><span class="im-ic">🚀</span><span class="im-tt" style="color:#e0b3ff">Opportunity ↑</span></div>
+        <div class="im-sub">รับโอกาสทางธุรกิจได้มากขึ้น</div>
+        <ul><li>รับงาน Volume สูง / Mass Recruitment</li><li>สร้าง Data Asset — ยิ่งใช้ยิ่งแม่น</li><li>จุดขายใหม่: AI-powered Recruitment Service</li></ul>
+      </div>
+    </div>
+    <div class="im-banner reveal d6"><b style="color:#8fc4ff">ต้นทุนลดลง</b><span class="ar">→</span><b style="color:#7ef0a5">รายได้เข้าเร็วขึ้น</b><span class="ar">→</span><b style="color:#e0b3ff">รับโอกาสทางธุรกิจได้มากขึ้น</b></div>
+  </div>
+</section>
+
+<!-- ===== 10 END ===== -->
+<section class="scene" id="s10" data-name="สรุป">
+  <div class="orb"></div>
+  <div class="inner" style="text-align:center;z-index:2">
+    <h1 class="reveal">เปลี่ยน Process<br><span class="gt">ไม่ใช่แค่เร็วขึ้น</span></h1>
+    <p class="lead reveal d2" style="margin:26px auto 0;max-width:600px">แต่ทำให้ธุรกิจสรรหา <b style="color:#fff;font-weight:500">Scale ได้ กำไรดีขึ้น และแข่งขันได้มากขึ้น</b></p>
+    <p class="tiny reveal d4" style="margin-top:40px">SO · บริษัท สยามราชธานี จำกัด — AI-powered Recruitment</p>
+  </div>
+</section>
+
+</div><!-- /deck -->
+<div class="sidenav" id="sidenav"></div>
+
+<script>
+const deck=document.getElementById('deck');
+const scenes=[...document.querySelectorAll('.scene')];
+const sidenav=document.getElementById('sidenav');
+const prog=document.getElementById('prog');
+let current=0;
+scenes.forEach((s,i)=>{const b=document.createElement('button');b.title=s.dataset.name||'';b.onclick=()=>scenes[i].scrollIntoView({behavior:'smooth'});sidenav.appendChild(b);});
+const dots=[...sidenav.children];
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{
+  if(e.isIntersecting){
+    e.target.classList.add('in-view');
+    const i=scenes.indexOf(e.target);
+    if(i>=0){current=i;dots.forEach((d,di)=>d.classList.toggle('on',di===i));prog.style.width=((i+1)/scenes.length*100)+'%';}
+    if(e.target.id==='s6' && window.__loopEnter) window.__loopEnter();
+    if(e.target.id==='s2' && window.__s2Enter) window.__s2Enter();
+  } else {
+    e.target.classList.remove('in-view');
+    if(e.target.id==='s6' && window.__loopLeave) window.__loopLeave();
+  }
+});},{threshold:0.45,root:deck});
+scenes.forEach(s=>io.observe(s));
+window.addEventListener('keydown',e=>{
+  if(['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();if(current<scenes.length-1)scenes[current+1].scrollIntoView({behavior:'smooth'});}
+  if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();if(current>0)scenes[current-1].scrollIntoView({behavior:'smooth'});}
+});
+scenes[0].classList.add('in-view');dots[0].classList.add('on');prog.style.width=(1/scenes.length*100)+'%';
+
+// particles (hero + end)
+['s1','s10'].forEach(id=>{
+  const sec=document.getElementById(id);if(!sec)return;
+  const w=document.createElement('div');w.className='particles';
+  for(let i=0;i<16;i++){const p=document.createElement('i');const sz=2+Math.random()*3;
+    p.style.left=(Math.random()*100)+'%';p.style.width=sz+'px';p.style.height=sz+'px';
+    p.style.animationDuration=(11+Math.random()*12)+'s';p.style.animationDelay=(-Math.random()*18)+'s';p.style.opacity=(0.3+Math.random()*0.5);
+    w.appendChild(p);}
+  sec.insertBefore(w,sec.firstChild);
+});
+
+// ===== NEW PROCESS CLOSED-LOOP ENGINE (S6) =====
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('loopSVG');if(!svg)return;
+  const gE=document.getElementById('loEdges'),gL=document.getElementById('loLoop'),gN=document.getElementById('loNodes'),gT=document.getElementById('loToken');
+  function E(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  const AIc='#2997ff',HUc='#ffd60a',DNc='#30d158',GRc='#8a8a90';
+  const NY=120, R=30;   // node row baseline y + node radius
+  // 7 nodes on top row
+  const NODES=[
+    {t:'รับใบงาน',   r:'sys'},
+    {t:'AI จับคู่คน', r:'ai'},
+    {t:'คนตรวจ',     r:'hu'},
+    {t:'AI ติดต่อ',   r:'ai'},
+    {t:'คัดกรอง',     r:'ai'},
+    {t:'ส่งลูกค้า',    r:'hu'},
+    {t:'ปิดตำแหน่ง',  r:'done'}
+  ];
+  NODES.forEach((n,i)=>{n.x=70+i*(860/6);n.y=NY;});
+  const col=r=>r==='ai'?AIc:r==='hu'?HUc:r==='done'?DNc:GRc;
+
+  // arrow markers
+  const defs=E('defs',{},svg);
+  function marker(id,color,w){
+    const m=E('marker',{id,viewBox:'0 0 10 10',refX:8,refY:5,markerWidth:w,markerHeight:w,orient:'auto-start-reverse'},defs);
+    E('path',{d:'M0 0 L10 5 L0 10 z',fill:color},m);
+  }
+  marker('arrF','rgba(200,214,235,.55)',6);
+  marker('arrB',AIc,7);
+
+  // forward edges (happy path) with direction arrows
+  for(let i=0;i<NODES.length-1;i++){
+    E('line',{x1:NODES[i].x+R,y1:NY,x2:NODES[i+1].x-R-3,y2:NY,stroke:'rgba(255,255,255,.16)','stroke-width':2,'marker-end':'url(#arrF)'},gE);
+  }
+
+  // ===== HERO: the closed re-matching loop =====
+  const yB=330, xEnd=NODES[6].x, xBack=NODES[1].x;
+  const lbD='M '+xEnd+' '+(NY+R)+' C '+xEnd+' '+yB+', '+xEnd+' '+yB+', '+((xEnd+xBack)/2)+' '+yB+' S '+xBack+' '+yB+', '+xBack+' '+(NY+R+6);
+  E('path',{d:lbD,fill:'none',stroke:'rgba(41,151,255,.16)','stroke-width':10,'stroke-linecap':'round'},gL); // glow underlay
+  E('path',{d:lbD,fill:'none',stroke:'rgba(41,151,255,.9)','stroke-width':3.2,'stroke-linecap':'round','stroke-dasharray':'10 10',id:'lbPath','marker-end':'url(#arrB)'},gL);
+  // callout pill inside the loop (the key message)
+  const cx=(xEnd+xBack)/2, cyC=236, cw=560, chh=94;
+  const cg=E('g',{id:'loCallout'},gL);
+  E('rect',{x:cx-cw/2,y:cyC-chh/2,width:cw,height:chh,rx:20,fill:'rgba(41,151,255,.12)',stroke:'rgba(41,151,255,.55)','stroke-width':1.6},cg);
+  const t1=E('text',{x:cx,y:cyC-10,'text-anchor':'middle','font-family':'Kanit,sans-serif','font-size':21,'font-weight':600,fill:'#d4e8ff'},cg);
+  t1.textContent='🔁 ไม่ผ่าน · No-show → AI หาคนใหม่ให้อัตโนมัติ';
+  const t2=E('text',{x:cx,y:cyC+22,'text-anchor':'middle','font-family':'Kanit,sans-serif','font-size':15,'font-weight':300,fill:'#93b8ef'},cg);
+  t2.textContent='ระบบวนกลับเอง จนกว่าจะปิดตำแหน่งได้ — ไม่ต้องเริ่มกระบวนการใหม่';
+
+  // nodes
+  const nodeEls=NODES.map(n=>{
+    const g=E('g',{},gN);
+    if(n.r==='done') E('circle',{cx:n.x,cy:NY,r:R+8,fill:'none',stroke:DNc,'stroke-width':2,opacity:.35,id:'loDone'},g);
+    const glow=E('circle',{cx:n.x,cy:NY,r:R+3,fill:col(n.r),opacity:0},g);
+    const c=E('circle',{cx:n.x,cy:NY,r:R,fill:'rgba(255,255,255,.05)',stroke:col(n.r),'stroke-width':2.2},g);
+    const rl=E('text',{x:n.x,y:NY,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-size':15,'font-weight':700,fill:col(n.r)},g);
+    rl.textContent=n.r==='ai'?'AI':n.r==='hu'?'คน':n.r==='done'?'✓':'●';
+    const lab=E('text',{x:n.x,y:NY+R+26,'text-anchor':'middle','font-family':'Kanit,sans-serif','font-size':15.5,'font-weight':400,fill:'#dfe6f2'},g);
+    lab.textContent=n.t;
+    return {c,glow,lab};
+  });
+
+  const tglow=E('circle',{r:18,fill:'rgba(41,151,255,.5)',opacity:0},gT);
+  const token=E('circle',{r:9,fill:'#fff',opacity:0},gT);
+
+  // waypoints: node2..node7 across the top, then down/across/up the loop
+  const W=[];
+  for(let i=1;i<NODES.length;i++) W.push({x:NODES[i].x,y:NY,node:i});
+  const steps=16;
+  for(let s=1;s<=steps;s++){
+    const t=s/steps;
+    let x,y;
+    if(t<0.33){x=xEnd;y=NY+(t/0.33)*(yB-NY);}
+    else if(t<0.66){const u=(t-0.33)/0.33;x=xEnd+(xBack-xEnd)*u;y=yB;}
+    else{const u=(t-0.66)/0.34;x=xBack;y=yB-(u)*(yB-NY);}
+    W.push({x,y,node:-1});
+  }
+  // segment lengths
+  const seg=[];let total=0;
+  for(let i=0;i<W.length;i++){const a=W[i],b=W[(i+1)%W.length];const d=Math.hypot(b.x-a.x,b.y-a.y);seg.push(d);total+=d;}
+  function posAt(dist){
+    dist=((dist%total)+total)%total;let i=0;
+    while(dist>seg[i]){dist-=seg[i];i=(i+1)%W.length;}
+    const a=W[i],b=W[(i+1)%W.length];const f=seg[i]?dist/seg[i]:0;
+    return {x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f,onLoop:a.node===-1};
+  }
+
+  let raf,d0=0,startAt=null,running=false;
+  const SPEED=165; // px/sec
+  function frame(now){
+    if(startAt==null)startAt=now;
+    const dist=((now-startAt)/1000)*SPEED;
+    const p=posAt(dist);
+    token.setAttribute('cx',p.x);token.setAttribute('cy',p.y);token.setAttribute('opacity',1);
+    tglow.setAttribute('cx',p.x);tglow.setAttribute('cy',p.y);tglow.setAttribute('opacity',p.onLoop?0.9:0.6);
+    tglow.setAttribute('fill',p.onLoop?'rgba(41,151,255,.55)':'rgba(255,255,255,.35)');
+    // light nearest node
+    nodeEls.forEach((ne,i)=>{
+      const n=NODES[i];const dd=Math.hypot(p.x-n.x,p.y-n.y);
+      const on=dd<R+10;
+      ne.glow.setAttribute('opacity',on?0.32:0);
+      ne.c.setAttribute('stroke-width',on?3.4:2.2);
+    });
+    if(running)raf=requestAnimationFrame(frame);
+  }
+  function start(){if(running)return;running=true;startAt=null;raf=requestAnimationFrame(frame);}
+  function stop(){running=false;cancelAnimationFrame(raf);}
+  // draw idle first frame
+  nodeEls[0].glow.setAttribute('opacity',0.32);
+  window.__loopEnter=start;window.__loopLeave=stop;
+})();
+// ===== ABOUT SO count-up (s2) =====
+(function(){
+  const els=[...document.querySelectorAll('#s2 .count')];
+  if(!els.length) return;
+  window.__s2Enter=function(){
+    els.forEach(el=>{
+      const to=parseFloat(el.dataset.to)||0, dur=1400, st=performance.now();
+      (function s(now){
+        const p=Math.min(1,(now-st)/dur), e=1-Math.pow(1-p,3);
+        el.textContent=Math.round(to*e);
+        if(p<1) requestAnimationFrame(s);
+      })(performance.now());
+    });
+  };
+})();
+// ===== OLD PROCESS PROBLEM DIAGRAM (s3) =====
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('s3SVG'); if(!svg) return;
+  const E=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;};
+  const g=id=>document.getElementById(id);
+  const WARM='rgba(255,159,107,', RED='#ff4438';
+  const STEPS=[
+    {t:'เปิดใบงาน+ประกาศ', pain:'ข้อมูลไม่ครบ ถามซ้ำ'},
+    {t:'รับสมัคร+Matching', pain:'ข้อมูลกระจายหลายระบบ'},
+    {t:'โทรคัดกรอง', pain:'โทรทีละคน หลุดง่าย', drop:'ผู้สมัครหลุด'},
+    {t:'สัมภาษณ์+คัดเลือก', pain:'ส่งต่อหลายฝ่าย รอนาน', drop:'ลูกค้าไม่รับ'},
+    {t:'ส่งลูกค้า+ยืนยัน', pain:'รอลูกค้าตอบ งานค้าง'},
+    {t:'ติดตามเริ่มงาน', pain:'เสี่ยงหลุดตอนจบ', drop:'No-show'}
+  ];
+  const N=6, cw=170, ch=84, cyT=12, cyB=96;
+  const cx=i=>125+i*190;
+  const edges=g('s3edges'),rework=g('s3rework'),drop=g('s3drop'),chips=g('s3chips');
+
+  // connectors
+  for(let i=0;i<N-1;i++){
+    const x1=cx(i)+cw/2, x2=cx(i+1)-cw/2, y=cyT+ch/2;
+    E('line',{x1:x1+4,y1:y,x2:x2-9,y2:y,stroke:WARM+'.5)','stroke-width':2},edges);
+    E('path',{d:'M'+(x2-10)+' '+(y-5)+'L'+(x2-1)+' '+y+'L'+(x2-10)+' '+(y+5)+'Z',fill:WARM+'.75)'},edges);
+  }
+
+  // BIG rework loop (the highlight)
+  const rd='M '+cx(5)+' 205 C '+cx(5)+' 340, 30 340, 30 205 L 30 54';
+  E('path',{d:rd,fill:'none',stroke:RED,'stroke-width':3.6,'stroke-dasharray':'14 9','stroke-linecap':'round','class':'s3-rework'},rework);
+  E('path',{d:'M 30 47 L 47 54 L 30 61 Z',fill:RED},rework);
+  const lt=E('text',{x:600,y:360,'text-anchor':'middle','font-family':'Kanit,sans-serif','font-size':27,'font-weight':700,fill:'#ff6b60'},rework);
+  lt.textContent='หลุดเมื่อไหร่ = วนกลับมาเริ่มหาคนใหม่';
+
+  // chips + pain + drops
+  STEPS.forEach((s,i)=>{
+    const x=cx(i)-cw/2;
+    E('rect',{x:x,y:cyT,width:cw,height:ch,rx:16,fill:WARM+'.07)',stroke:WARM+'.42)','stroke-width':1.7},chips);
+    const num=E('text',{x:cx(i),y:cyT+21,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-size':16,'font-weight':700,fill:'#ffab7a'},chips);num.textContent=i+1;
+    const nm=E('text',{x:cx(i),y:cyT+46,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-size':19.5,'font-weight':600,fill:'#f7ede6'},chips);nm.textContent=s.t;
+    E('rect',{x:cx(i)-25,y:cyT+60,width:50,height:21,rx:10.5,fill:'rgba(255,77,77,.16)',stroke:'rgba(255,77,77,.5)','stroke-width':1},chips);
+    const kn=E('text',{x:cx(i),y:cyT+70.5,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-size':13,'font-weight':700,fill:'#ff9b9b'},chips);kn.textContent='คน';
+    const pn=E('text',{x:cx(i),y:cyB+25,'text-anchor':'middle','font-family':'Kanit,sans-serif','font-size':15,'font-weight':400,fill:'#ff968e'},chips);pn.textContent='⚠ '+s.pain;
+    if(s.drop){
+      const dx=cx(i);
+      E('line',{x1:dx,y1:cyB+38,x2:dx,y2:cyB+60,stroke:RED,'stroke-width':2.2,'stroke-dasharray':'5 4','class':'s3drop-ln'},drop);
+      E('path',{d:'M'+(dx-5)+' '+(cyB+56)+'L'+dx+' '+(cyB+63)+'L'+(dx+5)+' '+(cyB+56)+'Z',fill:RED,'class':'s3drop-hd'},drop);
+      E('rect',{x:dx-80,y:cyB+66,width:160,height:31,rx:15.5,fill:'rgba(255,68,56,.14)',stroke:'rgba(255,68,56,.6)','stroke-width':1.4,'class':'s3drop-bx'},drop);
+      const rt=E('text',{x:dx,y:cyB+82,'text-anchor':'middle','dominant-baseline':'central','font-family':'Kanit,sans-serif','font-size':15,'font-weight':600,fill:'#ff8f88'},drop);rt.textContent='✕ '+s.drop+' → เริ่มใหม่';
+    }
+  });
+})();
+</script>
+</body>
+</html>
